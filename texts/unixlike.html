@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo Unixlike</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Aprendendo unixlike"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprendendo as Idiossincrasias dos Unixlike"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <h1>Pacotes? Dotfiles? Comandos? Variáveis? Permissões?</h1>
+        <p>Ok, você acabou de instalar um Debian para salvar seu computador antigo? Ou talvez está tentando recuperar os arquivos do seu Windows lotado de vírus através de um LiveCD do Mint? Ou você por acaso instalou um Arch para ter uma interface toda customizada só por ter curtido muito as do <em>R/Unixporn</em> e quer uma igual? Independente do caso as chances são que você ainda não é um especialista em sistemas Unixlike, mas alguma coisa te trouxe até aqui, muito provavelmente você só conheceu Windows XP, Windows 7, Windows 8.1, Windows 10 e 11 e alguma versão do Android ou iOS e não tem a mais p*** ideia do que são comandos, diretórios, variáveis, permissões... E você provavelmente já está com medo só de ter ouvido isso.</p>
+        <p>Se você só utilizou esses sistemas então esses conceitos são desconhecidos por você ou você até pode ter visto mas de maneira muito simplificada, e isso provavelmente causa uma certa estranheza ou até mesmo te causa uma paralisia sem saber o que deve ser feito. Vai por mim: É bem mais fácil do que parece!</p>
+        <p>Já que você provavelmente só quer otimizar seu computador, corrigir uma coisa simples ou personalizar um tema, não precisamos decorar o suficiente para tirar alguma certificação, basta saber o básico do básico e você já vai se virar muito bem na maior parte do tempo.</p>
+        <h2>Então... O que diabos é Unixlike?</h2>
+        <p>Unixlike é um termo que designa sistemas com um funcionamento similar ao Unix, então nessa conta você pode colocar o Linux, o FreeBSD e (dependendo do autor) até o MacOS.</p>
+        <h2>Tá... E o que diabos é um Unix?</h2>
+        <p>Bom, isso é meio difícil de explicar pois o Unix é meio que um "acidente de percurso", é uma família de sistemas que se não tivesse sido feito no tempo que foi feito, da forma que foi feito, no ambiente que foi feito, pelas pessoas que foi feito basicamente toda a computação de hoje em dia seria <em>completamente</em> diferente. Existem diversas razões para isso, algumas técnicas e outras (diferente da maioria dos sistemas)... <em>Filosóficas e ideológicas (de certo modo, claro)</em>!</p>
+        <p>Do ponto de vista da computação a história do Unix é maravilhosa mas já que você não deve estar muito afim de ler isso agora, pra resumir, digamos que o Unix foi um sistema operacional feito pelo <i>Bell Labs</i> da gigante AT&T (responsável por muita tecnologia "alienígena" usada até hoje) em <em>Linguagem C</em>, que por si só tem tantas similaridades com o Unix que as vezes a história de ambos se confundem. O Unix era um sistema <em>multitarefa</em>, <em>multiusuário</em>, de uma <em>simplicidade</em> e <em>extensibilidade</em> absurda e com uma <em>portabilidade</em> <strong>patológica!</strong>.</p>
+        <p>E em que isso resulta? Resulta no início do funcionamento de <em>conceitos e capacidades que nós aproveitamos até hoje!</em></p>
+        <p>É difícil explicar de forma que eu não desmereça os esforços para a criação do Unix ou sobrecarregue você de informações mas uma coisa que imediatamente se percebe no desenvolvimento do Unix é a sua <em>"filosofia" de desenvolvimento</em>.</p>
+        <p>Existem diversas versões e interpretações dessa "filosofia" (assim como toda grande história), mas apenas alguns pontos podem nos ajudar a explicar como e especialmente porquê os Linux, BSD's e entre outros sistemas funcionam dessa forma.</p>
+        <h3>The Art of Unix Programming, por Eric Raymond:</h3>
+        <p>Regra da Modularidade: Escreva peças simples conectadas por interfaces limpas.<br>
+        Regra de Clareza: Clareza é melhor que esperteza.<br>
+        Regra de Composição: Desenhe programas para serem conectados a outros programas.<br>
+        Regra de Separação: Separe a política do mecanismo; interfaces separadas dos motores.<br>
+        Regra da Simplicidade: Design para simplicidade; adicione complexidade apenas onde for necessário.<br>
+        Regra da Parcimônia: Escreva um grande programa somente quando estiver claro por demonstração que nada mais funcionará.<br>
+        Regra de Transparência: Design para visibilidade para facilitar a inspeção e a depuração.<br>
+        Regra da Robustez: A robustez é filha da transparência e da simplicidade.<br>
+        Regra de Representação: Dobre o conhecimento em dados para que a lógica do programa possa ser estúpida e robusta.<br>
+        Regra da Menor surpresa: No design de interface, sempre faça a coisa menos surpreendente.<br>
+        Regra do Silêncio: Quando um programa não tem nada de surpreendente a dizer, não deve dizer nada.<br>
+        Regra de Reparo: Quando você deve falhar, falhe ruidosamente e o mais rápido possível.<br>
+        Regra da Economia: O tempo do programador é caro; conservá-lo em vez de tempo de máquina.<br>
+        Regra de Geração: Evite hand-hacking; escreva programas para escrever programas quando puder.<br>
+        Regra de Otimização: Protótipo antes do polimento. Faça-o funcionar antes de otimizá-lo.<br>
+        Regra da Diversidade: Desconfie de todas as reivindicações de “um caminho verdadeiro”.<br>
+        Regra de Extensibilidade: Projete para o futuro, porque estará aqui antes do que você pensa.</p>
+        <h3>Peter H. Salus em A Quarter-Century of Unix:</h3>
+        <p>Escreva programas que façam uma coisa só e as façam bem.<br>
+        Escreva programas para trabalharem juntos.<br>
+        Escreva programas para lidar com fluxos de texto, porque essa é uma interface universal.</p>
+        <p>Não quer dizer nada pra você ainda? Então vamos por partes!</p>
+        <p>Em uma época em que se programava produtos de software pensando apenas no funcionamento e lucro, ter a "clareza" e "projetar para o futuro" como princípio de desenvolvimento é por si só um ato revolucionário, mas a profundidade do Unix não para por aí, <em>quando essas regras são usadas em conjunto o resultado se multiplica absurdamente!</em></p>
+        <p>Quer ver um exemplo disso?<br> Diferente de basicamente todo sistema da época que tinha aplicações rodando cada uma com seus recursos e diretórios, o Unix funcionava numa arquitetura bastante objetiva composta por <em>Aplicações (ou programas), Shell (que é uma interface para acessar os recursos do Kernel) e Kernel (que o núcleo do sistema responsável por se comunicar com o hardware)</em>. Então ao invés do programa simplesmente executar o que tem que executar e fazer o que tem que fazer usando os recursos que ele tem que usar, no Unix <em>o programa se comunicava com o Shell e esse por sua vez pode se comunicar com outro programa e ambos receberem a dose certa de recursos liberada pelo Kernel</em>... Sabendo disso vamos unir a <em>Regra de Composição</em>, a <em>Regra da Simplicidade</em> e a saída em <em>Fluxo de Texto</em>, o que podemos conseguir com isso?</p>
+        <p>Podemos conseguir um sistema composto de diversos <em>programas simples</em>, programas esses que <em>podem ter uma saída em texto e legível para o usuário</em> e que essa mesma saída pode alimentar o processo de <em>outro programa!!!</em> Então, eu posso te mandar uma única linha de código que pode <em>analisar o estado da máquina</em>, depois disso <em>usar o resultado dessa análise em outro programa</em> e que por fim este outro programa programa <em>pode executar apenas o que for necessário se baseando na análise do programa anterior!!!</em> Apenas utilizando as capacidades comuns do sistema operacional... Deu pra entender agora o motivo de programadores geralmente amarem sistemas Unixlike?</p>
+        <p>Mas aí você me diz: "Cain-dev... Agora eu entendo as suas razões para usar, mas veja bem, eu sou um usuário comum não uso nada demais no meu computador, apenas jogo meu League of Legends enquanto escuto meus MP3, o que eu ganho com isso?"</p>
+        <p>Então vamos lá, vou dar um exemplo bem específico para tentar encaixar isso no seu cotidiano, vamos imaginar que você tenha uma pasta de músicas no seu computador, e tem um amigo seu que escuta mais ou menos o mesmo estilo que você e esse seu amigo te pergunta "Fulano, quais músicas você tem aí?", você vai fazer o que? E se eu te disser que é possível mandar para o seu amigo uma lista de TODOS os arquivos da sua pasta de MP3 numa tacada só? Quer saber como?</p>
+        <p>Primeiro você vai abrir a sua pasta de músicas através do gerenciador de arquivos (como o Nemo), aí você vai selecionar a opção <mark>Abrir no Terminal</mark>, precisamos agora de um programa para <em>listar arquivos</em>, usaremos o programa <mark>ls</mark>, para isso basta digitar <mark>ls</mark> no terminal e depois apertar <em>Enter</em> para que o sistema dê entrada na execução do comando. Você vai perceber que o sistema vai listar somente os arquivos e pastas do diretório que você abriu, entenda a pasta como <em>uma abstração no gerenciador de arquivos</em> que representa o <em>diretório, que é o verdadeiro caminho da pasta no sistema</em> que a pasta representa, então se a pasta é a pasta <mark>Músicas</mark> na sua pasta de usuário, diretório seria <mark>/home/seuusuário/Músicas/</mark>, entendeu?<br>Mas esse programa <em>ls</em> pode receber <em>argumentos</em> que guiam o seu funcionamento, nesse caso utilizaremos o argumento <mark>-R</mark> para que o programa <mark>ls</mark> não só liste os arquivos do diretório selecionado, mas também os arquivos dentro de todas as outras pastas desse diretório (ou seja, listar recursivamente).</p>
+        <p>Se você digitou <mark>ls -R</mark> e depois deu <em>Enter</em>, você viu o terminal mostrando tudo que contém na pasta <em>Músicas</em>, mas ainda não da pra você enviar isso para o seu amigo. O que podemos fazer então? Bom, se o programa <em>ls</em> já está listando tudo completamente basta usar o resultado do comando (chamamos isso de <em>Saída</em> ou <em>STDOUT</em>) para preencher um arquivo de texto, para isso podemos usar um <mark>operador</mark>. Entenda o operador como o "direcionador" que podemos utilizar para direcionar a <em>saída</em> do <em>ls</em> para o novo arquivo, nesse caso podemos utilizar o <em>></em> que tem por função substituir um arquivo já existente ou criar um novo arquivo desde que o nome do arquivo mencionado já não esteja presente no diretório, vamos supor que queremos criar um novo arquivo com o nome de <em>Músicas.txt</em>.</p>
+        <p>Então, precisamos de acessar o programa <em>ls</em> + passar um argumento no ls para fazer a análise de forma recursiva <em>-R</em> + usar um operador para jogar a saída do programa para um novo arquivo <em>></em> + escrever o nome do arquivo, então o comando seria mais ou menos assim:</p>
+        <code>ls -R > Músicas.txt</code>
+        <p>Pronto! Agora temos um arquivo <em>Músicas.txt</em> com todos os nomes dos arquivos contidos na pasta Músicas.</p>
+        <h4>Até aqui, o que aprendemos?</h4>
+        <p>Aprendemos que o terminal é a ferramenta em que utilizamos os comandos, comandos são instruções para o Shell, nesse caso utilizamos uma instrução para acessar um programa, para guiar o funcionamento desse programa utilizamos argumentos, esse programa retorna uma saída, essa saída pode ser redirecionada para preencher arquivos.</p>
+        <p>"Cain-dev, eu tenho uma coleção de muitas músicas, isso só seria útil para mim se eu conseguisse achar o nome de uma música específica"<br>Sem problemas! Basta utilizar a saída de <em>ls -R</em> para a entrada de outro programa que faz busca de trechos específicos, nesse caso podemos utilizar o operador <mark>|</mark> (chamamos de <em>Pipe</em>, para digitar | é só segurar <em>Shift</em> e apertar a barra <em>\</em> ao lado da tecla <em>z</em>) que <em>une a saída de um programa com a entrada de outro programa</em>, podemos usar o programa <mark>grep</mark> para buscar o nome de alguma música.<br>Vamos supor que queremos lembrar uma música da banda "Raimundos", juntando tudo isso da:</p>
+        <code>ls -R | grep Raimundos</code>
+        <p>Pronto! Agora você consegue saber quais músicas do Raimundos você tem :)<br>Em resumo, o Unix é um sistema que foi feito para funcionar dessa forma por completo.</p>
+        <h2>E o Windows e o Mac não são assim também?</h2>
+        <p>Embora o MacOS tenha herdado muita coisa do Unix e a Microsoft em certo momento ter a sua própria versão do Unix (e hoje em dia a sua própria versão do Linux), esses sistemas nem de longe chegam aos pés da modularidade e extensibilidade obtida com um Linux/BSD. Então, <em>qualquer parâmetro de comparação que você utilizar vai fazer você dar de cara na parede</em>, portanto, para REALMENTE entender esses sistemas nem adianta você tentar comparar com o funcionamento do seu Windows 10, não vai rolar! Um exemplo bem simples disso é que existe uma frase que é um atestado de "eu nunca usei Linux/BSD na vida" que é quando uma pessoa diz: "Ah, eu achei <strong>a interface</strong> do Linux/BSD muito arcaica".</p>
+        <h3>E isso é mentira por acaso?</h3>
+        <p>As vezes é verdade, as vezes é mentira, as vezes pode ser verdade e mentira ao mesmo tempo.</p>
+        <h3>Como assim? Que viagem é essa?</h3>
+        <p>Lembre-se: Pensar em termos de Windows vai te fazer dar de cara na parede, o Windows e o MacOS tem uma interface única, <strong>O Linux/BSD's não!</strong> Assim como eu disse aqui na página <a class="link" href="interfaces.html">Interfaces, Ambientes Gráficos e Gerenciadores de Janelas e Display</a>, nesses sistemas você pode escolher uma (ou até mais de uma) tela de login, você pode escolher um (ou até mais de um) gerenciador de janelas e até mesmo mais de uma interface gráfica completa <em>no mesmo computador!</em> Então pensar em termos de "a interface gráfica do Linux/BSD's" <strong>tá errado!</strong> Pensar em termos de "o gerenciador de arquivos do Linux/BSD's" <strong>também tá errado!</strong> Então sempre que você pensar em "O <mark>[insira aqui o tipo de aplicativo do Windows / Mac]</mark> do Linux/BSD's" você já está trabalhando com a mentalidade de "aplicativo único e oficial", nada disso existe aqui! Aqui você usa o que quiser!</p>
+        <p>Então você quer usar uma interface gráfica arcaica nos padrões de 1985? Você pode! Você quer algo não só moderno mas futurista? Você também pode! Você quer trocar os ícones ou fontes do sistema? Pode também! Esses sistemas não foram feitos para terem uma única maneira ou uma maneira "oficial" de ser usado, quanto antes você entender isso melhor.</p>
+        <p>Você pode alterar o seu Windows? Sim! Você pode alterar o seu MacOS? Sim! Mas Linux/BSD's <strong>foram feitos pra isso!</strong> Entende a diferença? Então essa mentalidade de "Cadê o Painel de Controle do Linux/BSD's" só vai te atrasar.</p>
+        <p>Aliás, tenta mudar o tema da sua tela de login no Windows (não falei uma imagem de fundo, falei tema) sem a chance de brickar seu sistema... Boa sorte! (você vai precisar...)</p>
+        <h3>Cadê meu Disco Local C:?</h3>
+        <p>Por essas bandas isso não existe, inclusive o Windows tem uma arquitetura bem difícil de lidar, a árvore do sistema de arquivos dos Unixlike funciona de maneira bem diferente e bem simples, em resumo:</p>
+        <p><em>/</em>: O diretório raiz, o ponto 0 do sistema, seria a coisa mais próxima do seu "Disco Local C:"</p>
+        <p><em>/bin/</em>: O diretório dos binários, é a coisa mais próxima do seu "Arquivos de Programas"</p>
+        <p><em>/dev/</em>: O diretório dos dispositivos, é a coisa mais próxima do seu "Meu Computador" </p>
+        <p><em>/etc/</em>: O diretório de arquivos de configuração e scripts do sistema</p>
+        <p><em>/mnt/</em>: O diretório de ponto de montagem do sistema</p>
+        <p><em>/proc/</em>: O diretório dos processos</p>
+        <p><em>/usr/</em>: O diretório de recursos do sistema, é a coisa mais próxima da sua "System32"</p>
+        <p><em>/home/</em> ou <em>/usr/home/</em>: O diretório de pastas do usuário, é a coisa mais próxima da sua "Usuários"</p>
+        <p>Um outro ponto importantíssimo de saber é que algumas dessas estruturas de diretório também existem a nível de usuário, por exemplo, assim como existe a pasta <em>/bin/</em> para programas a nível de sistemas, existe também a pasta <em>/home/<mark>nomedousuário</mark>/bin/</em> para programas só do usuário, assim como existe a pasta <em>/usr/share/audacious/Skins/</em> para skins do <em>Audacious</em> para uso do sistema existe também a pasta <em>/home/<mark>nomedousuário</mark>/.local/share/audacious/Skins/</em> para skins, você não precisa decorar isso, basta saber que <mark>são sistemas que são estruturados para multiusuário, que possuem estruturas de diretório de usuário que refletem estruturas de diretório do sistema</mark>.</p>
+        <h3>Pera, ponto de montagem? Arquivos de processos?</h3>
+        <p>Sim! Diferente do seu Windows que simplesmente vai anexando tudo ao sistema operacional e colocando uma letra como identificador (o que é bastante idiota do ponto de vista da segurança), nos Linux/BSD's você pode montar da maneira que quiser o ponto que quiser com o identificador que quiser, inclusive montar unidades de rede como se fossem unidades físicas...<br>- E por qual razão eu ia querer fazer isso?<br>Sabe quando você vai formatar o computador e precisa fazer backup da sua pasta de arquivos pra não perder suas coisas? No Linux/BSD's você pode simplesmente montar a sua pasta num disco diferente e nunca mais ter que se preocupar, inclusive até mesmo podendo montar em discos não locais! Basicamente mudando o sistema e mantendo tudo igual, sem ter que migrar ou apontar nada! Tá pouco ou quer mais?</p>
+        <p>E com relação a processos, sim, os processos aqui são basicamente arquivos, aliás, quando o assunto é Linux/BSD's basicamente tudo é um arquivo! Tudo é acessível para o usuário!</p>
+        <h3>E isso não é um problema de segurança?</h3>
+        <p>Não! Eu disse que tudo é um arquivo visível para o usuário, eu não disse a toda momento!<br>Sistemas Unixlike trabalham com um sistema de permissão muito restritivo, que determina quem é o dono do arquivo, quem pode acessar ou modificar esse arquivo, se esse arquivo pode ou não ser executado, então, não é simplesmente o UAC do Windows te perguntando se algo pode acessar a raiz do sistema não, permissões aqui são sagradas!</p>
+        <h3>Algum lugar me disse que eu devo alterar permissões... Como eu faço isso?</h3>
+        <p>Antes sair por aí usando a porcaria de um <mark>chmod 777</mark> em tudo que vê pela frente, vamos entender como as permissões funcionam, se você estudou portas lógicas na faculdade você vai pegar essa de primeira.</p>
+        <p>Em resumo:<br><em>r</em> significa <em>read</em>, permissão de leitura<br><em>w</em> significa <em>write</em>, permissão de escrita<br><em>x</em> significa <em>execute</em>, permissão de execução.</p>
+        <table style="padding: 10px" border="1"> 
+            <tbody> 
+             <tr bgcolor="#00b3ad"> 
+              <th colspan="3"><span style="color: white">Complete table of chmod numbers</span></th> 
+             </tr> 
+             <tr bgcolor="#009C97"> 
+              <th><span style="color: white">Number</span></th> 
+              <th><span style="color: white">Permission</span></th> 
+              <th><span style="color: white">Sum</span></th> 
+             </tr> 
+             <tr> 
+              <td>0</td> 
+              <td>– – –</td> 
+              <td>0+0+0</td> 
+             </tr> 
+             <tr> 
+              <td>1</td> 
+              <td>– – x</td> 
+              <td>0+0+1</td> 
+             </tr> 
+             <tr> 
+              <td>2</td> 
+              <td>– w –</td> 
+              <td>0+2+0</td> 
+             </tr> 
+             <tr> 
+              <td>3</td> 
+              <td>– w x</td> 
+              <td>0+2+1</td> 
+             </tr> 
+             <tr> 
+              <td>4</td> 
+              <td>r – –</td> 
+              <td>4+0+0</td> 
+             </tr> 
+             <tr> 
+              <td>5</td> 
+              <td>r – x</td> 
+              <td>4+0+1</td> 
+             </tr> 
+             <tr> 
+              <td>6</td> 
+              <td>r w –</td> 
+              <td>4+2+0</td> 
+             </tr> 
+             <tr> 
+              <td>7</td> 
+              <td>r w x</td> 
+              <td>4+2+1</td> 
+             </tr> 
+            </tbody> 
+           </table>
+        <p><i>Créditos da tabela ao theserverside.com</i></p>
+        <p>Então, basta interpretar a tabela como uma <em>tabela verdade</em> e seguir o número relativo a permissão desejada. Quer permitir execução? 1, quer permitir gravação? 2, quer permitir leitura? 4, quer permitir leitura e gravação mas sem execução? 6, e assim por diante.</p>
+        <h3>Então por que é uma sequência de três números?</h3>
+        <p>Isso porque cada arquivo e pasta no Linux tem três permissões diferentes associadas:<br>
+            Uma permissão para o <em>proprietário</em>, a pessoa que criou o arquivo ou pasta.<br>
+            Uma permissão para <em>todas as pessoas no mesmo grupo principal do proprietário</em>.<br>
+            Uma permissão para <em>todos os outros</em>, o que inclui usuários não autenticados e anônimos.</p>
+        <h3>Eu preciso de saber tudo isso só para executar algo no Linux/BSD's?</h3>
+        <p>Na verdade não, na grande maioria das interfaces gráficas para Linux/BSD's basta clicar com o botão direito e selecionar a opção <em>Permitir execução do arquivo</em>, caso a opção não exista no gerenciador de arquivos que você usa e você deseja alterar no arquivo a permissão de execução para o seu usuário basta usar o comando:</p>
+        <code>chmod u+x <mark>nomedoarquivo</mark></code>
+        <h3>Mas no tutorial que eu vi fala que eu tenho que ser o dono do arquivo e no meu gerenciador de arquivos não tem essa opção</h3>
+        <p>Sem problemas, para isso existe o comando:</p>
+        <code>chown <mark>seuusuário</mark> <mark>nomedoarquivo</mark></code>
+        <p><strong>A verdade é que você não precisa decorar isso, e mesmo usuários avançados de Linux/BSD's raramente precisam mudar permissões</strong> além disso, a ideia aqui é esclarecer pra você que isso existe e sempre vai ser uma parte de lidar com sistemas Unixlike.</p>
+        <h4>Até aqui, o que aprendemos?</h4>
+        <p>Aprendemos que sistemas Unixlike possuem um sistema independente da interface que pode ter diversas interfaces, telas de login, gerenciadores de janela e etc., aprendemos que esses sistemas tem uma árvore de diretórios diferente, bem mais específica, cada pasta com a sua função, que as estruturas de sistema de arquivos a nível de sistemas também existem a nível de usuário, que sistemas de arquivos são montados de maneira bem mais modular e extensível, aprendemos que basicamente tudo nos Unixlike é um arquivo acessível, e que todo arquivo e pasta tem um sistema de permissões de leitura, gravação e execução distintas para o usuário, o grupo e para todos.</p>
+        <h3>Agora que eu sei o básico dos comandos e dos diretórios, e se eu quiser personalizar meu sistema? Como faço? E o que são dotfiles?</h3>
+        <p>Isso vai depender do seu sistema e da sua interface, assim como eu descrevi aqui na página <a class="link" href="interfaces.html">Interfaces, Ambientes Gráficos e Gerenciadores de Janelas e Display</a>, então vá lá ver caso queira já colocar a mão na massa. Mas em resumo muita coisa nos Unixlike são configurados em arquivos de texto com o nome de <em>.</em>nomedoarquivo ou que residem em pastas <em>.</em>nomedapasta, por isso <mark>dotfiles</mark> (pode ser porcamente traduzido para arquivos ponto já que dot traduzido significa ponto).</p>
+        <p>Então vamos supor que você quer personalizar o <em>MPV</em>, para isso você vai ter que editar o arquivo de texto ~/<em>.</em>config/mpv/mpv<em>.</em>conf</em>.<br>Vamos supor que você quer personalizar o <em>Neovim</em>, para isso você vai ter que editar o arquivo de texto com o nome ~/<em>.</em>config/nvim/init<em>.</em>vim.<br>Vamos supor que você quer personalizar o <em>Pulseaudio</em>, para isso você vai ter que editar o arquivo de texto com o nome ~/<em>.</em>config/pulse/daemon<em>.</em>conf.</p>
+        <p>Acho que deu pra entender né?</p>
+        <h3>Então eu tenho que ser programador pra configurar as coisas no Linux/BSD's?</h3>
+        <p>De forma alguma, na verdade é até mais fácil configurar as coisas, pois os sistemas Unixlike tem de sobra uma coisa chamada <mark>documentação!</mark>Então seja lá o que você quer fazer, basta editar um arquivo de texto com a opção que você quer e tá resolvido, é simples: <strong>Você não precisa ser programador de C++ ou Lua para configurar um script de C++ ou Lua!</strong> Não só isso, na maioria das vezes a própria distribuição de Linux que você utiliza ou o BSD que você utiliza tem documentação pronta para as configurações mais importantes! Eu vou até deixar um exemplo de documentação aqui e peço a você que dê uma olhada e me diga se é difícil escrever a porcaria de uma configuração simples como "saída de vídeo = api de aceleração de vídeo" 🤣</p>
+        <a class="link" href="https://man.archlinux.org/man/community/mpv/mpv.1.en">Página do Manual do MPV</a>
+        <p>Essa página é uma excelente exemplo, descreve os diretórios dos arquivos de configuração, as opções, o que elas significam, como devem ser utilizadas... É só ler e não tem erro.<br>Muita gente acha que todos os usuários de sistemas Unixlike são incríveis programadores que entendem tudo do sistema e que é algo extremamente complexo e arriscado, a grande verdade é que eles só estão lendo um manual 🤣.</p>
+        <p>Se você consegue jogar um texto no Google Tradutor, consegue abrir e salvar um arquivo de texto então você sabe como configurar um dotfile, ponto (entendeu o trocadilho?).<br>Além disso, lembra do que eu disse anteriormente, a estrutura de arquivos do usuário espelha a estrutura de arquivos do sistema, ou seja, se você fez alguma cagada, basta apagar o seu arquivo de configuração de usuário que o sistema vai carregar as opções padrão do arquivo de configuração do sistema. E isso faz com que configurar todos os programas do seu computador seja algo muito mais seguro e convidativo.</p>
+        <p><strong>Lembrando que você não precisa configurar tudo! Basta saber que caso queira configurar existem arquivos de sistema e arquivos de usuário, que os programas possuem documentações e manuais que descrevem onde ficam esses arquivos de configuração e as opções de configurações possíveis e que os sistemas Unixlike possuem páginas voltadas para esses programas!</strong> </p>
+        <h3>Eu entendi como funciona, mas qual a vantagem de fazer dessa forma?</h3>
+        <p>A vantagem é a segurança e o imenso grau de personalização, se você mudou uma opção errada em um sistema que não funciona dessa forma o procedimento padrão geralmente é desinstalar o programa (isso quando da certo), já aqui basta salvar o arquivo com a configuração corrigida e tá tudo resolvido, ou no pior dos casos apagar o arquivo de configuração da pasta do usuário e tá tudo certo. E em caso de arquivos do sistema? Basta fazer um backup desse arquivo sempre que editar (algumas pessoas fazem até só comentam linhas desativadas para não precisarem nem fazer backup de arquivo) e tá tudo certo. Sem contar que basta comparar as opções de um MPV com as opções de um program gráfico como o VLC por exemplo, aí você começa a entender a diferença de ficar clicando em opção e ou salvar um dotfile...</p>
+        <h2>Tá, entendi o que são dotfiles, comandos e permissões, mas e variáveis?</h2>
+        <p>Assim como disse anteriormente, esses sistemas tem um ambiente (Shell), esse ambiente pode ser configurado de inúmeras formas, entre elas com variáveis. Entenda a variável de ambiente como um espaço na memória que você aloca um valor, e depois esse valor pode ser referenciado para guiar a execução de um programa ou script.<br>Vamos supor que você está executando o Firefox e está usando um ambiente com suporte a Wayland, para que o Firefox sempre seja iniciado com suporte a Wayland basta adicionar a variável <mark>MOZ_ENABLE_WAYLAND=1</mark> ao seu ambiente e magicamente o Firefox vai iniciar com suporte a Wayland.</p>
+        <h2>E como fazer isso?</h2>
+        <p>Existem diversas formas, e cada uma delas depende do sistema que você está utilizando, se é uma variável a nível de sistema ou a nível de usuário e se você quer que a variável fique de forma definitiva ou temporária (na grande maioria das vezes se usa de maneira definitiva). Em resumo, para a maioria dos casos (ou seja, declarar de forma definitiva) basta acrescentar uma linha no formato <mark>variável=valor</mark> em <mark>/etc/environment</mark> para habilitar a variável globalmente e geralmente <mark>~/.profile</mark> ou <mark>~/.bash_profile</mark> (dependendo do seu sistema e distribuição) para configurar variáveis por usuário. Você quer verificar se a variável foi setada corretamente para o seu ambiente? Reinicie o seu computador e use o comando <mark>printenv</mark> e verifique se a variável de ambiente que você declarou está sendo mostrada aí.</p>	
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 17/03/2023)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do Batocera</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - Batocera"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o Batocera, o sistema para transformar o PC num perfeito videogame para jogos antigos"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://batocera.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Instalação do Batocera</h1>
+        <h2>Introdução</h2>
+        <p> O Batocera.linux é uma distribuição de jogos retro de código aberto e totalmente gratuita que pode ser copiada para um pendrive ou um cartão SD com o objetivo de transformar qualquer computador em um console (ou máquina de arcade).</p>
+        <h2>Baixando a imagem de gravação</h2>
+        <p>Para iniciar, <a class="link" href="https://batocera.org/download">baixe o Batocera</a> e grave ele no pendrive utilizando o balenaEtcher, veja a <a class="link" href="os_install.html">Página Principal</a> se tiver em dúvida de como fazer.</p>
+        <p>Clique em <mark>Direct Link</mark> para baixar pelo navegador ou <mark>Torrent File</mark> para baixar por torrent (recomendado).</p> 
+        <p>Selecione <img style="height:24px; width: auto" class="" src="../assets/images/install/batocera/x86_64.png" alt=""> para máquinas mais novas ou (na parte inferior da página) <img style="height:24px; width:auto" class="" src="../assets/images/install/batocera/x86.png" alt=""> para máquinas mais antigas (15 anos +/-).</p>
+        <img class="responsiva" src="../assets/images/install/batocera/batocera.jpg" alt="">
+        <p>Assim que o Batocera carregar a tela inicial, abra o menu principal com START (pressione espaço caso esteja utilizando teclado):</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato1.jpg" alt="">
+        <p>Navegue até <span style="color:white">SYSTEM SETTINGS</span> e selecione-o (com Enter caso esteja utilizando teclado):</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato2.jpg" alt="">
+        <p>Selecione a opção <mark>INSTALL BATOCERA ON A NEW DISK</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato3.jpg" alt="">
+        <p>Em <mark>TARGET DEVICE</mark> selecione o disco em que você deseja instalar o Batocera;</p>
+        <p>Em <mark>TARGET ARCHITECTURE</mark> selecione a arquitetura do seu dispositivo alvo (X86 ou X86_64);</p>
+        <p>Ative <mark>ARE YOU SURE?</mark> se tiver certeza das suas seleções e selecione <mark>INSTALL</mark> para iniciar a instalação;</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato4.jpg" alt="">
+        <p>Seja paciente e deixe que o instalador faça sua mágica, as vezes pode parecer que o sistema travou no meio da instalação (em torno de 75%) mas é natural que demore mesmo.</p>
+        <p>Assim que a instalação der por finalizada precisamos desligar a máquina e remover o pendrive, selecione a opção de reinicialização (caso o Batocera ofereça) ou selecione <mark>QUIT</mark> no menu principal:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato5.jpg" alt="">
+        <p>E depois <mark>SHUTDOWN SYSTEM</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato6.jpg" alt="">
+        <p>Assim que a máquina estiver completamente desligada, remova o pendrive e logo em seguida inicie pelo HD do Batocera. Assim que ele chegar na tela inicial (tenha a certeza de ter algum adaptador de rede conectado na máquina) selecione <mark>NETWORK SETTINGS</mark> no menu principal:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato7.jpg" alt="">
+        <p>Verifique as suas configuraçõe de rede (se possível anote o IP da máquina) e se ela está conectada a internet.</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato8.jpg" alt="">
+        <h2>Passando as ROMS/BIOS</h2>
+        <p>Por padrão o Batocera já compartilha a unidade de armazenamento em rede, você pode acessar o HD dele pelo seu sistema operacional (inclusive por celular) e mover os arquivos para suas respectivas pastas.</p>
+        <p>Para facilitar esse processo, caso esteja no Windows você pode ligar o computador com o Batocera e mapear a unidade de rede. Para isso, abra o Explorer, clique com o botão direito do mouse em <mark>Este Computador</mark> e depois selecione <mark>Mapear unidade de rede...</mark></p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato9.jpg" alt="">
+        <p>Selecione a letra da unidade que você deseja (recomendo deixar em Z: mesmo) e o caminho para o compartilhamento do Batocera (seja pelo nome <mark>\\BATOCERA</mark> ou por IP como por exemplo <mark>\\192.168.1.2</mark>).</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato10.jpg" alt="">
+        <p>Agora basta adicionar ROMs no diretório <mark>/roms</mark> em suas respectivas pastas de sistema (como por exemplo <mark>/roms/snes</mark> para roms de Super Nintendo ou <mark>/roms/megadrive</mark> para as de Mega Drive).</p>
+        <p>Nos diretórios das plataformas você encontrará um arquivo <mark>_info.txt</mark> informando quais tipos de arquivos são aceitos para aquela pasta.</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato11.jpg" alt="">
+        <p>Uma vez que você adicionou os jogos que deseja selecione <mark>GAME SETTINGS</mark> no menu principal:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato12.jpg" alt="">
+        <p>Em seguida atualize o cache da sua biblioteca em <mark>UPDATE GAMES LISTS</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato13.jpg" alt="">
+        <p>E para saber quais arquivos de BIOS são necessários para a sua plataforma navegue até <mark>MISSING BIOS</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato14.jpg" alt="">
+        <p>Pesquise na internet, baixe e adicione no diretório <mark>/bios</mark> os arquivos que estão faltando para a sua plataforma desejada, os arquivos BIOS devem bater com esse menu tanto em nome de arquivo quanto em MD5, ou seja, ele deve ser <strong>EXATAMENTE</strong> o que o Batocera pede. Depois de transferi-los selecione a opção <mark>REFRESH</mark> para atualizar o cache de arquivos BIOS.</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato15.jpg" alt="">
+        <p>Você pode conferir se baixou o arquivo correto através do <a class="link" href="http://getmd5checker.com/download">Md5Checker</a>.</p>
+        <p>Basta arrastar o arquivo de <mark>BIOS</mark> para a janela do <mark>Md5Checker</mark> e verificar se o código do Md5 bate com o do Batocera</p>
+        <img class="responsiva" src="../assets/images/install/batocera/bato16.gif" alt="">
+        <h2>E onde consigo as roms/isos/bios e qual a diferença?</h2>
+        <p>Nos cartuchos dos jogos existe uma memória (ou memórias) de somente leitura (<i>read only memory</i> ou <mark>rom</mark>), a emulação de jogos baseados em consoles de cartuchos utilizam os arquivos de dentro dessa memória para rodar os jogos, no caso de consoles baseados em disco você tem um arquivo que é a representação da imagem gravada nesse disco que segue o padrão ISO9660, daí o nome do arquivo <mark>iso</mark>. Alguns consoles tem por padrão usarem os arquivos de sistema de entrada e saída contidos no próprio cartucho para funcionar enquanto outros (como Playstation, Neo Geo, Nintendo DS, Sega Saturn, Dreamcast etc) tem basicamente um sistema operacional dentro de uma memória no próprio console. <mak>BIOS</mak> vem de <i>Basic Input Output System</i> e é um sistema que facilita as operações de controle da máquina para quem faz o jogo, <strong>alguns emuladores simplesmente não funcionam sem esse arquivo de sistema</strong>.</p>
+        <p>Como eu tenho preferência pelas versões americanas dos jogos, essas geralmente estão disponíveis no <a class="link" href="https://vimm.net/?p=vault">Vimm's Lair</a> para Nintendinho, Super Nintendo, Nintendo 64, Game Boy Advance, Nintendo DS e Mega Drive, no caso das isos de Sega CD, Saturn, Dreamcast, GameCube, Playstation e Playstation 2 o <a class="link" href="https://cdromance.com/roms/">CDRomance</a> oferece uma boa seleção com uma boa velocidade de download</p>
+        <p>Para CPS1, CPS2 e Neo Geo o <a class="link" href="https://www.planetemu.net/roms/fb-alpha">Planet Emu</a> e o <a class="link" href="http://www.gametronik.com/site/emulation/FBA/A/All/">GameTronik</a> tem uma excelente coleção.</p>
+        <p>As BIOS são um pouco mais complicadas pois no caso do Batocera ele precisa de arquivos específicos, mas existem alguns links em que (talvez) você pode encontrar as bios necessárias, como o <a class="link" href="https://cdromance.com/bios-files/">CDRomance</a> ou <a class="link" href="https://github.com/archtaurus/RetroPieBIOS">archtaurus BIOS Collection</a>, para as Kickstart roms do Amiga você pode fuçar o <a class="link" href="http://amigas.ru/amiftp/index.php?dir=AmiFTP/Amiga%20Kickstart%20Roms%20-%20Complete%20-%20TOSEC%20v0.04/">amigas.ru</a> na seção <mark>KS-ROMs</mark></p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 19/12/2021)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackintosh</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - Hackintosh"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o MacOS em sua máquina através do Proxmox"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        	<h1>Hackintosh (Monterey) com Proxmox</h1>
+        	<h2>Introdução</h2>
+            <p>Quando se fala em tecnologia Apple, especialmente no território nacional, soa como algo mágico: Algo que vai além de um computador pois a maioria das pessoas que tiveram contato com computadores nunca sequer tocaram um hardware da Apple na vida e, grande parte das que tiveram um desses tratam como uma espécie de expressão da condição social. Como você que acompanha as minhas documentações bem sabe, aqui temos interesse em acesso a tecnologia sem distinção social (a menos que você tenha um Amiga500 com Vampire ou um Galaxy Book Go rodando Gentoo, nesse caso aí é full master race mesmo) e testar o MacOS num computador não Apple não é nenhuma vaca sagrada por aqui. Essa documentação será uma documentação de exemplo de como fazer um <em>Hackintosh</em> utilizando o Proxmox e virtualização, embora no tutorial do Hackintosh Old Way eu parafraseei o grande Isaque de Hermanoteu na Terra de Godah com o "Cuidado rapaz, a barra aqui é pesadaa!" o caso pra um Hackintosh com virtualização é bem de boa e com um conhecimento básico de Linux e gerenciamento vm's você vai dar conta (embora possa ser até mais demorado).</p>
+            <p>Se leitura de documentação em inglês, diagnóstico de hardware e gerenciamento de arquivos de configuração é algo complicado pra você... Pode continuar tranquilo pois você quase não vai precisar mesmo 😂 essa maneira é muito tranquila de ser instalada.</p>
+            <p>Embora essa instalação seja bem mais tranquila ela também performa menos, mas se você só quer utilizar MacOS sem muita dor de cabeça isso vai te servir.</p>
+            <p><strong>Essa documentação foi feita presumindo que você já leu a documentação da instalação do Proxmox, já o instalou na máquina servidor e que já saiba um mínimo do gerenciamento de vm's.</strong> Caso não tenha lido acesse esse link <a class="link" href="proxmox_install.html">aqui</a> para ler.</p>
+            <h2>Requisitos Recomendados</h2>
+            <ul>
+                <li>2 computadores, sendo um servidor (que vai rodar a virtualização) e o guest (para configuração via rede), ambos obviamente rodando na mesma rede</li>
+                <li>Uma máquina com pelo menos 8GB de RAM</li>
+                <li>Uma placa de vídeo compatível com o MacOS (para saída de vídeo local)</li>
+                <li>Preparar um disco completo para a instalação do Proxmox (partição não serve)</li>
+                <li>Uma placa de vídeo dedicada compatível com o MacOS (caso queira rodar o sistema na mesma máquina em que virtualização será instalada)</li>
+            </ul>
+            <h2>Preparando a instalação do Proxmox</h2>
+            <p><em>É importante dizer que esse conteúdo foi feito usando de referência o canal Dicas do Mateus e o The Ultimate Beginner's Guide to GPU Passthrough</strong>.</em></p>
+            <p>Primeiramente baixe o Proxmox nesse link <a class="link" href="https://www.proxmox.com/en/downloads">aqui</a>, recomendo a versão mais recente do <em>Proxmox VE ISO Installer (BitTorrent)</em>, que no meu caso é a 7.2 e faça a instalação do Proxmox <em>na máquina que virtualizará o Mac</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/hackprox0.jpg" alt="">
+            <p>Baixe a última versão do KVM-Opencore <em>.ISO</em> <a class="link" href="https://github.com/thenickdude/KVM-Opencore/releases">aqui</a>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/hackprox1.jpg" alt="">
+            <p>Baixe a <em>.ISO</em> do MacOS Monterey <a class="link" href="https://onedrive.live.com/?authkey=%21AHfUklPuqMLPsEA&cid=7F4E6ACA304F1DDF&id=7F4E6ACA304F1DDF%2142541&parId=root&action=locate">aqui</a> (upload pelo canal Dicas do Mateus).</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/hackprox2.jpg" alt="">
+            <p>Acesse a interface do servidor através de um navegador e faça o upload de ambos arquivos de <em>.ISO</em> para a partição <em>Datacenter > PVE > Local</em> no Proxmox.</p>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox14.jpg" alt="">
+            <h2>Criando a VM</h2>
+            <p>Assim que terminar o upload de ambos os arquivos vá em <em>Server View</em> no lado esquerdo da tela selecione em <em>Datacenter > PVE</em> e no canto superior direito selecione a opção <em>Create VM</em>.</p>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox16.jpg" alt="">
+            <br>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox17.jpg" alt="">
+            <p>Essa máquina virtual deve seguir as configurações abaixo.</p>
+            <p>Na guia <em>General</em> marque a opção <em>Advanced</em> e configure:</p>
+            <ul>
+                <li>Name: <em>macOS Monterey</em> </li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac01.jpg" alt="">
+            <p>Na guia <em>OS</em>:</p>
+            <ul>
+                <li>Use CD/DVD disc image file (iso):</li>
+                <li>Storage: <em>local</em></li>
+                <li>ISO Image: <em>OpenCore-v-XX.iso</em> </li>
+                <li>Guest OS:</li>
+                <li>Type: <em>Other</em></li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac02.jpg" alt="">
+            <p>Na guia <em>System</em>:</p>
+            <ul>
+                <li>Graphic Card: <em>VMware Compatible</em></li>
+                <li>SCSI Controller: <em>VirtIO SCSI</em></li>
+                <li>BIOS: <em>OVMF (UEFI)</em></li>
+                <li>Machine: <em>q35</em></li>
+                <li>Storage: <em>local-lvm</em></li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac03.jpg" alt="">
+            <p>Na guia <em>Hard Disk</em>:</p>
+            <ul>
+                <li>Bus/Device: <em>VirtIO Block</em></li>
+                <li>Storage: <em>local-lvm</em></li>
+                <li>Disk Size (GiB): <em>64</em> (pelo menos)</li>
+                <li>Cache: <em>Write back (unsafe)</em></li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac04.jpg" alt="">
+            <p>Na guia <em>CPU</em>:</p>
+            <ul>
+                <li>Cores: <em>4</em></li>
+                <li>Type: <em>Penryn</em> </li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac05.jpg" alt="">
+            <p>Na guia <em>Memory</em>:</p>
+            <ul>
+                <li>Memory (MiB: <em>4096</em> (pelo menos)</li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac06.jpg" alt="">
+            <p>Na guia <em>Network</em>:</p>
+            <ul>
+                <li>Model: <em>VMware vmxnet3</em></li>
+            </ul>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac07.jpg" alt="">
+            <p>E na guia <em>Confirm</em> apenas selecione <em>Finish</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac08.jpg" alt="">
+            <h2>Configurando a VM</h2>
+            <p>Com a máquina virtual criada e com uma mídia de boot selecionada (<em>OpenCore-v-XX.iso</em>), agora devemos adicionar um drive virtual nela contendo a imagem do MacOS. Para isso no <em>Server View</em> a esquerda selecione <em>Datacenter > PVE > macOS Monterey</em>, e nas opções da máquina virtual selecione <em>Hardware > Add > CD/DVD Drive</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac09.jpg" alt="">
+            <p>Agora selecionaremos a iso de instalação:</p>
+            <p>Marque <em>Use CD/DVD disc image file (.iso)</em> e configure:</p>
+            <ul>
+                <li>Storage: <em>local</em></li>
+                <li>ISO Image: <em>Monterey-full.img</em> </li>
+            </ul>
+            <p>Depois clique em <em>Create</em></p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac10.jpg" alt="">
+            <br>
+            <p>Com a máquina virtual criada precisamos agora alterar a ordem de boot, para isso acesse <em>Datacenter > PVE > macOS Monterey</em> na guia de opções selecione <em>Options</em> e depois dê dois cliques em <em>Boot Order</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac11.jpg" alt="">
+            <p>E depois clique e arraste o <em>IDE2</em> para o primeiro item de boot.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac12.jpg" alt="">
+            <p>Como na figura abaixo:</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac13.jpg" alt="">
+            <p>Agora precisamos fazer algumas alterações no Shell, para isso selecione <em>Datacenter > PVE > Shell</em></p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac14.jpg" alt="">
+            <p>Primeiramente você precisa editar o arquivo de configuração da vm com o nano (ou o seu editor preferido), para isso utilize o comando:</p>
+            <code>nano /etc/pve/qemu-server/100.conf</code>
+            <p>ps: Considerando que a sua VM possui a ID <em>100</em>, caso você tenha alterado o ID da máquina virtual, altere o nome do arquivo <em>.conf</em> também para:</p>
+            <code><em>número da id de vm que você escolheu</em>.conf</code>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac15.jpg" alt="">
+            <p>Na linha de configuração da <em>.IMG</em> de instalação do MacOS (Monterey-full.img) altere de:</p>
+            <code>ide0: local:iso/Monterey-full.img,<em>media=cdrom</em>,size=14G</code>
+            <p>Para:</p>
+            <code>ide0: local:iso/Monterey-full.img,<em>cache=unsafe</em>,size=14G</code>
+            <p>E na linha de configuração da <em>.ISO</em> do KVM-Opencore (OpenCore-vXX.iso) altere de:</p>
+            <code>ide2: local:iso/OpenCore-vXX.iso,<em>media=cdrom</em></code>
+            <p>Para:</p>
+            <code>ide2: local:iso/OpenCore-vXX.iso,<em>cache=unsafe</em></code>
+            <p>Por fim você precisa adicionar uma última linha de argumentos ao final desse arquivo de texto, mas qual linha você deve utilizar depende de qual é o processador da máquina em que o Proxmox está instalado.</p>
+            <p>Caso você tenha uma plataforma <em>Intel</em>:</p>
+            <code>args: -device isa-applesmc,osk="ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc" -smbios type=2 -device usb-kbd,bus=ehci.0,port=2 -global nec-usb-xhci.msi=off -cpu host,kvm=on,vendor=GenuineIntel,+kvm_pv_unhalt,+kvm_pv_eoi,+hypervisor,+invtsc</code>
+            <p>Caso você tenha uma plataforma <em>AMD</em>:</p>
+            <code>args: -device isa-applesmc,osk="ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc" -smbios type=2 -device usb-kbd,bus=ehci.0,port=2 -global nec-usb-xhci.msi=off -cpu Penryn,kvm=on,vendor=GenuineIntel,+kvm_pv_unhalt,+kvm_pv_eoi,+hypervisor,+invtsc,+pcid,+ssse3,+sse4.2,+popcnt,+avx,+avx2,+aes,+fma,+fma4,+bmi1,+bmi2,+xsave,+xsaveopt,check</code>
+            <p>E o seu arquivo de configuração deve ficar mais ou menos assim:</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac16.jpg" alt="">
+            <p>Depois que finalizar a edição use o comando <em>Control + x</em> para sair do nano, ele vai perguntar se você deseja salvar (<i>Save modified buffer?</i>) , digite <em>Y</em> para <i>Yes</i> e depois tecle <em>Enter</em> para confirmar a sobrescrição do arquivo, o shell vai retornar ao seu ponto inicial.</p>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox13.jpg" alt="">
+            <p>Com tudo configurado agora basta iniciar a vm clicando em <em>Start</em> e depois <em>Console</em> e você terá acesso ao sistema virtualizado.</p>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox27.jpg" alt="">
+            <p>Selecione então a opção <em>Install macOS Monterey</em> e prossiga com a instalação, se você nunca instalou o macOS antes você pode seguir como referência essa documentação <a class="link" href="hackintosh.html">aqui</a> (siga do <em>Iniciando a Instalação</em> até o <em>Configuração inicial do sistema</em>) </p>
+            <p>Mas lembre-se que o dispositivo a ser apagado para instalação do sistema dentro da vm vai ser o disco <em>Apple Inc. VirtIO Block Media</em>, <strong>como na segunda imagem abaixo</strong></p>
+            <p>ps: Sim, o começo da instalação demora bastante na vm...</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac17.jpg" alt="">
+            <br>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac18.jpg" alt="">
+            <p>Lembre se que toda vez que o sistema reiniciar e voltar nessa tela, você deve selecionar a opção <em>macOS Installer</em> (como na imagem abaixo)</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac19.jpg" alt="">
+            <p>Assim que o sistema finalizar a instalação e reiniciar, quando voltar para a tela inicial a opção <em>macOS Installer</em> vai mudar para <em>macOS</em>, selecione essa opção para continuar a instalação assim como na imagem abaixo:</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac20.jpg" alt="">
+            <p>Configure o sistema normalmente, se você nunca configurou o macOS antes você pode seguir como referência essa documentação <a class="link" href="hackintosh.html">aqui</a> (siga do <em>Configuração inicial do sistema</em> até a <em>identificação do esquema de teclado</em>)</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macos29.jpg" alt="">
+            <p>Pronto! Com o sistema funcionando siga com a identificação do esquema de teclado.</p>
+            <h2>Pós-instalação para o Proxmox</h2>
+            <p>O MacOS está instalado na máquina virtual mas ainda não possui bootloader, ou seja, ainda não existe maneira de fazer com que o sistema inicialize o macOS sozinho ( <strong>portanto não deslique ou reinicie a máquina virtual para não ter dor de cabeça desnecessária</strong>). O processo aqui é idêntico ao descrito no tutorial do Hackintosh (Old Way) mas utiliza outros arquivos para o boot, então vamos resolver isso...</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac21.jpg" alt="">
+            <p>Primeiramente acesse esse link <a class="link" href="https://github.com/thenickdude/KVM-Opencore/releases">aqui</a>, baixe o <em>OpenCoreEFIFolder-vXX.zip</em> (como na imagem acima), extraia e copie a pasta <em>EFI</em> do arquivo recém extraído para a área de trabalho</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost1.jpg" alt="">
+            <p>Para acessar a partição EFI do computador utilizaremos o script <em>MountEFI</em>. Para isso acesse <a class="link" href="https://github.com/corpnewt/MountEFI">esse link</a> e clique em <em>Mount EFI Automator Quick Action.zip</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost2.jpg" alt="">
+            <p>Depois clique em <em>Download</em></p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost3.jpg" alt="">
+            <p>Conceda acesso de downloads para o Github.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost4.jpg" alt="">
+            <p>Assim que o download finalizar clique na pasta de Downloads e abra o Mount EFI.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost5.jpg" alt="">
+            <p>O sistema vai perguntar se você deseja instalar o script, selecione <em>Instalar</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost6.jpg" alt="">
+            <p>O Mac provavelmente vai mostrar uma janela com os scripts instalados, você pode simplesmente fechar essa janela.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost7.jpg" alt="">
+            <p>Depois na barra de tarefas selecione o <em>Finder</em> no canto superior esquerdo da tela, e depois em <em>Preferências</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost8.jpg" alt="">
+            <p>Marque a opção <em>Discos rígidos</em> e então o ícone do HD vai aparecer na área de trabalho.</p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost9.jpg" alt="">
+            <p>Clique com o botão direito no ícone do HD e selecione a opção <em>Mount EFI</em>, insira a senha para garantir a permissão.</p></p>
+            <img class="responsiva" src="../assets/images/install/macos_old/macpost10.jpg" alt="">
+            <p>Arraste a pasta <em>EFI</em> que você extraiu do arquivo <em>OpenCoreEFIFolder-vXX.zip</em> para a raiz da partição EFI do HD. Após isso, desligue a máquina virtual (através das opções do sistema operacional mesmo).</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac22.jpg" alt="">
+            <p>Assim que a máquina virtual desligar, vá em <em>Datacenter > PVE > MacOS</em> e na opção <em>Hardware</em> selecione o <em>CD/DVD Drive</em> correspondente ao <em>Monterey-full.img</em> e na guia superior selerione <em>Remove</em> para remover a imagem de instalação já que não precisamos mais dela</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac23.jpg" alt="">
+            <p>Agora selecione o <em>Hard Disk</em> correspondente ao <em>OpenCore-vXX.iso</em> e na guia superior selerione <em>Detach</em> para remover a imagem de inicialização já que não precisamos mais dela</p>
+            <img class="responsiva" src="../assets/images/install/proxmox/proxmox27.jpg" alt="">
+            <p>Agora dê <em>Start</em> e <em>Console</em> e verifique se o sistema vai iniciar corretamente</p>
+            <h2>GPU Passthrough</h2>
+            <p>Então você quer acessar o MacOS na mesma máquina em que instalou o servidor Proxmox? Se você tem uma placa de vídeo compatível com o MacOS é bem tranquilo de fazer.</p>
+            <h3>Preparação da BIOS</h3>
+            <p>A primeira coisa que você precisa fazer para habilitar o passthrough é configurar a bios corretamente, aqui vai uma lista simples do que você deve habilitar e desabilitar:</p>
+            <p><em>Habilite</em></p>
+            <ul>
+                <li>IOMMU</li>
+                <li>AMD-Vi / Intel VT-d</li>
+                <li>multi-monitor / multi-display</li>
+            </ul>
+            <p><em>Desabilite</em></p>
+            <ul>
+                <li>CSM</li>
+            </ul>
+            <h3>Configuração do Proxmox</h3>
+            <p>A primeira coisa que precisamos fazer para o nosso passthrough é configurar o grub, para isso edite o arquivo <em>/etc/default/grub</em>, e na linha:</p>
+            <code>GRUB_CMDLINE_LINUX_DEFAULT="quiet"</code>
+            <p>Agora devemos adicionar um comando para habilitar o iommu, porém varia conforme o seu processador, se o seu processador é AMD edite para que fique assim:</p>
+            <code>GRUB_CMDLINE_LINUX_DEFAULT="quiet amd_iommu=on"</code>
+            <p>Se o seu processador é Intel, edite para que fique assim:</p>
+            <code>GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"</code>
+            <p>Salve o documento, e para atualizar o grub utilize o comando:</p>
+            <code>update-grub</code>
+            <p>Agora precisamos acrescentar alguns módulos ao Proxmox, para isso acesse <em>/etc/modules</em> e adicione as linhas:</p>
+            <code>
+                vfio<br>
+                vfio_iommu_type1<br>
+                vfio_pci<br>
+                vfio_virqfd
+            </code>
+            <p>Salve o arquivo</p>
+            <p>Precisamos agora alterar o Remapeamento de interrupção IOMMU, para isso basta utilizar os comandos abaixo:</p>
+            <code>echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe_interrupts.conf</code>
+            <code>echo "options kvm ignore_msrs=1" > /etc/modprobe.d/kvm.conf</code>
+            <p>Agora precisamos colocar os drivers de gpu na blacklist para que o Proxmox não utilize nossa gpu, para isso basta utilizar os comandos abaixo:</p>
+            <code>echo "blacklist radeon" >> /etc/modprobe.d/blacklist.conf</code>
+            <code>echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf</code>
+            <code>echo "blacklist nvidia" >> /etc/modprobe.d/blacklist.conf</code>
+            <p>Agora precisamos passar a nossa gpu para passthrough, para isso liste as interfaces pci com o comando:</p>
+            <code>lspci -v</code>
+            <p>Vai retornar diversas linhas, mas basta procurar a linha da sua placa de vídeo que está mais ou menos assim (considerando <strong>por exemplo</strong> que você tenha uma <em>GTX 1070</em>):</p>
+            <code><em>01:00</em>.0 VGA compatible controller: NVIDIA Corporation GP104 [GeForce GTX 1070] (rev a1) (prog-if 00 [VGA controller])</code>
+            <p>Se atente para o número do começo da linha, utilize o comando abaixo com esse mesmo identificador (<strong>claro, substituindo o identificador da linha para o da sua placa de vídeo</strong>)</p>
+            <code>lspci -n -s <em>01:00</em></code>
+            <p>E irá retornar o <i>Vendor ID</i> da sua gpu, mais ou menos assim:</p>
+            <code>01:00.0 0000: <em>10de:1b81</em> (rev a1)<br>01:00.1 0000: <em>10de:10f0</em> (rev a1)</code>
+            <p>O interessante para nós aqui são esses códigos de identificação de fornecedor: <em>10de:1b81</em> e <em>10de:10f0</em>. Vamos adicionar esses IDs do fornecedor da GPU ao VFIO (<strong>lembre-se de substituir os ids pelos ids da sua gpu!</strong>):</p>
+            <code>echo "options vfio-pci ids=<em>10de:1b81</em>,<em>10de:10f0</em> disable_vga=1"> /etc/modprobe.d/vfio.conf</code>
+            <p>Agora basta atualizar o <em>initramfs</em> com o comando:</p>
+            <code>update-initramfs -u</code>
+            <p>E resetar o sistema:</p>
+            <code>reset</code>
+            <h3>Adicionar a GPU para a Máquina Virtual</h3>
+            <p>Uma vez que o Proxmox já foi configurado para o passthrough falta apenas atrelar a GPU a máquina virtual do MacOS, para isso selecione <em>Datacenter > PVE > MacOS</em> e na guia <em>Hardware</em> selecione <em>Add > PCI Device</em>. </p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac24.jpg" alt="">
+            <p>No menu de <em>Add: PCI Device</em>, clique na guia de seleção em frente a <em>Device:</em> e selecione a sua GPU entre os itens dessa lista.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac25.jpg" alt="">
+            <p>Depois de ter selecionado a sua GPU marque as opções <em>Primary GPU</em> e <em>PCI-Express</em>, e por último clique no botão <em>Add</em> para confirmar a adição de dispositivo.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac26.jpg" alt="">
+            <p>Lembre-se de confirmar que a opção de <em>Display</em> está como <em>none (none)</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac27.jpg" alt="">
+            <p>Se você quiser que o sistema inicie automaticamente na máquina do Proxmox basta ir na guia <em>Options</em> e deixar a opção <em>Start at boot</em> como <em>yes</em>.</p>
+            <img class="responsiva" src="../assets/images/install/macos_new/proxmoxmac28.jpg" alt="">
+            <h3>Acessando a VM pelo próprio Proxmox</h3>
+            <p>Embora eu não recomendo (a menos que seja para testes muito específicos), você pode simplesmente subir uma interface gráfica na máquina do Proxmox e um navegador e acessar as VM's assim como se tivesse fazendo de uma outra máquina em rede. Considerando que o sistema já está devidamente atualizado, instalaremos um <em>Ambiente Gráfico</em>, um <em>Navegador</em> e um <em>Gerenciador de Display</em>.</p>
+            <p>Nesse caso eu escolhi o <em>LxQT</em> para interface, o <em>Firefox</em> como navegador e o <em>LightDM</em> como gerenciador de display, fique a vontade para substituir o LightDM para Mate ou Firefox para Chromium <strong>MAS</strong> essa é a minha recomendação.</p>
+            <p><strong>Lembrando:</strong> Essa parte foi feita considerando que você vai acessar diretamente as VM's pela máquina do Proxmox.</p>
+            <code>apt install lxqt firefox lightdm</code>
+            <p>Crie um novo usuário padrão com o comando:</p>
+            <code>adduser <em>seunomedeusuário</em></code>
+            <p>Agora vamos ativar o serviço do LightDM para iniciar na inicialização com o comando:</p>
+            <code>systemctl start lightdm</code>
+            <p>Reinicie o sistema com:</p>
+            <code>reboot</code>
+            <p>Assim que o sistema reiniciar você verá o <em>LightDM</em>, use o seu usuário padrão para logar, abra o navegador e acesse a interface web do Promxox pelo endereço <em>127.0.0.1:8006</em> no navegador.</p>
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 09/09/2022)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 10 Ameliorated</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Windows 10 Ameliorated"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar essa versão reduzida do Windows 10 para deixar seu pc mais leve"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Windows 10 Ameliorated (AME) Scripts</h1>
+        <h2>Introdução</h2>
+        <p>Não é segredo que o Windows tem uma gigantesca quantidade de <i>bloat</i> pós instalação, uma das maneiras de remover tanto quanto possível é através do <a class="link" href="https://ameliorated.info/">Ameliorated Script</a>.</p>
+        <p>Segunda a própria página:<br><i>“Windows 10 sem spyware e mais estabilidade e segurança. Um conjunto pragmático de modificações no Windows.”</i></p>
+        <p><i>“O Windows 10 AME visa fornecer uma compilação estável, não intrusiva, mas totalmente funcional do Windows 10 para qualquer pessoa que necessite de utilizar o sistema Windows nativamente. Spywares, que são abundantes no Windows 10 por padrão, não são desativados usando a política de grupo, entradas de registro ou várias outras soluções alternativas – eles são totalmente removidos e excluídos do sistema, a nível de executável. Isso inclui o Windows Update e quaisquer serviços parecidos destinados a remendar o sistema através do que é essencialmente um backdoor universal. Os principais aplicativos incluídos por padrão, como o Edge, o Windows Media Player, Cortana, bem como quaisquer aplicativos appx, também são eliminados com sucesso. O tamanho total dos arquivos removidos é de cerca de 2 GB. Um grande esforço tem sido investido na manutenção da estabilidade do sistema subsequente, para uma operação e experiência de usuário sem bugs, já que muitos desses serviços removidos conflitam com os principais recursos do Windows 10.”</i></p>
+        <p><strong>É extremamente recomendado que qualquer pessoa que tente reproduzir as etapas deste guia seja moderadamente versada em Linux e, consequentemente, também não tenha medo de usar a linha de comando!</strong></p>
+        <p>Também é necessário um pendrive de pelo menos 8gb para realizar o processo numa tacada só, mas se você tiver uma segunda máquina para baixar os arquivos para o pen drive você pode fazer o pré e o pós separadamente.</p>
+        <h2>Começando a instalação</h2>
+        <h3>1 - Baixando as ISOs</h3>
+        <p>Você pode simplesmente baixar a .ISO do site do <a class="link" href="https://t.me/amereleases">ameliorated.info</a>... Mas como você sabe, aqui nós preferimos o caminho das pedras!</p>
+        <p>Primeiramente baixe última build do Windows através do <a class="link" href="https://bobpony.com/">Bob Pony</a></p>
+        <ul>
+            <li>Em <mark>Selecione o tipo:</mark> escolha <mark>Windows (Final)</mark>;</li>
+            <li>Em <mark>Selecione a versão:</mark> escolha a versão do Windows 10 mais recente com o build number mais alto;</li>
+            <li>Em <mark>Selecione a edição:</mark> escolha <mark>Windows 10</mark>;</li>
+            <li>Em <mark>Selecione o idioma:</mark> escolha <mark>Português (Brasil)</mark>;</li>
+            <li>Em <mark>Selecione o arquivo:</mark> escolha o arquivo correto para a sua arquitetura (<mark>x32</mark> ou <mark>x64</mark>);</li>
+            <li>Por fim clique no botão <mark>Download:</mark> para baixar a .ISO;</li>
+        </ul>
+        <p>Também é necessário que você tenha no pen drive uma live .ISO do Linux a disposição (recomendo qualquer versão do <a class="link" href="https://linuxmint.com/download.php">Linux Mint</a> mesmo para tal) para que você execute o script pós amelioration .sh.</p>
+        <!--
+        <img class="responsiva" src="../assets/images/windows/ame01.jpg" alt=""><br>
+        -->
+        <h3>2 - Prepare o pen drive e instale o sistema</h3>
+        <p>Para preparar o pen drive primeiramente siga o tutorial de <a class="link" href="os_install.html#ventoy">Gravação do Pendrive com o Ventoy</a> e passe a imagem do Windows e a do Linux para o pen drive, aproveite para criar uma pasta na raiz do pen drive e já extraia e deixe nessa pasta os scripts que estão no site do <a class="link" href="https://wiki.ameliorated.info/doku.php?id=start">AME wiki</a> em <mark>Windows 10 AME Documentation</mark> >  <mark>Download Amelioration Scripts</mark> > <mark>Windows 10 Amelioration Script Package</mark> > <mark>Download</mark>. (eu também recomendo que você já deixe nessa pasta um instalador offline do <a class="link" href="https://www.mozilla.org/en-US/firefox/all/#product-desktop-release">Mozilla Firefox</a> já que o Edge será removido do sistema)</p>
+        <img class="responsiva" src="../assets/images/windows/ameliorated/ame02.jpg" alt=""><br>
+        <img class="responsiva" src="../assets/images/windows/ameliorated/ame03.jpg" alt=""><br>
+        <p>Já com o pendrive contendo <mark>a imagem do Windows</mark>, <mark>a imagem do Linux</mark> e <mark>os scripts numa pasta na raiz</mark>, Instale o Windows normalmente <a class="link" href="windows_install.html">seguindo o tutorial aqui da página</a> e lembre-se: <strong>Para que o processo funcione é vital que nenhuma conexão com a internet seja estabelescida em nenhuma etapa da instalação!</strong></p>
+        <h2>LET'S DEBLOAT!</h2>
+        <p>Uma vez que a instalação finalizou e a área de trabalho foi carregada, clique com o botão direito na barra de tarefas e faça uma limpa nela removendo a <mark>barra de pesquisa</mark>, <mark>notícias e interesses</mark> o botão <mark>visão de tarefas</mark>, e no menu iniciar desfixe <strong>todos os ladrilhos!</strong></p>
+        <img class="responsiva" src="../assets/images/windows/ameliorated/ame04.jpg" alt=""><br>
+        <img class="responsiva" src="../assets/images/windows/ameliorated/ame05.jpg" alt=""><br>
+        <p>Caso tenha dúvidas siga como referência o vídeo abaixo:</p>
+        <video width="100%" height="auto" controls>
+            <source src="https://ameliorated.info/video/startmenu_taskbar.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video><br>
+        <p>Após ter limpado todos os elementos do menu iniciar e barra de tarefas, vá na pasta do pen drive e monte a iso do Windows que está no pen drive, depois de montar a iso navegue até a pasta em que os scripts estão, clique com o botão direito do mouse no <mark>script .bat</mark> e <mark>rode ele como administrador.</mark></p>
+        <p>Assim que abrir o terminal, digite <mark>1</mark> para a opção <mark>Pre-Amelioration</mark> e depois tecle Enter, em <mark>Please mount the Windows 10 installation media and specify a drive letter.</mark> digite a letra da unidade em que a .ISO do Windows foi montada, tecle Enter e espere que o processo termine, pode demorar bastante tempo para remover todo o bloatware...</p>
+        <p>Uma vez que o processo tenha finalizado, copie o <mark>script .sh</mark> para a raiz do Windows e desligue o computador.</p>
+        <p>Ligue o computador e inicialize o Linux, abra o gerenciador de arquivos e navegue até o diretório raiz do Windows, clique com o botão direito e selecione <mark>Abrir um terminal aqui</mark>, uma vez no terminal digite <mark>./nomedoscript.sh</mark> e tecle enter, caso der algum erro de <mark>command not found</mark> no início da execução do script, ligue o Linux na internet e instale o dos2unix (<mark>sudo apt update && sudo apt install dos2unix</mark> para o caso do Linux Mint) e converta o script com <mark>dos2unix nomedoscript.sh</mark> para resolver o problema e permitir a execução. Uma vez que o script termina de rodar você já pode reiniciar para o seu Windows.</p>
+        <h2>Sistema pronto... E agora?</h2>
+        <p>Se você fez tudo até aqui você já tem um Windows limpo e funcional +1 navegador, mas é necessário que você instale os drivers manualmente já que o Windows Update foi removido do seu computador. Para aqueles que querem o bom e velho Menu Iniciar recomendo a instalação do <a class="link" href="https://open-shell.github.io/Open-Shell-Menu/">Open-Shell-Menu</a>, para os demais softwares recomendo que veja a nossa sessão de <a class="link" href="alternatives.html">Alternativas de Software Open-Source</a>.</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 19/12/2021)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

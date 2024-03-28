@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sway</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Wayland e PipeWire no Arch Linux com o Sway"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Saia do paradigma de área de trabalho única e ter que ficar movendo janelas"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://avatars1.githubusercontent.com/u/32400794?s=32">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Instalação do Sway e Pipewire no Arch</h1>
+        <img class="responsiva" src="https://swaywm.org/logo.png" alt="">
+        <h2>Introdução</h2>
+        <p>Sway é um compositor de Wayland e um substituto drop-in para o gerenciador de janelas i3 para X11. Ele funciona com sua configuração i3 existente e oferece suporte à maioria dos recursos do i3, além de alguns extras (como gaps).<br>O Sway permite que você organize as janelas do aplicativo de forma lógica, em vez de espacialmente. As janelas são organizadas em uma grade por padrão, o que maximiza a eficiência da tela e pode ser rapidamente manipulado usando apenas o teclado. </p>
+        <h2>Instalação</h2>
+	<h3>0 - Preparação para login</h3>
+	<p>Para que o Sway seja iniciado, é necessário acesso aos seus dispositivos como teclado, mouse e placa de vídeo, para permitir isso existem 2 maneiras (<strong>escolha apenas 1 das opções!</strong>):</p>
+	<p>A primeira e a mais direta é adicionar o usuário ao grupo <mark>seatd</mark> com o comando:</p>
+	<code>sudo usermod -aG seatd "seunomedeusuário"</code>
+	<p>E habilitar o SeatD com o comando:</p>
+	<code>systemctl enable seatd.service</code>
+	<p>A segunda e mais comum é instalação do pacote <mark>polkit</mark> e habilitação do <mark>systemd-logind</mark>:</p>
+	<code>pacman -S polkit</code>
+	<code>systemctl enable systemd-logind.service</code>
+	<h3>1 - Instalar os componentes</h3>
+        <p>Para instalar os componentes básicos utilize o comando:</p> 
+        <code>pacman -S sway foot waybar wofi xorg-xwayland qt6-wayland glfw-wayland ttf-font-awesome wl-clipboard</code>
+        <h3>2 - Copiar o arquivo template do Sway para a pasta de usuário</h3>
+        <p>logue no seu usuário (não root) e logo em seguida acesse o diretório de configurações de usuário com o comando:</p>
+        <code>cd ~/.config</code>
+        <p> SE o diretório não for encontrado, crie ele executando o comando:</p>
+        <code>mkdir .config</code>
+        <p>Já dentro do diretório <mark>.config</mark>, crie o diretório do Sway com o comando:</p>
+        <code>mkdir sway</code>
+        <p>Mude para o diretório do Sway com o comando:</p>
+        <code>cd sway</code>
+        <p>Copie o arquivo de template do Sway <mark>/etc/sway/config</mark> para o diretório atual <mark>.</mark> com o comando:</p>
+        <code>cp /etc/sway/config .</code>
+        <p>A configuração padrão de comandos do Sway é:<br>
+        Recarregar Sway: <mark>Super+Shift+c</mark> (não fechará ou recarregará os programas ou o novo estilo para os programas que estejam rodando)<br>
+        Sair do Sway: <mark>Super+Shift+e</mark><br>
+        Abrir Terminal: <mark>Super+Enter</mark><br>
+        Abrir lançador: <mark>Super+d</mark><br>
+        </p>
+        <h3>3 - Editando o arquivo de configuração do Sway no diretório do usuário <mark>/home/seuusuario/.config/sway/config</mark></h3>
+        <p>Aqui vão algumas configurações recomendadas para o seu Sway, você pode editar o arquivo de configuração de usuário utilizando o nano:</p>
+        <code>nano .config/sway/config</code>
+        <h4>//Mudar a modkey</h4>
+        <p>Em:</p>
+        <code># Logo key. Use Mod1 for Alt.<br>set $mod Mod4</code>
+        <p>Mude para:</p>
+        <code>set $mod Mod1</code>
+        <h4>//Adicionar o Wofi</h4>
+        <p>Em:</p>
+        <code>
+            # Your preferred application launcher<br>
+            # Note: pass the final command to swaymsg so that the resulting window can be opened<br>
+            # on the original workspace that the command was run on.<br>
+            set $menu dmenu_path | dmenu | xargs swaymsg exec --
+        </code>
+        <p>Mude para:</p>
+        <code>set $menu wofi --show=drun -I</code>
+        <h4>//Alterar papel de parede</h4>
+        <p>Em:</p>
+        <code>### Output configuration<br>
+            #<br>
+            # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)<br>
+            output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill<br>
+        </code>
+        <p>Mude a linha <mark>output</mark> para:</p>
+        <code>output * bg /diretório/nomedaimagem.png fill</code>
+        <h4>//Mudar bind para fechar janelas</h4>
+        <p>Em:</p>
+        <code># Kill focused window<br>
+            bindsym $mod+Shift+q kill
+        </code>
+        <p>Mude para:</p>
+        <code># Kill focused window<br>
+            bindsym $mod+q kill
+        </code>
+        <h4>//Adicionar Waybar</h4>
+        <p>Em:</p>
+        <code>bar {<br>
+            position top<br>
+            <br>
+            # When the status_command prints a new line to stdout, swaybar updates.<br>
+            # The default just shows the current date and time.<br>
+            status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done<br>
+            <br>
+            colors {<br>
+                statusline #ffffff<br>
+                background #323232<br>
+                inactive_workspace #32323200 #32323200 #5c5c5c<br>
+                }<br>
+        }
+        </code>
+        <p>Apague tudo entre as <mark>{}</mark> e mude para:</p>
+        <code>
+            bar {<br>
+                swaybar_command waybar<br>
+                }
+        </code>
+        <h4>//Carregar teclado ABNT2:</h4>
+        <p>após:</p>
+        <code>bar {<br>
+            swaybar_command waybar<br>
+            }
+        </code>
+        <p>E antes de:</p>
+        <code>include /etc/sway/config.d/*</code>
+        <p>Adicione:</p>
+        <code>input * {<br>
+            xkb_layout "br"<br>
+            xkb_variant "abnt2"<br>
+            }
+        </code>
+        <h4>//Habilitar toque e rolagem natural no touchpad</h4>
+        <p>Após:</p>
+        <code>
+            input * {<br>
+                xkb_layout "br"<br>
+                xkb_variant "abnt2"<br>
+                }
+        </code>
+        <p>Adicione:</p>
+        <code>input type:touchpad {<br>
+            tap enabled<br>
+            natural_scroll enabled<br>
+            }
+        </code>
+        <h4>//Habilitar gaps</h4>
+        <p>Após:</p>
+        <code>input type:touchpad {<br>
+            tap enabled<br>
+            natural_scroll enabled<br>
+            }
+        </code>
+        <p>Insira:</p>
+        <code>gaps inner 10</code>
+        <h4>//Remover barra de título</h4>
+        <p>Após:</p>
+        <code>gaps inner 10</code>
+        <p>Insira:</p>
+        <code>default_border pixel 3</code>
+        <h4>//Alterar o temo do cursor através do xcursor-configuration</h4>
+        <p>Adicione as linhas abaixo:</p>
+        <code>seat seat0 xcursor_theme <mark>nomedotema</mark> <mark>48</mark></code>
+        <p>Substitua o valor <mark>48</mark> pelo tamanho desejado do cursor</p>
+        <h4>//Configurar GTK no Sway</h4>
+        <p>Adicione as seguintes configurações:</p>
+        <code>set $gnome-schema org.gnome.desktop.interface<br>exec_always {<br>gsettings set $gnome-schema gtk-theme "<mark>nome do tema GTK</mark>"<br>gsettings set $gnome-schema icon-theme "<mark>nome do tema de ícone</mark>"<br>gsettings set $gnome-schema cursor-theme "<mark>nome do tema de cursor</mark>"<br>gsettings set $gnome-schema font-name "<mark>Fonte</mark> <mark>10</mark>"<br>}</code>
+        <p>Substitua o <mark>10</mark> pelo tamanho desejado de fonte desejado</p>        
+        <h3>4 - Copiar o arquivo template do foot para a pasta de usuário</h3>
+        <p>Ainda no seu usuário (não root) acesse o diretório de configurações de usuário com o comando:</p>
+        <code>cd ~/.config</code>
+        <p>Já dentro do diretório <mark>.config</mark>, crie o diretório do foot com o comando:</p>
+        <code>mkdir foot</code>
+        <p>Mude para o diretório do foot com o comando:</p>
+        <code>cd foot</code>
+        <p>Copie o arquivo de template do foot <mark>/usr/share/foot/foot.ini</mark> para o diretório atual <mark>.</mark> com o comando:</p>
+        <code>cp /usr/share/foot/foot.ini .</code>
+        <h3>5 - Editando o arquivo de configuração do foot no diretório do usuário <mark>/home/seuusuario/.config/foot/foot.ini</mark></h3>
+        <p>Caso queira utilizar a mesma fonte que eu e não tenha a fonte <mark>Inconsolata</mark> você pode instalá-la com comando:</p>
+        <code>pacman -S ttf-inconsolata</code>
+        <p>E então descomente e altere a linha de:</p>
+        <code># font=monospace:size=8</code>
+        <p>Para:</p>
+        <code>font=inconsolata:size=12</code>
+        <p>Para habilitar a animação do cursor descomente e altere a linha de:</p>
+        <code># blink=no</code>
+        <p>Para:</p>
+        <code>blink=yes</code>
+        <p>Para habilitar transparência do terminal descomente e altere a linha de:</p>
+        <code># alpha=1.0</code>
+        <p>Para:</p>
+        <code>alpha=0.8</code>
+	<h4>Instalação do fish (opcional)</h4>
+	<p>Para uma experiência mais intuitiva ao interagir com o terminal você pode instalar o <mark>fish shell</mark>, para isso utilize o comando:</p>
+	<code>pacman -S fish</code>
+	<p>E para deixar o fish como padrão no foot no lugar do bash basta abrir o arquivo de configuração do foot em <mark>/home/seuusuario/.config/foot/foot.ini</mark> e na linha:</p>
+	<code># shell=$SHELL (if set, otherwise user's default shell from /etc/passwd</code>
+	<p>Descomente a linha e substitua para:</p>
+	<code>shell=/bin/fish</code>
+        <h3>6 - Copiar os arquivos template do Waybar para a pasta de usuário</h3>
+        <p>Ainda no seu usuário (não root) acesse o diretório de configurações de usuário com o comando:</p>
+        <code>cd ~/.config</code>
+        <p>Já dentro do diretório <mark>.config</mark>, crie o diretório do Waybar com o comando:</p>
+        <code>mkdir waybar</code>
+        <p>Mude para o diretório do Waybar com o comando:</p>
+        <code>cd waybar</code>
+        <p>Copie o arquivo de template do Waybar <mark>/etc/xdg/waybar/config</mark> para o diretório atual <mark>.</mark> com o comando:</p>
+        <code>cp /etc/xdg/waybar/config .</code>
+        <p>Copie também o arquivo template do estilo do Waybar <mark>/etc/xdg/waybar/style.css</mark> para o diretório atual <mark>.</mark> com o comando:</p>
+        <code>cp /etc/xdg/waybar/style.css .</code>
+        <p>Sinta-se a vontade para configurar os arquivos da maneira que quiser.</p>
+        <p>Caso tenha dúvidas com relação as possibilidades de edição você pode conferir a documentação:</p>
+        <a class="link" href="https://github.com/Alexays/Waybar/wiki/Configuration">documentação da configuração do Waybar</a>
+        <a class="link" href="https://github.com/Alexays/Waybar/wiki/Styling">documentação da estilização do Waybar</a>
+        <h3>7 - Instalando servidor de áudio e habilitando compartilhamento de tela</h3>
+        <p>Instale o <mark>pipewire</mark> como comando:</p>
+        <code>pacman -S pipewire-pulse</code>
+        <p>Caso o instalador te peça para escolher entre <mark>pipewire-media-session</mark> e <mark>WirePlumber</mark>, selecione o <mark>WirePlumber</mark>.</p>
+        <p>Para habilitar o compartilhamento de tela no Sway é necessário a instalação do <mark>xdg-desktop-portal-wlr</mark>, para isso utilize o comando:</p>
+        <code>pacman -S xdg-desktop-portal-wlr</code>
+        <p>Segundo a Archwiki:
+        <br>
+        <i>O Firefox (84+) suporta este método por padrão, enquanto no Chromium (73+) é necessário habilitar o suporte WebRTC PipeWire definindo o sinalizador (experimental) na seguinte URL: <code>chrome://flags/#enable-webrtc-pipewire-capturer</code>. O obs-studio (27+) suporta este método usando a nova fonte de captura PipeWire.</i></p>
+        <h3>8 - Instalando o ly Display Manager com o yay</h3>
+        <p>Para facilitar a instalação e manutenção do ly podemos utilizar o yay. Ainda na sua conta de usuário, instale as dependências necessárias com o comando:</p>
+        <code>sudo pacman -S git base-devel</code>
+        <p>Clone o diretório do github com o comando:</p>
+        <code>git clone https://aur.archlinux.org/yay.git</code>
+        <p>Acesse o diretório do yay com o comando:</p>
+        <code>cd yay</code>
+        <p>Crie o pacote e instale o yay com o comando:</p>
+        <code>makepkg -si</code>
+        <p>Instale o ly com o comando:</p>
+        <code>yay -S ly</code>
+        <p>Por fim, habilite o ly com o comando:</p>
+        <code>sudo systemctl enable ly.service</code>
+        <p>Caso queira configurar o ly você pode editar o arquivo de configuração que está em <mark>/etc/ly/config.ini</mark> com o nano.</p>
+        <h3>9 - Otimizando os navegadores para o Sway</h3>
+        <h4>//Otimizando o Firefox</h4>
+        <p>Para setar as variáveis de sistema globalmente edite o arquivo <mark>/etc/environment</mark> com o nano e insira as seguintes linhas:</p>
+        <code>MOZ_ENABLE_WAYLAND=1</code> <p>(para habilitar o Wayland no Firefox)</p>
+        <code>MOZ_USE_XINPUT2=1</code> <p>(para habilitar comandos de tela touchscreen caso você possua uma)</p>
+        <code>MOZ_WEBRENDER=1</code> <p>(para habilitar o WebRender compositor)</p>
+        <p>Após isso salve o arquivo, reinicie a máquina e verifique as variáveis de ambiente com o comando <code>printenv</code>.</p>
+        <p>Assim que reiniciar abra o Firefox e sete o:<code>gfx.webrender.compositor.force-enabled</code> para <code>true</code> em <code>about:config</code>. Após isso reinicie o Firefox.</p>
+        <p>Para verificar se funcionou, procure por <code>Window Protocol</code> em  <code>about:support</code>. Se você fez certo deverá ser <code>wayland</code>.</p>        
+        <p>No Wayland nativo, o desempenho de renderização do Firefox pode ser significativamente melhorado por essa configuração, toda a renderização pode ocorrer em superfícies de composição nativas, resultando em uma renderização mais eficiente, melhorando o desempenho e a vida útil da bateria (caso você utilize um laptop).</p>
+        <h4>//Otimizando o Chromium (e derivados)</h4>
+        <p>Em <mark>/home/meuusuario/.config/chromium-flags.conf</mark> adicione as linhas:</p>
+        <code>--enable-features=UseOzonePlatform<br>
+            --ozone-platform=wayland
+        </code>
+        <p>Caso você queira habilitar acerelação por hardware você pode também adicionar a linha:</p>
+        <code> --enable-gpu</code>
+        <p>Salve o arquivo e reinicie o Chromium para que as mudanças tenham efeito.</p>
+        <h3>10 - Adicionando suporte básico para notificações</h3>
+        <p>Para possiblitar a exibição de notificações simples utilizaremos o <mark>Mako</mark>, utilize o comando abaixo para a instalação:</p>
+        <code>pacman -S mako</code>
+        <p>E agora precisamos adicionar a execução do <mark>Mako</mark> junto ao arquivo de configuração do Sway, em <mark>.config/sway/config</mark> adicione:</p>
+        <code>exec mako</code>
+        <p>Para testar as notificações você pode utilizar o <a class="link" href="https://www.bennish.net/web-notifications.html">HTML5 Web Notifications Test</a>.</p>
+	<p>Se as notificações funcionaram, você pode configurar o mako alterando o arquivo em <mark>~/.config/mako/config</mark> e seguindo a página de manual do mako nesse link <a class="link" href="http://manpages.ubuntu.com/manpages/impish/man5/mako.5.html">aqui</a>.</p>
+	<h3>11 - Captura de tela com o Flameshot</h3>
+	<p><mark>Flameshot</mark> é um daqueles programas que melhora muito sua produtividade quando você precisa fazer alguma captura de tela, infelizmente apenas instalar o pacote com o pacman não é o suficiente, porém assim que devidamente configurado ele funciona perfeitamente. Para utilizar o Flameshot primeiro temos que instalar os pacotes abaixo:</p>
+	<code>
+		sudo pacman -S flameshot xdg-desktop-portal xdg-desktop-portal-wlr grim
+	</code>
+	<p>Uma vez que os pacotes estão instalados é necessário declarar algumas variáveis de ambiente, é interessante que sejam declaradas antes da inicialização do Sway (embora não seja a melhor opção você pode adicionar ao <mark>/etc/environment</mark> para isso). Declare as variáveis de ambiente abaixo:</p>
+	<code>
+		SDL_VIDEODRIVER=wayland<br>
+		_JAVA_AWT_WM_NONREPARENTING=1<br>
+		QT_QPA_PLATFORM=wayland<br>
+		XDG_CURRENT_DESKTOP=sway<br>
+		XDG_SESSION_DESKTOP=sway<br>
+	</code>
+	<p>Uma vez que as variáveis estejam declaradas basta adicionar as linhas abaixo no arquivo de configuração do <mark>Sway</mark>:</p>
+	<pre><code>
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+	dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+	</code></pre>
+	<p>Pronto! Uma vez que o Sway seja <mark>reiniciado</mark> o comando <mark>flameshot gui</mark> vai iniciar uma captura de tela... Mas nós podemos adicionar um atalho Sway para que a tecla print já inicie o Flameshot, para isso adicione a linha abaixo no arquivo de configuração do Sway:</p>
+	<code>
+	bindsym Print exec flameshot gui
+	</code>
+	<p><strong>Importante:</strong> Lembre-se que para habilitar a área de transferência você precisa ter instalado o <mark>wl-clipboard</mark>.</p>
+	<h3>12 - Gerenciamento de mídias removíveis com o Udiskie</h3> 
+	<img class="responsiva" src="https://raw.githubusercontent.com/coldfix/udiskie/master/screenshot.png" alt="">
+	<p>O udiskie é uma excelente ferramenta para gerenciar mídias removíveis de forma gráfica e simples, casa muito bem com a a bandeija da Waybar. Para instalar o udiskie utilize o comando:</p>
+	<code>sudo pacman -S udiskie</code>
+	<p>Uma vez que o udiskie foi instalado você deve adicionar as seguintes linhas no arquivo de configuração do Sway para mostrar o ícone na bandeija:</p>
+<pre><code>
+exec_always {
+	udiskie --appindicator -t
+	}
+</code></pre>
+	<p><strong>Importante:</strong> Não esqueça de declarar a configuração e adicionar o módulo de tray na sua Waybar! Não tem como exibir um ícone de bandeija sem bandeija declarada (obviamente).</p>
+	<p>Exemplo:
+	<pre><code>
+"modules-right": ["tray", "network"...
+
+"tray": {
+    "icon-size": 21,
+    "spacing": 10
+}
+	</code></pre>
+	<a class="link" href="https://www.bennish.net/web-notifications.html">Documentação do módulo de tray</a>
+	<p><mark>Resolução de problemas:</mark></p>
+	<p>O udiskie requer permissão para algumas ações do polkit que geralmente são concedidas ao usar um ambiente de desktop. Se sua sessão de login não estiver ativada corretamente, talvez seja necessário personalizar suas configurações de polkit. Crie o arquivo <mark>/etc/polkit-1/rules.d/50-udiskie.rules</mark> com permissões <mark>644</mark> e com o seguinte conteúdo:</p>
+<pre><code>
+polkit.addRule(function(action, subject) {
+  var YES = polkit.Result.YES;
+  var permission = {
+    // required for udisks1:
+    "org.freedesktop.udisks.filesystem-mount": YES,
+    "org.freedesktop.udisks.luks-unlock": YES,
+    "org.freedesktop.udisks.drive-eject": YES,
+    "org.freedesktop.udisks.drive-detach": YES,
+    // required for udisks2:
+    "org.freedesktop.udisks2.filesystem-mount": YES,
+    "org.freedesktop.udisks2.encrypted-unlock": YES,
+    "org.freedesktop.udisks2.eject-media": YES,
+    "org.freedesktop.udisks2.power-off-drive": YES,
+    // required for udisks2 if using udiskie from another seat (e.g. systemd):
+    "org.freedesktop.udisks2.filesystem-mount-other-seat": YES,
+    "org.freedesktop.udisks2.filesystem-unmount-others": YES,
+    "org.freedesktop.udisks2.encrypted-unlock-other-seat": YES,
+    "org.freedesktop.udisks2.eject-media-other-seat": YES,
+    "org.freedesktop.udisks2.power-off-drive-other-seat": YES
+  };
+  if (subject.isInGroup("storage")) {
+    return permission[action.id];
+  }
+});
+</code></pre>
+	<p>Essa configuração permite que todos os membros do grupo de <mark>storage</mark> executem o udiskie.<br>Para adicionar o seu usuário no grupo storage basta utilizar o comando:</p>
+	<code>usermod -a -G storage <mark>seuusername</mark></code>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 02/03/2023)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

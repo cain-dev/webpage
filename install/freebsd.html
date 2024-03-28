@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do FreeBSD 14</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - FreeBSD"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o FreeBSD 13"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.freebsd.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Instalação do FreeBSD 14</h1>
+        <h2>Introdução (e atualização)</h2>
+        <p>Quando eu comecei esse tutorial mais de 3 anos atrás, essa página ainda tinha um aviso de não recomendação de instalação em UEFI, o Slim ainda era uma boa porta de entrada, portsnap era algo nativo e ntpdate ainda era uma opção de instalação... Muita coisa mudou, e entre elas a minha percepção do que é o FreeBSD.</p>
+        <p>Então a primeira coisa que eu quero avisar é que o FreeBSD é um sistema operacional basicamente sem automatizações, com alguns padrões de funcionamento bastante antigos e que por (bastante) vezes é extremamente inconveniente!</p>
+        <p>Diferente do Archlinux ou do Hackintosh, eu não posso recomendar o FreeBSD a nível de usuário final médio, especialmente para uso em desktop! Então antes de mais nada saiba: Este tutorial é para você que quer estudar um pouco a tecnologia do FreeBSD, a oferta de softwares de uso geral é limitadíssima, diversos pacotes simplesmente não tem mantenedores e a configuração necessária para utilização dos ports através de ferramentas auxiliáres é muito mais moroso do que qualquer coisa que você usaria no Archlinux ou até mesmo no Gentoo (é sério), sem contar que mesmo com todo cuidado do mundo a compilação na unha resultará em bugs por diversas vezes, as opções de compilação usada nos pacotes através do packet manager não é nada sã... Então espere ter dor de cabeça! Eu não disse curva de aprendizado difícil, eu disse dor de cabeça pura e simples!</p>
+        <p>Se você pretende utilizar o sistema e suas ferramentas (como o ZFS) para algum serviço em rede, vai ser até mais rápido e fácil do que setar um Debian, mas se for para desktop e/ou com interface gráfica... Seja bem vindo ao inferno!</p>
+        <p><strong>AVISO: Para não ter que tirar print de tudo novamente, as imagens serão meramente ilustrativas! Sete as opções baseadas no texto e não nas imagens!</strong></p>
+        <p><strong>AVISO 2: Esta documentação presume que você é um usuário que entende o básico de sistemas unixlike e como editar arquivos de configuração.</strong></p>
+        <h3>Como proceder:</h3>
+        <ul>
+            <li>Para navegar nos menus utilize as setas (←↑↓→)</li>
+            <li>Para alterar o campo de seleção tecle ↹ Tab</li>
+            <li>Para selecionar as opções ( * ) nos menus tecle Espaço</li> 
+            <li>Enter ⏎ quando quiser confirmar a seleção.</li>
+        </ul>
+        <p>Essa é a tela de boas vindas do FreeBSD, tecle Enter ou aguarde o fim da contagem...</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd1.jpg" alt="">
+        <p>Selecione <mark>Install</mark> para iniciar o processo de instalação:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd2.jpg" alt="">
+        <p>Selecione <mark>Brazilian (accent keys)</mark> e depois <mark>Continue with br.kbd keymap</mark>:</p>
+        <p>Se quiser você pode testar o teclado em <mark>Test br.kbd keymap.</mark></p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd3.jpg" alt="">
+        <p>Escolha o <mark>hostname</mark> da máquina:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd4.jpg" alt="">
+        <p>Selecione os componentes, recomendo o <mark>lib32</mark> (caso queira compatibilidade com binários de 32bits) e o <mark>ports</mark> (caso queira utilizar o sistema de pacotes por compilação):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd5.jpg" alt="">
+        <p>Para particionamento a nível de usuário final recomendo <mark>Auto (UFS)</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd6.jpg" alt="">
+        <p>Selecione <mark>Entire Disk</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd7.jpg" alt="">
+        <p>Na tabela de partição recomendo <mark>MBR para BIOS</mark> ou <mark>GPT para UEFI</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd8.jpg" alt="">
+        <p>Caso esteja de acordo com a tabela de partição selecione <mark>Finish</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd9.jpg" alt="">
+        <p>Caso esteja de acordo com as alterações em disco selecione <mark>Commit</mark>:</p>
+        <p><strong>Alerta: Todos os dados no disco serão perdidos! Tenha a certeza de ter selcionado o disco correto e/ou ter feito backup antes de prosseguir!</strong></p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd10.jpg" alt="">
+        <p>Aguarde o fetch...</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd11.jpg" alt="">
+        <p>E o extract...</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd12.jpg" alt="">
+        <p>Insira a senha de administrador da máquina (root):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd13.jpg" alt="">
+        <p>Selecione a interface de rede:</p>
+        <p><strong>AVISO: No meu caso estou instalando numa interface a cabo, caso você esteja utilizando uma interface de rede sem fio você deve selecionar o orgão regulador (<mark>FCC</mark>, <mark>Brazil</mark>), a rede e a senha da sua conexão (não obtive sucesso ao conectar no Wifi com caracteres especiais)</strong></p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd14.jpg" alt="">
+        <p>Selecione se você quer configurar <mark>IPv4</mark> para essa interface (caso esteja em dúvida selecione <mark>Yes</mark>):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd15.jpg" alt="">
+        <p>Selecione se você quer configurar DHCP para essa interface (caso esteja em dúvida selecione <mark>Yes</mark>):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd16.jpg" alt="">
+        <p>Selecione se você quer configurar IPv6 para essa interface (caso esteja em dúvida selecione <mark>No</mark>):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd17.jpg" alt="">
+        <p>Caso deseje você pode configurar o IP de DNS (por padrão será carregado o ip do gateway, caso esteja em dúvida selecione <mark>OK</mark>):</p>
+        <p>*Recomendo o uso do <mark>OpenDNS</mark> (IPs <mark>208.67.222.222</mark>/<mark>208.67.220.220</mark> para IPv4 e <mark>2620:119:35::35</mark>/<mark>2620:119:53::53</mark> para IPv6)</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd19.jpg" alt="">
+        <p>Selecione a sua região (<mark>America</mark> > <mark>Brazil</mark> > <mark>Estado</mark>):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd20.jpg" alt="">
+        <p>Se estiver correto confirme:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd21.jpg" alt="">
+        <p>Caso a data esteja correta selecione <mark>Skip</mark>, caso contrário altere em <mark>Set Date</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd22.jpg" alt="">
+        <p>Caso a hora esteja correta selecione <mark>Skip</mark>, caso contrário altere em <mark>Set Time</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd23.jpg" alt="">
+        <p>Selecione os serviços para serem iniciados no boot, recomendo deixar marcado <mark>sshd</mark> (se e somente se você deseja se conectar a essa máquina por SSH), <mark>moused</mark> caso queira utilizar o mouse no console, <mark>ntpd</mark> e <mark>ntpd_sync_on_start</mark>, <mark>powerd</mark> (especialmente em laptops) e <mark>dumpdev</mark> (útil quase que somente para desenvolvedores):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd24.jpg" alt="">
+        <p>Aqui são as opções de enrigecimento de segurança, recomendo marcar todos ou pelo menos <mark>read_msgbuf</mark>, <mark>proc_debug</mark>, <mark>clear_tmp</mark>, <mark>disable_syslogd</mark>, <mark>secure_console</mark>, <mark>disable_ddtrace</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd25.jpg" alt="">
+        <p>Selecione <mark>Yes</mark> para adicionar o seu usuário no sistema:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd26.jpg" alt="">
+        <code>Username: <mark>insira aqui seu nome de usuário</mark></code>
+        <code>Full name: <mark>apenas tecle Enter</mark></code>
+        <code>Uid (Leave empty for default): <mark>apenas tecle Enter</mark></code>
+        <code>Login group [seuusuário]: <mark>apenas tecle Enter</mark></code>
+        <p>para acesso administrativo para esse usuário adicione-o ao grupo <em>wheel</em><br>para iniciar diretamente a sessão gráfica adicione-o ao grupo <em>video</em><br>para permitir montagem de partições e outras funções de configuração adicione-o ao grupo <em>operator</em></p>
+        <code>Login group is . Invite  into other groups? []: <em>wheel</em> <em>video</em> <em>operator</em></code>
+        <code>Login class [default]: <mark>apenas tecle Enter</mark></code>
+        <code>Shell (sh csh tcsh nologin) [sh]: <mark>apenas tecle Enter</mark></code>
+        <code>Home Directory [/home/seuusuário]: <mark>apenas tecle Enter</mark></code>
+        <code>Home Directory Permissions (Leave empty for default): <mark>apenas tecle Enter</mark></code>
+        <code>User password-based authentication? [yes]: <mark>apenas tecle Enter</mark></code>
+        <code>Use an empty password? (yes/no) [no]: <mark>apenas tecle Enter</mark></code>
+        <code>Use a random password? (yes/no) [no]: <mark>apenas tecle Enter</mark></code>
+        <code>Enter password: <mark>insira sua senha</mark></code>
+        <code>Enter password again: <mark>confirme sua senha</mark></code>
+        <code>Lock out the account after creation? (yes/no) [no]: <mark>apenas tecle Enter</mark></code>
+        <code>Ok? (yes/no): <mark>yes</mark></code>
+        <code>Add another user? (yes/no): <mark>no</mark></code>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd30.jpg" alt="">
+        <p>Selecione <mark>Exit</mark> (a menos que queira alterar algo):</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd32.jpg" alt="">
+        <p>Selecione <mark>No</mark>:</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd33.jpg" alt="">
+        <p>Selecione <mark>Reboot</mark> para concluir a instalação e reiniciar a máquina para o sistema instalado.</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd34.jpg" alt="">
+        <h2>Pós Instalação</h2>
+        <p>Assim que o sistema iniciar logue na conta de administrador: (login: <mark>root</mark> - senha: <mark>senha que você digitou para acesso administrativo</mark>)</p>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd35.jpg" alt="">
+        <p>Assim que logado na conta de root vamos começar a preparar o sistema...</p>
+        <p><strong>Opcional:</strong> Caso você tenha problemas para utilizar o terminal devido ao tamanho da fonte, utilize o comando abaixo para selecionar uma outra fonte:</p>
+        <code>vidfont</code>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsd36.jpg" alt="">
+        <p>Para atualizar os patches de segurança do sistema use os comandos:</p>
+        <code>freebsd-update fetch</code>
+        <code>freebsd-update install</code>
+        <p>Para atualizar os pacotes insira o comando:</p>
+        <code>pkg update && upgrade</code>
+        <code>Do you want to fetch and install it now?: <mark>y</mark></code> 
+        <p>Se aparecer:</p>
+        <code>Your packages are up to date</code>
+        <p>Significa que seu sistema já está devidamente atualizado.</p>
+        <!-- FIM DA INSTALAÇÃO DO SISTEMA -->
+        <p><strong>Lembre-se!</strong> Você pode utilizar o comando abaixo para remover pacotes específicos:</p>
+        <code>pkg remove <em>nomedopacote</em></code>
+        <p>E pode usar o comando abaixo para remover pacotes órfãos:</p>
+        <code>pkg autoremove</code>
+        <h2>Configuração para Usuário Final</h2>
+        <!-- DOAS -->
+        <h3>Elevação de privilégio com o Doas</h3>
+        <p>Se você seguiu corretamente os passos até aqui o seu usuário faz parte do grupo <em>wheel</em>, para elevação de privilégio instale o <em>doas</em> com o comando:</p>
+        <code>pkg install doas</code>
+        <p>O doas precisa de uma simples configuração para elevação de privilégio, edite o arquivo <em>/usr/local/etc/doas.conf</em> e insira a linha:</p>
+        <code>permit persist keepenv :wheel</code>
+        <p>Caso você queira a elevaçao de privilégios sem inserção de senha (não recomendado) utilize a linha:</p>
+        <code>permit nopass keepenv :wheel</code>
+        <h3>Instalação de Desktop Environment</h3>
+        <p>Se você está lendo isso as chances são que você não vai utilizar o FreeBSD como sistema de servidor. O FreeBSD pode ser utilizado normalmente como um sistema para usuário final, entretanto, Desktop Environments (ambientes gráficos) geralmente não são tão polidos e atualizados no FreeBSD tanto quanto são no universo Linux. Se você utilizar os fóruns vai ver que grande parte dos usuários prefere utilizar apenas um gerenciador de janelas (window manager) e não um ambiente completo (como o Cinnamon, por exemplo). Os recém chegados do Linux provavelmente instalam algum port de XFCE, MATE ou KDE, mas saiba que alguns ambientes aqui <strong>podem</strong> (não quer dizer que vão) ser problemáticos (ou simplesmente depreciados).</p>
+        <p>Isso não significa que você não pode ter uma excelente experiência utilizando o FreeBSD como <i>daily driver</i>, mas como esses ambientes recebem relativamente menos suporte e tem um público menor por aqui você não pode se der ao luxo de achar que pode simplesmente instalar um ambiente gráfico e dar por encerrado o seu dia. O FreeBSD separa muito bem o espaço de sistema e espaço de usuário e, independente do ambiente que você utilize você ainda terá que acessar uma camada mais íntima do sistema.</p>
+        <!-- INSTALAÇÃO DO XORG -->
+        <h3>Instalação do Xorg</h3>
+        <p>A primeira coisa que precisamos para instalar um ambiente gráfico é o Xorg, para instala-lo utilize o comando:</p>
+        <code>pkg install xorg</code>
+        <code>Proceed with this action? <mark>y</mark></code> 
+        <!-- INSTALAÇÃO DOS DRIVERS -->
+        <h3>Instalação dos drivers de vídeo</h3>
+        <!-- NVIDIA -->
+        <h4>NVIDIA</h4>
+        <p>Caso você possua uma placa nvidia mais recente utilize o comando abaixo para instalar os drivers e aplicações necessárias:</p>
+        <code>pkg install nvidia-driver nvidia-settings nvidia-xconfig</code>
+        <p>Para setar o carregamento do driver utilize o comando:</p>
+        <code>sysrc kld_list+=nvidia-modeset</code>
+        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-nvidia.conf</mark> seguindo o exemplo abaixo...</p>
+        <code>
+        <pre>
+Section "Device"
+    Identifier "Card0"
+    Driver     "nvidia"
+EndSection</pre>
+        </code>
+        <p><strong>OU</strong> utilizar este outro comando para que a configuração seja feita automaticamente:</p>
+        <code>nvidia-xconfig</code>
+        <!-- AMD -->
+        <h4>AMD</h4>
+        <p>Caso você possua uma placa ou vídeo integrado AMD utilize o comando abaixo para instalar os drivers e aplicações necessárias:</p>
+        <code>pkg install drm-kmod</code>
+        <p>Para setar o carregamento do driver para placas pós HD7000 ou Tahiti utilize o comando:</p>
+        <code>sysrc kld_list+=amdgpu</code>
+        <p>Para setar o carregamento do driver para placas pré HD7000 ou Tahiti utilize o comando:</p>
+        <code>sysrc kld_list+=radeonkms</code>
+        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-nvidia.conf</mark> seguindo o exemplo abaixo:</p>
+        <code>
+        <pre>
+Section "Device"
+    Identifier "Card0"
+    Driver     "radeon"
+EndSection</pre>
+        </code>
+        <!-- Intel -->
+        <h4>Intel</h4>
+        <p>Caso você possua uma placa ou vídeo integrado Intel utilize o comando:</p>
+        <code>pkg install drm-kmod libva-intel-driver mesa-libs mesa-dri</code>
+        <p>Para setar o carregamento do driver utilize o comando:</p>
+        <code>sysrc kld_list+=i915kms</code>
+        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-nvidia.conf</mark> seguindo o exemplo abaixo:</p>
+        <code>
+        <pre>
+Section "Device"
+    Identifier "Card0"
+    Driver     "intel"
+EndSection</pre>
+        </code>
+        <p>Caso deseje aceleração de hardware instale também os pacotes conforme o comando abaixo:</p>
+        <code>pkg install libva-intel-driver mesa-libs mesa-dri</code>
+        <!-- CONFIGURANDO O XORG -->
+        <h3>Configurando o Xorg</h3>
+        <h4>Teclado em ABNT2</h4>
+        <p>No diretório <mark>/usr/local/etc/X11/xorg.conf.d/00-keyboard.conf</mark> insira:</p>
+<code><pre>
+    Section "InputClass"
+        Identifier "Keyboard1"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "br"
+        Option "XkbModel" "abnt2"
+    EndSection</pre></code>
+        <!-- HABILITANDO SOM -->
+        <h3>Habilitando som</h3>
+        <p>Para habilitar o som basta carregar os devidos drivers, supondo que você precise do módulo para sistemas baseados em Intel adicione a linha abaixo em <mark>/etc/rc.conf</mark>:</p>
+        <!-- <code>sound_load="YES"</code> -->
+        <code>snd_hda_load="YES"</code>
+        <!-- SETANDO LOCALE -->
+        <h3>LOCALE</h3>
+        <p>Ok, esta é uma parte simples de fazer mas que quase sempre vai dar problemas, eu já pesquisei por dias para entender exatamente o que ocorre mas verdadeiramente ainda não consigo compreender então vamos por partes.</p>
+        <p>O resumo da opera é que o FreeBSD trabalha com <em>login classes</em>, então você cria uma classe de login, deixa as limitações e opções de ambiente na classe e o usuário que faz parte daquela classe herda essas informações automaticamente, e isso é extremamente útil e interessante e... As vezes simplesmente não funciona! É... É isso.</p>
+        <p>De qualquer forma o procedimento é sempre o mesmo:</p>
+        <ul>
+            <li>Logar na conta de administrador sem manter ambiente (não utilize elevação de privilégios com o DOAS para fazer isso)</li>
+            <li>Editar o arquivo <mark>/etc/login.conf</mark></li>
+            <li>Criar o banco de dados com <mark>cap_mkdb /etc/login.conf</mark> </li>
+        </ul>
+        <p>É isso... Mas pode acontecer de simplesmente não funcionar (que saudade do locale-gen 😭) então vamos lá:</p>
+        <p>(Se já não tiver logado) logue como root sem preservar ambiente com o comando:</p>
+        <code>su -</code>
+        <p>Insira a senha e edite o arquivo <mark>/etc/login.conf</mark>:</p>
+        <code>nano /etc/login.conf</code>
+        <p>Nesse arquivo no final da sessão <em>default:\</em> você vai encontrar uma linha como a de baixo:</p>
+        <code>:charset=UTF-8:\<br>:lang=C.UTF-8:</code>
+        <p>Edite para que fique como no exemplo abaixo:</p>
+        <code>:charset=UTF-8:\<br>:lang=pt_BR.UTF-8:</code>
+        <p><Strong>BONUS:</Strong> Caso queira remover aquela mensagem chata de login basta setar o argumento <mark>:welcome=/var/run/motd:\</mark> para <mark>:welcome=/dev/null:\</mark>.</p>
+        <p>Agora gere o banco com o comando:</p>
+        <code>cap_mkdb /etc/login.conf</code>
+        <p>É isso, reinicie o computador, logue novamente na sua conta de usuário comum (não root) e execute o comando abaixo para verificar o locale:</p>
+        <code>locale</code>
+        <p>Verifique se retorna:</p>
+        <code>LANG=pt_BR.UTF-8<br>LC_CTYPE="pt_BR.UTF-8"<br>LC_COLLATE="pt_BR.UTF-8"<br>LC_TIME="pt_BR.UTF-8"<br>LC_NUMERIC="pt_BR.UTF-8"<br>LC_MONETARY="pt_BR.UTF-8"<br>LC_MESSAGES="pt_BR.UTF-8"<br>LC_ALL=</code>
+        <p>Se retornar está tudo certo, senão você vai ter que fazer o procedimento para o seu usuário.</p>
+        <p>Logue na sua conta de usuário, edite o arquivo <em>.login_conf</em>, altere como no exemplo acima e execute:</p>
+        <code>cap_mkdb .login_conf</code>
+        <p>Reinicie o computador, relogue na sua conta e verifique o locale.</p>
+        <!-- AMBIENTES GRÁFICOS -->
+        <h3>Instalação dos pacotes de Ambiente Gráfico</h3>
+        <!-- KDE -->
+        <h4>Para instalação do KDE</h4>
+        <p>Para instalar o ambiente gráfico KDE Plasma e suas aplicações use o comando:</p>
+        <code>pkg install kde5</code>
+        <p>Se prefere uma instalação mínima utilize o comando abaixo:</p>
+        <code>pkg install plasma5-plasma</code>
+        <p>Lembrando que a instalação mínima não possui terminal nativo!</p>
+        <p>Como o KDE utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Se e somente se você vai permanecer no KDE aumente o tamanho dos <i>buffers</i> adicionando as linhas abaixo em <mark>/etc/sysctl.conf</mark>:</p>
+        <code>sysctl net.local.stream.recvspace=65536<br>sysctl net.local.stream.sendspace=65536</code>
+        <p>Para ser inicializado o KDE Plasma utiliza por padrão o SDDM, instale o SSDM com o comando abaixo:</p>
+        <code>pkg install sddm</code>
+        <p>E habilite o serviço com o comando abaixo:</p>
+        <code>sysrc sddm_enable="YES"</code>
+        <p>Sete as opções de localização do SDDM com o comando abaixo:</p>
+        <code>sysrc sddm_lang="pt_BR"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo "exec dbus-launch --exit-with-x11 ck-launch-session startplasma-x11" > ~/.xinitrc</code>
+        <!-- Gnome -->
+        <h4>Para instalação do Gnome</h4>
+        <p>Para instalar o ambiente gráfico Gnome e suas aplicações use o comando:</p>
+        <code>pkg install gnome</code>
+        <p>Se prefere uma instalação mínima utilize o comando abaixo:</p>
+        <code>pkg install gnome-lite</code>
+        <p>O Gnome requer que o <em>/proc</em> esteja montado, adicione a segunda linha seguindo o exemplo abaixo em <em>/etc/fstab</em> para montagem automática:</p>
+        <code>
+        <table>
+            <thead>
+                <tr>
+                    <th># Device&ensp;<br></th>
+                    <th>Mountpoint&ensp;</th>
+                    <th>FStype&ensp;</th>
+                    <th>Options&ensp;</th>
+                    <th>Dump&ensp;</th>
+                    <th>Pass#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>proc</td>
+                    <td>/proc</td>
+                    <td>procfs</td>
+                    <td>rw</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+        </code>
+        <p>Como o Gnome utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Por padrão o Gnome utiliza um Display Manager próprio (GDM), para habilitar o GDM use o comando abaixo:</p>
+        <code>sysrc gdm_enable="YES"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo "exec gnome-session" > ~/.xinitrc</code>
+        <!-- XFCE -->
+        <h4>Para instalação do XFCE</h4>
+        <p>Para instalar o ambiente gráfico XFCE e suas aplicações use o comando:</p>
+        <code>pkg install xfce</code>
+        <p>O XFCE requer que o <em>/proc</em> esteja montado, adicione a segunda linha seguindo o exemplo abaixo em <em>/etc/fstab</em> para montagem automática:</p>
+        <code>
+            <table>
+                <thead>
+                    <tr>
+                        <th># Device&ensp;<br></th>
+                        <th>Mountpoint&ensp;</th>
+                        <th>FStype&ensp;</th>
+                        <th>Options&ensp;</th>
+                        <th>Dump&ensp;</th>
+                        <th>Pass#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>proc</td>
+                        <td>/proc</td>
+                        <td>procfs</td>
+                        <td>rw</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </code>
+        <p>Como o XFCE utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Para ser inicializado o XFCE por padrão utiliza o LightDM, instale o LightDM com o comando abaixo:</p>
+        <code>pkg install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings</code>
+        <p>E habilite o serviço com o comando abaixo:</p>
+        <code>sysrc lightdm_enable="YES"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo '. /usr/local/etc/xdg/xfce4/xinitrc' > ~/.xinitrc</code>
+        <!-- MATE -->
+        <h4>Para instalação do MATE</h4>
+        <p>Para instalar o ambiente gráfico MATE e suas aplicações use o comando:</p>
+        <code>pkg install mate</code>
+        <p>Se prefere uma instalação mínima utilize o comando abaixo:</p>
+        <code>pkg install mate-base</code>
+        <p>O MATE requer que o <em>/proc</em> esteja montado, adicione a segunda linha seguindo o exemplo abaixo em <em>/etc/fstab</em> para montagem automática:</p>
+        <code>
+            <table>
+                <thead>
+                    <tr>
+                        <th># Device&ensp;<br></th>
+                        <th>Mountpoint&ensp;</th>
+                        <th>FStype&ensp;</th>
+                        <th>Options&ensp;</th>
+                        <th>Dump&ensp;</th>
+                        <th>Pass#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>proc</td>
+                        <td>/proc</td>
+                        <td>procfs</td>
+                        <td>rw</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>    
+        </code>
+        <p>Como o MATE utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Para ser inicializado o MATE por padrão utiliza o LightDM, instale o LightDM com o comando abaixo:</p>
+        <code>pkg install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings</code>
+        <p>E habilite o serviço com o comando abaixo:</p>
+        <code>sysrc lightdm_enable="YES"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo "exec dbus-launch --exit-with-x11 ck-launch-session mate-session" > ~/.xinitrc</code>
+        <!-- Cinnamon -->
+        <h4>Para instalação do Cinnamon</h4>
+        <p>Para instalar o ambiente gráfico Cinnamon e suas aplicações use o comando:</p>
+        <code>pkg install cinnamon</code>
+        <p>O Cinnamon requer que o <em>/proc</em> esteja montado, adicione a segunda linha seguindo o exemplo abaixo em <em>/etc/fstab</em> para montagem automática:</p>
+        <code>
+            <table>
+                <thead>
+                    <tr>
+                        <th># Device&ensp;<br></th>
+                        <th>Mountpoint&ensp;</th>
+                        <th>FStype&ensp;</th>
+                        <th>Options&ensp;</th>
+                        <th>Dump&ensp;</th>
+                        <th>Pass#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>proc</td>
+                        <td>/proc</td>
+                        <td>procfs</td>
+                        <td>rw</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </code>
+        <p>Como o Cinnamon utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Para ser inicializado o Cinnamon por padrão utiliza o LightDM, instale o LightDM com o comando abaixo:</p>
+        <code>pkg install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings</code>
+        <p>E habilite o serviço com o comando abaixo:</p>
+        <code>sysrc lightdm_enable="YES"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo "exec dbus-launch --exit-with-x11 ck-launch-session cinnamon-session" > ~/.xinitrc</code>
+        <!-- LXQT -->
+        <h4>Para instalação do LXQT</h4>
+        <p>Para instalar o ambiente gráfico LXQT e suas aplicações use o comando:</p>
+        <code>pkg install lxqt</code>
+        <p>O LXQT requer que o <em>/proc</em> esteja montado, adicione a segunda linha seguindo o exemplo abaixo em <em>/etc/fstab</em> para montagem automática:</p>
+        <code>
+        <table>
+            <thead>
+                <tr>
+                    <th># Device&ensp;<br></th>
+                    <th>Mountpoint&ensp;</th>
+                    <th>FStype&ensp;</th>
+                    <th>Options&ensp;</th>
+                    <th>Dump&ensp;</th>
+                    <th>Pass#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>proc</td>
+                    <td>/proc</td>
+                    <td>procfs</td>
+                    <td>rw</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+        </code>
+        <p>Como o LXQT utiliza o D-BUS, ative o serviço com o comando abaixo:</p>
+        <code>sysrc dbus_enable="YES"</code>
+        <p>Para ser inicializado o LXQT por padrão utiliza o SDDM, instale o SDDM com o comando abaixo:</p>
+        <code>pkg install sddm</code>
+        <p>E habilite o serviço com o comando abaixo:</p>
+        <code>sysrc sddm_enable="YES"</code>
+        <p>Sete as opções de localização do SDDM com o comando abaixo:</p>
+        <code>sysrc sddm_lang="pt_BR"</code>
+        <p>Caso queira iniciar a interface manualmente com o comando <em>startx</em> você pode adicionar o argumento como no exemplo abaixo no arquivo <em>.xinitrc</em>:</p>
+        <code>echo "exec dbus-launch --exit-with-x11 ck-launch-session startlxqt" > ~/.xinitrc</code>
+        <!-- FIM DA INSTALAÇÃO DE AMBIENTES GRÁFICOS -->
+        
+        <!-- SLIM (DEPRECIADO)
+        <p>Caso queira utilizar o Slim como display manager:</p>
+        <code>pkg install slim</code>
+        <code>slim_enable="YES"</code>
+        <p>Caso queira mudar o tema do slim insira a pasta do tema em <mark>/usr/local/share/slim/themes/</mark> e altere a opção <mark>current theme</mark> no arquivo <mark>/usr/local/etc/slim.conf</mark>.</p>
+        -->
+
+        <h3>Corrigindo diretórios</h3>
+        <p>Algumas interfaces ao serem instaladas não criam automaticamente a estrutura para as pastas de usuário (Imagens, Músicas, Vídeos etc), para resolver isso instale o pacote <em>xdg-user-dirs</em> com o comando abaixo:</p>
+        <code>pkg install xdg-user-dirs</code>
+        <p>Logado como o seu usuário, use o comando abaixo para atualizar os diretórios:</p>
+        <code>xdg-user-dirs-update</code>
+        <h3>Configurando montagem automática de sistemas de arquivo</h3>
+        <p>O FreeBSD preserva ferrenhamente os seus trejeitos do velho Unix, ainda se comporta como um sistema voltado para o ambiente de servidores... Enão se você quiser utilizá-lo para desktop é necessário configurar um script para montagem de dispositivos pois ele não vai fazer isso automaticamente para você.</p>
+        <p>O primeiro passo é instalar o suporte aos sistemas de arquivo desejados e o programa <em>automount</em>, para isso você pode instalar os pacotes:</p>
+        <ul>
+            <li><p><mark>fusefs-exfat</mark> Para suporte para formatos FAT</p></li>
+            <li><p><mark>fusefs-ntfs</mark> Para suporte para NTFS</p></li>
+            <li><p><mark>fusefs-ext2</mark> Para suporte para EXT</p></li>
+            <li><p><mark>fusefs-hfsfuse</mark> Para suporte para HFS</p></li>
+            <li><p><mark>fusefs-jmtpfs</mark> Para suporte para MTP</p></li>
+        </ul>
+        <p>Nesse caso vamos supor que quero utilizar um pendrive em NTFS, o comando para instalação seria:</p>
+        <code>pkg install automount fusefs-ntfs</code>
+        <p>Agora temos que setar a configuração do automount que está em <mark>/usr/local/etc/automount.conf</mark>:</p>
+        <code>USERUMOUNT=YES<br>ATIME=NO<br>FM="<em>comando para chamar o seu file manager</em>"<br>USER=<em>seu username</em><br>ENCODING=pt_BR.UTF-8<br>CODEPAGE=850</code>
+        <p>* Este <em>CODEPAGE=850</em> está baseado no valor padrão do <em>mkfs.fat</em></p>
+        <p>Agora vamos editar o <mark>/etc/sysctl.conf</mark> para possibilitar que os usuários do grupo operator possam montar sistemas de arquivo, para isso inclua a linha abaixo:</p>
+        <code>vfs.usermount=1</code>
+        <p>Agora vamos carregar o módulo <em>FUSE</em> durante o boot, para isso acesse o arquivo <mark>/boot/loader.conf</mark> e adicione a linha:</p>
+        <code>fusefs_load="YES"</code>
+        <p>Para carregar o serviço edite o arquivo <mark>/etc/rc.conf</mark> e adicione a linha:</p>
+        <code>fuse_enable="YES"</code>
+
+        <h3>Corrigindo Som</h3>
+        <p>Ao utilizar ambientes gráficos completos no FreeBSD é bem provavel que ocasionalmente você enfrente alguma espécide de problema com relação a desligamento de dispositivos, perda de sincronia e por aí vai. Para resolver esses problemas o interessante é que você entenda um pouco das alternativas "por baixo do capô" para resolver o seu problema de uma vez por todas.</p>
+        <h4>Problema número 1: Erro na escolha de dispositivo padrão</h4>
+        <p>Para verificar os dispositivos de áudio execute o comando:</p>
+        <code>cat /dev/sndstat</code>
+        <p>Vai retornar uma lista mais ou menos assim:</p>
+<code><pre>
+    Installed devices:
+    pcm0: NVIDIA (0x0000) (HDMI/DP 8ch) (play) default
+    pcm1: NVIDIA (0x0000) (HDMI/DP 8ch) (play)
+    pcm2: Realtek ALC887 (Rear Analog) (play/rec)
+    pcm3: Realtek ALC887 (Front Analog) (play/rec)
+    No devices installed from userspace.    
+</pre></code>
+        <p>Perceba que o dispositivo indicado como padrão é o <em>pcm0</em>, vamos supor que o desejado seja a saída traseira do <em>pcm2</em>, para setar o dispositivo padrão utilize o comando sysctl <mark>hw.snd.default_unit=</mark><em>"número da unidade"</em> como no código abaixo:</p>
+        <code>sysctl hw.snd.default_unit=2</code>
+        <h4>Problema número 2: Retorno do microfone</h4>
+        <p>Então você instalou o sistema e está se ouvindo? Este é um problema bastante comum porém bem fácil de resolver, geralmente o canal <em>mix</em> está fica ativo por padrão, existe um utilitário chamado <em>mixer</em> (que original... 🙄) para resolver esse tipo de coisa no FreeBSD, utilize o comando:</p>
+        <code>mixer</code>
+        <p>E você vai ter um retorno mais ou menos assim:</p>
+<pre><code>
+    pcm2:mixer: Realtek ALC887 (Rear Analog) on hdaa1  (play/rec) (default)
+    vol       = 1.00:1.00     pbk
+    pcm       = 1.00:1.00     pbk
+    speaker   = 1.00:1.00     rec
+    line      = 1.00:1.00     rec
+    mic       = 1.00:1.00     rec src
+    mix       = 1.00:1.00     rec
+    rec       = 1.00:1.00     pbk
+    igain     = 1.00:1.00     pbk
+    ogain     = 1.00:1.00     pbk
+</code></pre>
+        <p>No caso acima é possível verificar que o canal <em>mix</em> está no máximo (<em>1.00:1.00</em>), para alterar qualquer canal basta utilizar o comando <mark>mixer</mark> <em>conexão</em> <mark>.volume=</mark><em>"valor do volume"</em>, se for pra setar o <em>mix</em> para <em>0</em> basta utilizar o comando:</p>
+        <code>mixer mix.volume=0</code>
+        <h4>Adendo: Opções gráficas</h4>
+        <p>Caso você não queira utilizar o terminal para fazer essas alterações sempre que possível você pode usar aplicações como <em>audio/dsbmixer</em> (baseado em QT) ou <em>audio/gtk-mixer</em> (baseado em GTK).</p>
+        
+        <!-- EDIÇÃO DO XINITRC (OBSOLETO) 
+        <h3>Edição do arquivo .XINITRC</h3>
+        <p>Caso ainda esteja logado como root, deslogue utilizando o comando:</p>
+        <code>exit</code>
+        <p>e logue na sua conta de usuário comum. Assim que tiver na sua conta pessoal, utilize o <mark>nano</mark> para configurar o arquivo <mark>.xinitrc</mark> com o comando:</p>
+        <code>nano ~/.xinitrc</code>
+        <p>Acrescente as linhas abaixo para setar as opções de localização do usuário:</p>
+        <code>export LC_ALL=pt_BR.UTF-8<br>export MM_CHARSET=UTF-8<br>export LANG=pt_BR.UTF-8<br>export LANGUAGE=pt_BR.UTF-8<br>setxkbmap -model abnt2 -layout br</code>
+        -->
+
+        <!-- NAVEGADOR E SUÍTE OFFICE -->
+        <h3>Navegador e Suíte office</h3>
+        <p>Se você vai usar o FreeBSD como sistema Desktop, navegador e suíte office são essenciais! Para instalar o Firefox e o LibreOffice (com suporte a Português do Brasil) basta usar o comando:</p>
+        <code>pkg install firefox-esr libreoffice pt_BR-libreoffice</code>
+        <p>Para alterar o idioma da interface no LibreOffice vá em Ferramentas -> Opções -> Configurações de idioma -> Idiomas. Selecione “Português (Brasil)” na caixa de lista “Interface do usuário” e clique em OK. Reinicie o LibreOffice para que as alterações tenham efeito</p>
+        <p>Para alterar o idioma da interface do Firefox acesse o menu e selecione Configurações -> Geral -> Idioma -> Definir alternativa e caso Português (BR) não esteja na lista clique em "Selecione um idioma para adicionar", escolha Português (BR), coloque ele como o primeiro da lista e reinicie o Firefox para que as alterações tenham efeito.</p>
+        <!-- SWAPFILE -->
+        <h3>Criação de swapfile</h3>
+        <p>O FreeBSD utiliza a memória swap de uma forma bem diferente do Linux, e essa diferença vai desde volume utilizado até eficiência e políticas de uso de memória virtual, de qualquer forma a memória swap é sim interessante de se ter. Se você fez a instalação sem reservar espaço para a swap você pode assim como no Linux criar um swapfile, a primeira coisa que precisa ser feita é a criação do arquivo de swap em si utilizando o <em>dd</em>, supondo que iremos criar no diretório <em>/</em> um arquivo com o nome <em>swapfile</em> de 8GB em blocos de <em>1MB</em> a contagem informada será <em>8192</em>, mas fique a vontade para as configurações conforme o necessário para o seu caso.</p>
+        <code>doas dd if=/dev/zero of=<em>/swapfile</em> bs=1M count=<em>8192</em> status=progress</code>
+        <p>Uma vez que o arquivo esteja criado precisamos setar as permissões corretas, para isso utilize o comando <em>chmod</em>:</p>
+        <code>chmod 0600 /swapfile</code>
+        <p>Agora precisamos referenciar o swapfile em <em>/etc/fstab</em>, para isso insira a linha:</p>
+        <code>
+            <table>
+                <thead>
+                    <tr>
+                        <th># Device&ensp;<br></th>
+                        <th>Mountpoint&ensp;</th>
+                        <th>FStype&ensp;</th>
+                        <th>Options&ensp;</th>
+                        <th>Dump&ensp;</th>
+                        <th>Pass#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>md99</td>
+                        <td>none</td>
+                        <td>swap</td>
+                        <td>sw,file=/swapfile,late</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </code>
+        <p>Para adicionar dispositivos de swap que estão declarados no <em>/etc/fstab</em> ao sistema utilize o comando:</p>
+        <code>swapon -aq</code>
+        <p>Caso queira verificar o estado da swap utilize o comando:</p>
+        <code>swapinfo</code>
+        <!-- SILENT BOOT -->
+        <h3>Silent Boot</h3>
+        <p>Diferente do Linux que para conseguir um boot silencioso basta um argumento para o kernel, no FreeBSD não há uma opção isolada.</p>
+        <p>Para substituir as mensagens de inicialização do bootloader pelo logo do FreeBSD adicione a linha abaixo em <mark>/boot/loader.conf</mark>:</p>
+        <code>boot_mute="YES</code>
+        <p>Para desativar o menu do bootloader do FreeBSD adicione a alinha abaixo em <mark>/boot/loader.conf</mark>:</p>
+        <code>beastie_disable="YES"</code>
+        <p>Silenciando script de inicialização redirecionando as saídas para <em>/dev/null</em>:</p>
+        <code>sed -i ” ‘s/run_rc_script ${_rc_elem} ${_boot}/run_rc_script ${_rc_elem} ${_boot} > \/dev\/null/g’ /etc/rc</code>
+        <p>Para silenciar as mensagens de inicialização de serviços adicione a linha abaixo em <mark>/etc/rc.conf</mark>:</p>
+        <code>rc_startmsgs="NO"</code>
+        <p>Para fazer com que o <em>DHCPD</em> opere em segundo plano adicione a linha abaixo no <mark>/etc/rc.conf</mark>:</p>
+        <code>background_dhclient="YES"</code>
+        <h3>Ambiente gráfico devidamente instalado!</h3>
+        <p>Se você fez tudo certo basta utilizar o comando abaixo para reiniciar a máquina e já iniciar no seu gerenciador de exibição, e poder logar e utilizar o seu FreeBSD com ambiente gráfico.</p>
+        <code>shutdown -r now</code>
+        <img class="responsiva" src="../assets/images/install/freebsd/freebsdmate.jpg" alt="">
+        <h3>Mas ainda é só o começo...</h3>
+        <p>Existem diversas alterações que ainda podem ser feitas no sistema para melhorar a sua experiência, da instalação dos drivers de vídeo (<mark>drm-kmod</mark>) até a otimizações nos arquivos <mark>/etc/profile</mark>, <mark>/etc/login.conf</mark>, <mark>/etc/fstab</mark>, <mark>/boot/loader.conf</mark>, <mark>/etc/sysctl.conf</mark>, <mark>/etc/rc.conf</mark>.</p>
+        <p>Aos poucos postarei mais informações e otimizações, porém, com uma interface gráfica, com conhecimento do <mark>pkg install</mark> para instalar os aplicativos e sabendo alterar os arquivos do sistema por meio do <mark>nano</mark> você já tem mais do que o suficiente para começar bem no FreeBSD 😉</p>
+        <h2>Caso queira continuar...</h2>
+        <!-- IMPRESSÃO NO FREEBSD -->
+        <h3>Impressão no FreeBSD</h3>
+        <p>De começo aqui vai um alerta: Impressão no FreeBSD é perfeita DESDE QUE você consiga encontrar o driver correto para a sua impressora, do contŕario as coisas tendem a ser bastante problemáticas (Sim! Ainda que seja impressão por rede!).</p>
+        <p>Supondo que você deu sorte de ter uma impressora com suporte não é tão complicado assim, basta ter o <em>CUPS</em> instalado e habilitado, o <em>LPD</em> e adicionar a impressoa nas configurações do CUPS. Instale o cups com o comando:</p>
+        <code>pkg install cups</code>
+        <p>Agora precisamos configurar o servidor de impressão do CUPS, acesse o diretório <mark>/etc/devfs.rules</mark>:</p>
+        <code>nano /etc/devfs.rules</code>
+        <p>E adicione as linhas abaixo:</p>
+<code><pre>
+[system=10]
+add path 'unlpt*' mode 0660 group cups
+add path 'ulpt*' mode 0660 group cups
+add path 'lpt*' mode 0660 group cups
+add path 'usb/X.Y.Z' mode 0660 group cups
+</pre></code>
+        <p>Agora precisamos habilitar alguns serviços na inicialização editando o <mark>/etc/rc.conf</mark> com o comando abaixo:</p>
+        <code>nano /etc/rc.conf</code>
+        <p>E adicione as linhas:</p>
+        <code>cupsd_enable="YES"<br>devfs_system_ruleset="system"<br>lpd_enable="YES"</code>
+        <p>Os serviços serão iniciados durante o boot, você também pode iniciá-los manualmente com os comandos de serviço como <em>service lpd start</em>, <em>service cupsd start</em> e <em>service devfs restart</em> mas <strong>o recomendado é que você reinicie o seu sistema</strong> e então verifique se os serviços subiram corretamente com o comando:</p>
+        <!--
+        <code>service lpd start<br>service cupsd start<br>service devfs restart</code>
+        -->
+        <code>service lpd status<br>service cupsd status</code>
+        <p>Se os serviços subiram sem nenhum problema você pode acessar a página local do CUPS com qualquer navegador acessando o endereço, mas antes precisamos ter o driver da impressora em mãos, para isso você tem 2 alternativas:</p>
+        <p>Instalar o pacote <em>gutenprint</em> válido para diversos modelos de impressoras:</p>
+        <code>pkg install gutenprint</code>
+        <p><strong>OU</strong></p>
+        <p>Baixar o arquivo <em>PPD</em> no site do fabricante da sua impressora ou buscá-lo no <em>OpenPrinting</em> no link:</p>
+        <code>https://www.openprinting.org/download/PPD/</code>
+        <p>Uma vez que você tem o driver necessário, basta seguir para o link do CUPS em:</p>
+        <code>http://localhost:631/</code>
+        <p>Na página do CUPS basta acessar a guia <mark>Administração</mark>, insira o usuário e senha do administrador.</p>
+        <p>Você pode selecionar <em>Encontrar novas impressoras</em> (para impressoras na sua rede local) ou <em>Adicionar impressora</em>, e por fim selecionar o modelo e driver da sua impressora.</p>
+        <h2>Aqui vão algumas alterações recomendadas:</h2>
+        <h3>No arquivo /etc/rc.conf</h3>
+        <!-- OBSOLETO E DESNECESSÁRIO
+        <h4>Para desabilitar completamente o Sendmail:</h4>
+        <code>sendmail_enable="NO"</code> 
+        <p>(ao invés do depreciado <mark>sendmail_enable="NONE"</mark>)</p>
+        <code>sendmail_submit_enable="NO"</code>
+        <code>sendmail_outbound_enable="NO"</code>
+        <code>sendmail_msp_queue_enable="NO"</code>
+        <h4>Para habilitar a sincronização de horário no boot:</h4>
+        <code>ntpd_sync_on_start="YES"</code>
+        <p>(adicione após <mark>ntpd_enable="YES"</mark>)</p>
+        -->
+        <h3>No arquivo /boot/loader.conf</h3>
+        <h4>Carregando sensor de temperatura do processador</h4>
+        <p>Para carregar o módulo automaticamente durante o boot para processadores <em>Intel</em> adicione a linha:</p>
+        <code>coretemp_load="YES"</code>
+        <p>Caso você tenha um processador <em>AMD</em> adicione a linha:</p>
+        <code>amdtemp_load="YES"</code>
+        <!-- OBSOLETO E DESNECESSÁRIO
+        <h4>Para habilitar o novo virtual console:</h4>
+        <code>kern.vty="vt"</code>
+        -->
+        <h4>Para reduzir o tempo do prompt de autoboot para 3 segundos adicione a linha:</h4>
+        <code>autoboot_delay="3"</code>
+        <h4>Se você especificar a resolução máxima desejada para o console do framebuffer EFI adicione a linha:</h4>
+        <code>efi_max_resolution=1920x1080</code>
+        <p>Observação: Podem ser usados os valores <mark>480p</mark>, <mark>720p</mark>, <mark>1080p</mark>, <mark>2160p</mark>, <mark>4k</mark>, <mark>5k</mark> ou um valor customizado de <em>largura<mark>x</mark>altura</em>.</p>
+        <h4>Para alterar o tamanho da fonte no menu UEFI</h4>
+        <p><strong>Opcional:</strong> Caso você tenha problemas para utilizar o menu do bootloader UEFI devido ao tamanho da fonte você pode configurar de forma persistente determinando o tamanho com o códigos abaixo de baixo:</p>
+        <code>screen.font="14x28"</code>
+        <p>Caso queira ver as fontes disponíveis basta usar o comando:</p>
+        <code>ls -1 /boot/fonts</code>
+        <!--
+        <h4>Mudar o ntpd para o openntpd:</h4>
+        <code>pkg install openntpd</code>
+        <p>edite o <mark>ntpd.conf</mark>:</p>
+        <code>nano /usr/local/etc/ntpd.conf</code>
+        <p>edite para o seguinte conteúdo:</p>
+        <code>servers pool.ntp.br</code>
+        <p>No <mark>rc.conf</mark>, edite a linha:</p>
+        <code>ntpd_enable="YES"</code>
+        <p>para:</p>
+        <code>ntpd_enable="NO"</code>
+        <p>e logo abaixo insira a linha:</p>
+        <code>openntpd_enable="YES"</code>
+        -->
+
+        <!--
+        <h3>Configuração padrão de localização e entrada para todos os usuários</h3>
+        <p>o <mark>LANG=xx.YY.ZZZZ</mark> muda as variáveis de ambiente para o código de linguagem <mark>xx</mark>, o código de país <mark>YY</mark> e codificação de caracteres <mark>ZZZZ</mark>.</p>
+        <p>O idioma e o código do país afetam o idioma padrão das aplicações, formatação de números, formatação de data e hora, agrupamento de <i>strings</i>, configurações de moeda e entre outras coisas.</p>
+        <p>Ao alterar o locale usando a codificação de caracteres UTF-8, o sistema pode entender e exibir cada um dos 1112064 caracteres no conjunto de caracteres Unicode, ao invés de apenas US ASCII como é o padrão com LANG=C.</p>
+        <p>Edite o banco de dados da classe de login em <mark>/etc/login.conf</mark> para adicionar um conjunto de caracteres e localidade padrão. Os shells de login herdarão as variáveis ​​de ambiente definidas aqui na classe padrão ou em uma classe mais restrita, se corresponder a uma.</p>
+        <p>altere de:</p>
+        <code>:charset=UTF-8:\</code>
+        <code>:lang=en_US.UTF-8:</code>
+        <p>para:</p>
+        <code>:charset=UTF-8:\</code>
+        <code>:lang=pt_BR.UTF-8:</code>
+        <p>Após fazer as alterações reconstrua o banco de dados de login com</p>
+        <code>cap_mkdb /etc/login.conf</code>
+        <p>Você pode ter que especificar a nova localidade em outro lugar (como <mark>/etc/profile</mark>) para usos de shell sem login, como GDM e outros gerenciadores de login.</p>
+        <p>em </mark>/etc/profile</mark> adicione as linhas:</p>
+        <code>LANG=pt_BR.UTF-8;   export LANG</code>
+        <code>CHARSET=UTF-8;  export CHARSET</code>
+        <p>Para verificar a localização execute no seu próximo login o comando:</p>
+        <code>locale</code>
+        <p>Se o seu <mark>LC_ALL=</mark> não conter nenhuma especificação não se preocupe, <mark>LC_ALL</mark> só deve ser definido se você deseja (forçosamente) anular qualquer e todas as outras configurações <mark>LC_*</mark>.</p>
+        <p>isso retira a necessidade das linhas...</p>
+        <code>export LC_ALL=pt_BR.UTF-8</code>
+        <code>export LANGUAGE=pt_BR.UTF-8</code>
+        <code>export LANG=pt_BR.UTF-8</code>
+        <p>serem adicionadas em todo o <mark>~/.xinitrc</mark> de um novo usuário criado no sistema.</p>
+        <p>Se você criar um padrão de configuração para ser herdado por todos os usuários você pode criar um arquivo <mark>.xinitrc</mark> em <mark>/usr/share/skel</mark> e quando criar o usuário o sistema copiará esse mesmo arquivo de configuração para o <mark>/home</mark> do usuário</p>
+        -->
+        <!-- PACKET FILTER -->
+        <h2>PF Firewall</h2>
+        <p>O FreeBSD tem alguns serviços que podem ser usados para melhorar a segurança, entre eles o maravilho <em>PF Firewall</em>, este não é exatamente a mesma tecnologia do OpenBSD mas é quase tão boa quanto. Antes de mais nada precisamos criar um conjunto de regras no diretório <mark>/etc/pf.conf</mark>. Tanto a documentação do FreeBSD quanto a DigitalOcean tem boas documentações iniciais para isso, mas eu vou dar um exemplo (bem quebrado) de ruleset misturando ambas... Pois eu sou desses 😉.</p>
+        <code># Declaração de macros<br># ssh_ip = "{ 192.168.1.100 }"<br>tcp_out = "{ 22, 53, 80, 443 }"<br>udp_out = "{ 53, 68, 123 }"<br># Ruleset<br>set skip on lo0    # ignorar loopback<br>block all          # bloquear por padrão<br>pass out proto tcp to port $tcp_out    # permitir saída SSH, DNS, HTTP<br>pass out proto udp to port $udp_out    # permitir saída DNS, NTP, HTTPS<br>pass out inet proto icmp icmp-type { echoreq }    # permitir requisição de ECHO<br># Habilitar SSH<br># pass in quick proto tcp from $ssh_ip to port 22 flags S/SA keep state<br></code>
+        <p>Pelo amor de tudo que há de sagrado não vá utilizar isso em linha de produção! Isso é apenas um (péssimo) exemplo!</p>
+        <p>Agora precisamos ativar o firewall, acesse <mark>/etc/rc.conf</mark> e adicione as linhas:</p>
+        <code>pf_enable="YES"<br>pflog_enable="YES"</code>
+        <p>Com ambos serviços habilitados no boot, reinicie a máquina e carregue o arquivo de regras com o comando abaixo:</p>
+        <code>pfctl -f /etc/pf.conf</code>
+        <p>Se não apareceu nenhum erro então já está funcional. Eu recomendo fortemente que você procure regras para o seu caso específico pois nesse ruleset basicamente não há muito suporte ou segurança, isso é apenas um exemplo de argumentos para que você possa iniciar a sua configuração.</p>
+        <!-- RECUPERAÇÃO DO BOOT -->
+        <h2>Coloquei alguma configuração errada e agora o pc não inicia mais... O que fazer?</h2>
+        <p>Selecione o opção <mark>single user</mark> durante o boot, logue como root e para poder editar os arquivos utilize os comandos:</p>
+        <code>fsck -y</code>
+        <code>mount -u /</code>
+        <code>mount -a -t ufs</code>
+        <p>Se e somente se você utiliza swap:</p>
+        <code>swapon -a</code>
+        <p>Pronto! agora você pode acessar e corrigir os erros nos arquivos de sistema e continuar de onde parou 😉</p>
+        <!-- INTRODUÇÃO COMPILAÇÃO DE PACOTES -->
+        <h2>Compilação de pacotes com o <i>Poudriere</i> e <i>Synth</i></h2>
+        <p>Como disse no começo da página, a configuração dos pacotes do FreeBSD pode não ser muito amigável para usuários finais esse é um dos motivos que levam os usuários do FreeBSD a utilizar <i>helpers</i> para compilação dos pacotes em bloco. Existem diversas formas de fazer isso mas nessa documentação trataremos de duas ferramentas: <em>Poudriere</em> e <em>Synth</em>.</p>
+        <p>Ambos são extremamente configuráveis, porém eles tem objetivos diferentes e usam tecnolgias diferentes, grosso modo, o Poudriere é mais voltado para ambiente <i>business class</i> enquanto o Synth tem uma experiência mais simplificada para o usuário final, via de regra o Synth é mais rápido enquanto o Poudriere tem muito menos dependências.</p>
+        <!-- TMPFS -->
+        <h3>TMPFS (passo opcional)</h3>
+        <p>O driver TMPFS basicamente gera um sistemas de arquivo in-memory que pode acelerar de sobremaneira o processo de compilação, para carregar o driver durante a inicialização você deve adicionar a linha abaixo em <mark>/boot/loader.conf</mark>:</p>
+        <code>tmpfs_load="YES"</code>
+        <p>Uma vez que o driver está configurado para ser carregado, é necessário editar o arquivo <mark>/etc/fstab</mark> e adicionar a linha abaixo conforme o diagrama:</p>
+        <code>
+            <table>
+                <thead>
+                    <tr>
+                        <th># Device&ensp;<br></th>
+                        <th>Mountpoint&ensp;</th>
+                        <th>FStype&ensp;</th>
+                        <th>Options&ensp;</th>
+                        <th>Dump&ensp;</th>
+                        <th>Pass#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>tmpfs</td>
+                        <td>/tmp</td>
+                        <td>tmpfs</td>
+                        <td>rw<!--,mode=777--></td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </code>
+        <p>Você pode carregar o driver manualmente e remontar o <mark>/tmp</mark> mas <em>o recomendado é que você reinicie a máquina para que as alterações tenham efeito</em>.</p>
+        <!--
+        <code>umount /tmp</code>
+        <code>mount /tmp</code>
+        -->
+        <!-- INSTALAÇÃO CCACHE -->
+        <h3>CCache (passo opcional)</h3>
+        <p>O cache de compilação pode aumentar a velocidade de compilação dos pacotes, é uma tecnolgia interessante que ambos helpers podem utilizar, caso queira instalar o Ccache via pkg use o comando:</p>
+        <code>pkg install ccache</code>
+        <p><strong>Ou</strong>...</p>
+        <p>Caso queira compilar o pacote, pode fazer isso com o comando abaixo:</p>
+        <code>cd /usr/ports/devel/ccache<br>make install clean</code>
+        <p>Agora precisamos criar uma pasta para o Ccache, por conveniência vamos criar em <mark>/var/cache/ccache</mark>, para criar esse diretório use o comando:</p>
+        <code>mkdir /var/cache/ccache</code>
+        <p>Agora precisamos configurar o ccache para trabalhar com esse diretório, para isso utilize o comando:</p>
+        <code>ccache --set-config=cache_dir=/var/cache/ccache</code>
+        <p>Dependendo de quanto espaço em disco você é provável que deseje setar o tamanho máximo do cache, vamos supor que eu deseje setar este valor para <em>20GB</em> (o valor máximo padrão do Ccache é de 5GB), nesse caso basta utilizar o comando:</p>
+        <code>ccache --max-size=<em>20G</em></code>
+        <!-- GERANDO CERTIFICADO E CHAVE -->
+        <h3>Criando certificado e chave SSL</h3>
+        <p>Existem diversas formas de gerar chaves e certificados, nessa documentação faremos de uma forma simples apenas para gerar o certificado da página de informações e assinar os pacotes. Primeiramente criaremos os diretórios necessários, para isso utilize o comando:</p>
+        <code>mkdir -p /usr/local/etc/ssl/{keys,certs}</code>
+        <p>Agora podemos setar as devidas permissões para que nenhum outro usuário possa interagir com esse diretório:</p>
+        <code>chmod 0600 /usr/local/etc/ssl/keys</code>
+        <p>Vamos gerar uma chave de <em>4096</em> bit no diretório <em>/usr/local/etc/ssl/keys</em>:</p>
+        <code>sudo openssl genrsa -out /usr/local/etc/ssl/keys/poudriere.key 4096</code>
+        <p>E dessa chave geramos um certificado com:</p>
+        <code>sudo openssl rsa -in /usr/local/etc/ssl/keys/poudriere.key -pubout -out /usr/local/etc/ssl/certs/poudriere.cert</code>
+        <!-- INSTALAÇÃO POUDRIERE -->
+        <h3>Instalação do Poudriere</h3>
+        <p>Se você escolheu utilizar o Poudriere ao invés do Synth, instale via pkg com o comando:</p>
+        <code>pkg install poudriere</code>
+        <p><strong>Ou</strong>...</p>
+        <p>Caso queira compilar o pacote, pode fazer isso com o comando abaixo:</p>
+        <code>cd /usr/ports/ports-mgmt/poudriere<br>make install clean</code>
+        <h3>Editando o arquivo de configurações do Poudriere</h3>
+        <p>O arquivo de configurações do Poudriere pode ser encontrado em <mark>/usr/local/etc/poudriere.conf</mark>, você pode editá-lo com o seu editor de texto preferido, no meu caso utilizarei o nano como no comando abaixo:</p>
+        <code>nano /usr/local/etc/poudriere.conf</code>
+        <p>As configurações padrão do Poudriere são bem sãs, porém algumas coisas são interessantes de se alterar, por exemplo:</p>
+        <ul>
+            <li><p>Se você utilizar UFS ao invés de ZFS, habilite a linha:</p><code>NO_ZFS=yes</code></li>
+            <li><p>Se você utilizar ZFS ao invés de UFS, desabilite a linha:</p><code>#NO_ZFS=yes</code><p>E especifique as opções de pool e diretório como no exemplo a seguir:<br></p><code>ZPOOL=<em>nomedapool</em><br>ZROOTFS=/poudriere</code></li>
+            <li><p>Por padrão o arquivo de configuração aponta para um link inválido, altera a linha:</p><code>FREEBSD_HOST=_PROTO_://_CHANGE_THIS_</code><p>Para:</p><code>FREEBSD_HOST=ftp://ftp.freebsd.org</code></li>
+            <li><p>Caso você utilize ZFS habilite o argumento abaixo para que o diretório de dados na raiz da pasta do poudriere esta setado corretamente por desencargo de consciência:</p><code>POUDRIERE_DATA=${BASEFS}/data</code></li>
+            <li><p>Verifique a linha em que o poudriere vai armazenar jails e ports:</p><code>BASEFS=/usr/local/poudriere</code><p>você pode redirecionar para outro lugar (não recomendado) e caso o diretório não existe crie o diretório com o comando: <code>mkdir /usr/local/poudriere</code> </p></li>
+            <li><p>Se você desejar fazer uso do <em>TMPFS</em> habilite a linha:</p><code>USE_TMPFS=yes</code><p>Caso contrário desabilite essa linha.</p></li>
+            <li><p>Se você deseja que o poudriere para reconstrua os pacotes quando as opções para ele forem alteradas habilite a linha:</p><code>CHECK_CHANGED_OPTIONS=verbose</code></li>
+            <li><p>Se você deseja reconstruir pacotes quando as dependências foram alteradas desde a última compilação habilite a linha:</p><code>CHECK_CHANGED_DEPS=yes</code></li>
+            <li><p>Se você deseja assinar os pacotes, habilite e informe o caminho da chave na linha:</p><code>PKG_REPO_SIGNING_KEY=<em>/usr/local/etc/ssl/keys/poudriere.key</em></code></li>
+            <li><p>Se você desejar fazer uso do <em>Ccache</em> determine o diretório na linha:</p><code>CCACHE_DIR=<em>/var/cache/ccache</em></code><p>E logo a seguir insira a linha:</p><code>WITH_CCACHE_BUILD=yes</code></li>
+            <li><p>Por padrão o Poudriere utiliza hw.ncpu para determinar o número de jobs em paralelo, se você deseja setar um valor específico altere a linha como no exemplo abaixo:</p><code>PARALLEL_JOBS=1</code></li>
+            <li><p>Se você deseja desativar o suporte a Linux habilite a linha:</p><code>NOLINUX=yes</code></li>
+            <li><p>Você pode definir a string com o nome de domínio ou endereço IP onde seu servidor pode ser acessado:</p><code>URL_BASE=http://server_domain_or_IP/</code></li>
+        </ul>
+        <!-- CRIAR AMBIENTE DE COMPILAÇÃO -->
+        <h3>Criar ambiente de compilação</h3>
+        <h4>Criando Jail</h4>
+        <p>Como foi dito acima o poudriere utiliza um ambiente baseado em <em>jails</em> para <i>"buildar"</i> seus pacotes, então antes de mais nada precisamos criar a jail. No meu caso vou criar uma jail com o nome <em>FreeBSD_14-0_x64</em>, baseado na versão <em>14.0-RELEASE</em> do FreeBSD e baseado na arquitetura <em>amd64</em>, então nesse caso o comando seria:</p>
+        <code>poudriere jail -c -j <em>FreeBSD_14-0_x64</em> -v <em>14.0-RELEASE</em> -a <em>amd64</em></code>
+        <p>O processo pode demorar um pouco, se em algum momento você desejar listar as jails criadas utilize o comando:</p>
+        <code>poudriere jail -l</code>
+        <h4>Criando árvore de ports</h4>
+        <p>O poudriere precisa de uma árvore de ports para trabalhar, inclusive pode até mesmo trabalhar com diversas árvores, por hora vamos criar uma árvore com o nome <em>MAIN</em>:</p>
+        <code>poudriere ports -c -p MAIN</code>
+        <p>Caso deseje listar as árvores criadas utilize o comando:</p>
+        <code>poudriere ports -l</code>
+        <h4>Criando lista de ports</h4>
+        <p>Agora que temos a jail e árvore de ports, falta definir uma lista de ports que desejamos compilar, crie essa lista em:</p>
+        <code>/usr/local/etc/poudriere.d/ports-list</code>
+        <p>Caso queira saber o identificador do pacote desejado você pode utilizar o comando <em>whereis "nomedopacote"</em> como no exemplo abaixo:</p>
+        <code>whereis gnome-terminal</code>
+        <p>...E o resultado obtido será:</p>
+        <code>/usr/ports/x11/gnome-terminal</code>
+        <p>Então basta inserir a linha <em>x11/gnome-terminal</em> na lista para que ele seja compilado como no exemplo abaixo:</p>
+        <code>x11/cinnamon<br>x11/gnome-terminal<br>www/firefox</code>
+        <p>Se você deseja listar as opções de compilação de um pacote presente no sistema para ter alguma referência você pode utilizar o comando <em>pkg info "nomedopacote"</em> como no exemplo abaixo:</p>
+        <code>pkg info gnome-terminal</code>
+        <p>Que retornará:</p>
+        <code>Options        :<br>NAUTILUS       : on<br>SEARCHPROVIDER : on</code>
+        <h4>Configurando make.conf</h4>
+        <p>Agora que você já sabe identificar os pacotes podemos criar um arquivo de configuração específico para colocar opções de compilação dessa jail, acesse o diretório com o comando:</p>
+        <code>cd /usr/local/etc/poudriere.d</code>
+        <p>*Se o diretório não existir você pode criá-lo com o comando:</p>
+        <code>mkdir /usr/local/etc/poudriere.d</code>
+        <p>Uma vez nesse diretório, basta criar um arquivo <em>nome da jail-make.conf</em>:</p>
+        <code>nano FreeBSD_14-0_x64-make.conf</code>
+        <p>Caso você queira que <em>PKG</em> seja utilizado <strong>(não recomendado)</strong> no processo você pode inserir a linha:</p>
+        <code>WITH_PKGNG=YES</code>
+        <p>Caso você queira setar para que todos os pacotes nessa jail sejam preparados com suporte a <em>NLS</em> você pode usar o argumento <em>OPTIONS_SET+=</em> como no exemplo abaixo:</p>
+        <code>OPTIONS_SET+= NLS</code>
+        <p>Caso você queira setar para que todos os pacotes nessa jail sejam preparados sem suporte a <em>DOCS</em> você pode usar o argumento <em>OPTIONS_UNSET+=</em> como no exemplo abaixo:</p>
+        <code>OPTIONS_UNSET+= DOCS</code>
+        <p>O sistema de ports suporta múltiplas opções de fornecimento ou mesmo versionamento para determinado software ou biblioteca (como por exemplo multiplas versões de Python ou múltiplos fornecedores para SSL), vamos supor que desejamos setar a biblioteca <em>LibreSSL</em> como padrão para <em>SSL</em>, podemos fazer isso com o argumento:</p>
+        <code>DEFAULT_VERSIONS+=ssl=libressl</code>
+        <p>Você também pode setar configurações específicas de compilação para pacotes, vamos supor que você deseje remover o suporte a <em>ALSA</em> e <em>JACK</em> no pacote  <em>www/firefox</em>, basta alterar para que a sintaxe fique como no exemplo abaixo:</p>
+        <code>www_firefox_UNSET+= ALSA JACK</code>
+        <h4>Configurando o ambiente de compilação por diálogo</h4>
+        <p>Se você quiser editar as opções sem ter de editar manualmente o arquivo de configuração, você pode utilizar o comando <em>poudriere options</em>, eu recomendo fortemente a leitura do <a class="link" href="https://man.freebsd.org/cgi/man.cgi?query=poudriere-options&apropos=0&sektion=8&manpath=freebsd-ports&format=html">manual do poudriere</a> mas aqui vão alguns exemplos mais essenciais:</p>
+        <ul>
+            <li><p><em>-c</em> Configura o ambiente do pacote tomando a escolha de configuração por padrão, sempre vai mostrar os diálogos para os ports e suas dependências.</p><code>poudriere options -c <em>"nome do pacote"</em></code></li>
+            <li><p><em>-C</em> Configura o ambiente do pacote tomando a escolha de configuração de forma condicional, que só mostra caixas de diálogo com relação a novas opções fornecidas.</p><code>poudriere options -C <em>"nome do pacote"</em></code></li>
+            <li><p><em>-n</em> Executa o comando de forma não recursiva, útil caso você queira forçar o diálogo de configuração (<em>-c</em>) porém para um port específico sem ter que alterar todas as suas dependências</p><code>poudriere options -cn <em>"nome do pacote"</em></code></li>
+            <li><p><em>-j</em> Define as opções para uma jail específica. Vamos supor que deseja configurar as opções de um único pacote, de forma não recursiva na jail <em>FreeBSD_14-0_x64</em>:</p><code>poudriere options -j <em>FreeBSD_14-0_x64</em> -cn <em>"nome do pacote"</em></code></li>
+            <li><p><em>-p</em> Roda a configuração dentro da árvore de ports citada. Vamos supor que deseja configurar as opções de um único pacote, de forma não recursiva na jail <em>FreeBSD_14-0_x64</em> para a árvore <em>MAIN</em>:</p><code>poudriere options -j <em>FreeBSD_14-0_x64</em> -p <em>MAIN</em> -cn <em>"nome do pacote"</em></code><p><strong>ALERTA:</strong> Se você já tem opções configuradas para a árvore padrão elas não mais serão usadas caso utilize essa opção!</p></li>
+            <li><p><em>-r</em> Informa ao Poudriere para remover opções especificadas pelo usuário em um pacote de determinada jail. Vamos supor que você deseja retornar a configuração padrão na jail <em>FreeBSD_14-0_x64</em> o pacote <em>gnome-terminal</em> :</p><code>poudriere options -r -j <em>FreeBSD_14-0_x64</em> <em>x11/gnome-terminal</em></code></li>
+        </ul>
+        <!-- COMPILANDO PACOTES -->
+        <h4>Compilando pacotes</h4>
+        <p>Para finalmente compilar os pacotes basta utilizar o comando <em>poudriere bulk -j "nome da jail" -p "nome da árvore de ports" -f "arquivo da lista de pacotes"</em> como no exemplo abaixo:</p>
+        <code>poudriere bulk -j <em>FreeBSD_14-0_x64</em> -p <em>MAIN</em> -f /usr/local/etc/poudriere.d/ports-list</code>
+        <p>Se em algum momento do processo de compilação quiser obter informações sobre o progresso pelo terminal basta utilizar <em>CTRL+t</em>.</p>
+        <!-- CONFIGURANDO REPOSITÓRIO -->
+        <h4>Configurar o pkg para usar o repositório construído localmente pelo Poudriere</h4>
+        <p>Uma vez que os pacotes estão compilados, eles podem ser utilizados através do comando <em>pkg install</em>, para que o pkg visualize os pacotes gerados pelo poudriere precisamos criar um arquivo de repositório no diretório <mark>/usr/local/etc/pkg/repos</mark>, então antes de mais nada crie os diretórios com o comando:</p>
+        <code>mkdir -p /usr/local/etc/pkg/repos</code>
+        <p>Em seguida acesse e edite o arquivo <mark>/usr/local/etc/pkg/repos/poudriere.conf</mark>, utilizando de exemplo o <em>nano</em> edite com:</p>
+        <code>nano /usr/local/etc/pkg/repos/poudriere.conf</code>
+        <p>Existem diversas configurações que podem ser feitas aqui, a primeira e mais importante é logicamente direcionar o pkg para onde estão os pacotes, para isso adicione a linha <em>poudriere:{url: "localização do diretório+nome da jail+nome da árvore de pacotes"}</em> como no exemplo abaixo:</p>
+<code><pre>
+poudriere: {
+    url: "file:///usr/local/poudriere/data/packages/FreeBSD_14-0_x64-MAIN",
+}
+</pre></code>
+        <p>Podemos adicionar uma linha para definir que este é um servidor mirror de pacotes com a linha <mark>mirror_type: "srv"</mark> e que ele deve estar habilitado com a linha <mark>enabled: yes</mark>, sendo assim o arquivo ficaria:</p>
+<code><pre>
+poudriere: {
+    url: "file:///usr/local/poudriere/data/packages/FreeBSD_14-0_x64-MAIN",
+    mirror_type: "srv",
+    enabled: yes
+}
+</pre></code>
+        <p>Caso você deseje utilizar este reposítório para seletos pacotes e em conjunto com o repositório oficial (não recomendado), você pode adicionar uma configuração que priorize esse repositório com a linha <em>priority: 100</em> como no exemplo abaixo:</p>
+<code><pre>
+poudriere: {
+    url: "file:///usr/local/poudriere/data/packages/FreeBSD_14-0_x64-MAIN",
+    mirror_type: "srv",
+    enabled: yes,
+    priority: 100
+}
+</pre></code>
+        <p>Caso você tenha gerado o certificado e configurado a assinatura de pacotes você pode adicionar os argumentos da linha abaixo para o tipo de assinatura verificada e o caminho para a chave pública para verificar a assinatura dos pacotes:</p>
+<code><pre>
+poudriere: {
+...
+signature_type: "pubkey",
+pubkey: "/usr/local/etc/ssl/certs/poudriere.cert",
+...
+}
+</pre></code>
+
+        <p>Caso você deseje desabilitar o repositório padrão você pode criar um arquivo de configuração em <mark>/usr/local/etc/pkg/repos/freebsd.conf</mark> contendo o argumento <em>enabled: no</em> como no exemplo abaixo:</p>
+<code><pre>
+FreeBSD: {
+    enabled: no
+}
+</pre></code>
+        <p>Uma vez que a sua configuração de repositórios está finalizada, atualize a lista de pacotes com o comando:</p>
+        <code>pkg update</code>
+        <p>Você pode usar um script simples para alternar qual repositório está habilitado:</p>
+<code><pre>
+#!/usr/local/bin/bash
+
+# Caminho dos arquivos de configuração
+POUDRIERE_REPO="/usr/local/etc/pkg/repos/poudriere.conf"
+FREEBSD_REPO="/usr/local/etc/pkg/repos/freebsd.conf"
+    
+# Verifica se o repositório do Poudriere está habilitado
+if grep -q 'enabled: yes' $POUDRIERE_CONF; then
+    # Se estiver habilitado, desabilita o Poudriere e habilita o FreeBSD
+    sed -i '' 's/enabled: yes/enabled: no/g' $POUDRIERE_REPO
+    sed -i '' 's/enabled: no/enabled: yes/g' $FREEBSD_REPO
+else
+    # Se estiver desabilitado, habilita o Poudriere e desabilita o FreeBSD
+    sed -i '' 's/enabled: no/enabled: yes/g' $POUDRIERE_REPO
+    sed -i '' 's/enabled: yes/enabled: no/g' $FREEBSD_REPO
+fi    
+</pre></code>
+        <!-- MANUTENÇÃO JAILS E PORTS -->
+        <h4>Manutenção básica das jails e árvores</h4>
+        <p>Aqui vão alguns comandos para você usar de referência para utilizar na sua manutenção do sistema:</p>
+        <ul>
+            <li><p>Caso você queira deletar uma jail e todas as suas pastas de dados você pode utilizar o comando <mark>poudriere jails -d -C all -j "nome da jail"</mark>:</p><code>poudriere jails -d -C all -j <em>FreeBSD_14-0_x64</em></code></li>
+            <li><p>Caso você queira atualizar uma jail você pode utilizar o comando <mark>poudriere jail -u -j "nome da jail"</mark>:</p><code>poudriere jail -u -j <em>FreeBSD_14-0_x64</em></code></li>
+            <li><p>Caso você queira atualizar uma árvore de ports pode utilizar o comando <mark>poudriere ports -u -p "nome da árvore de ports"</mark>:</p><code>poudriere ports -u -p <em>MAIN</em></code></li>
+            <li><p>Caso você queira deletar sem questionamentos todos os distfiles relacionados a uma árvore utilize o comando <mark>poudriere distclean -a -p "nome da árvore" -y</mark>:</p><code>poudriere distclean -a -p <em>MAIN</em> -y</code></li>
+            <li><p>Caso você queira limpar sem questionamentos todos os logfiles relacionados a uma jail utilize o comando <mark>poudriere logclean -a -j "nome da jail" -y</mark> :</p><code>poudriere logclean -a -j <em>FreeBSD_14-0_x64</em> -y</code></li>
+            <li><p>Caso você queira limpar sem questionamentos todos os logfiles relacionados a uma árvore de ports utilize o comando <mark>poudriere logclean -a -p "nome da árvore" -y</mark> :</p><code>poudriere logclean -a -p <em>MAIN</em> -y</code></li>
+            <li><p>Caso você deseje remover todos os pacotes associados a uma jail você pode utilzar o comando <mark>poudriere pkgclean -a -j "nome da jail"</mark>:</p><code>poudriere pkgclean -a -j <em>FreeBSD_14-0_x64</em></code></li>
+            <li><p>Caso você deseje deletar os pacotes compilados porém não mais necessários (cleanup) utilize o comando <mark>poudriere pkgclean -j "nome da jail" -p "nome da árvore" -f "caminho do arquivo de lista de ports"</mark> :</p><code>poudriere pkgclean -j <em>FreeBSD_14-0_x64</em> -p <em>MAIN</em> -f <em>/usr/local/etc/poudriere.d/ports-list</em></code></li>
+        </ul>
+        <!-- CONFIGURAR PÁGINA DE REDE -->
+        <h3>Configurar página de rede</h3>
+        <!-- NGINX -->
+        <h4>Utilizando o Nginx</h4>
+        <p>Instale o <em>Nginx</em> compilando do seu diretório com os comandos:</p>
+        <code>cd cd /usr/ports/www/nginx<br>make install clean</code>
+        <p><strong>OU</strong> instale através do binário com o comando:</p>
+        <code>pkg install nginx</code>
+        <p>Agora copie o arquivo de exemplo do Poudreire para o Nginx para o diretório do Nginx no seu computador:</p>
+        <code>curl -fsSL https://raw.githubusercontent.com/freebsd/poudriere/master/src/share/examples/poudriere/nginx.conf.sample > /usr/local/etc/nginx/nginx.conf</code>
+        <p>Para iniciar o serviço do nginx ao iniciar o computador acrescente a linha abaixo em <mark>/etc/rc.conf</mark>:</p>
+        <code>nginx_enable="YES"</code>
+        <p>Caso queira iniciar o serviço imediatamente utilize o comando:</p>
+        <code>doas service nginx onestart</code>
+        <!-- FINAL POUDRIERE -->
+        <!-- INSTALAÇÃO SYNTH -->
+        <h3>Instalação do Synth</h3>
+        <p>Se você escolheu utilizar o Synth ao invés do Poudriere, instale via pkg com o comando:</p>
+        <code>pkg install synth</code>
+        <p><strong>Ou</strong>...</p>
+        <p>Caso queira compilar o pacote, pode fazer isso com o comando abaixo:</p>
+        <code>cd /usr/ports/ports-mgmt/synth<br>make install clean</code>
+        <!-- WEBSERVER SYNTH -->
+        <p>O primeiro passo é instalar serviço OpenBSDHTTPD</p>
+        <code>pkg install obhttpd</code>
+        <p><strong>Ou</strong>...</p>
+        <p>Caso queira compilar o pacote, pode fazer isso com o comando abaixo:</p>
+        <code>cd /usr/ports/www/obhttpd<br>make install clean</code>
+        <p>Habilite o serviço do OpenBSDHTTPD na inicialização a linha abaixo no arquivo <mark></mark> </p>
+        <code>obhttpd_enable="YES"</code>
+        <!-- SYSTEMD DUALBOOT -->
+        <h3>Dualboot com Linux (SystemD boot)</h3>
+        <p>Na versão anterior dessa documentação eu tinha dito que ainda não era interessante a instalação utilizando UEFI... Agora não só é funcional como é o recomendado! Para fazer o dualboot basta selecionar o dispositivo de instalação, criar uma partição <em>UFS</em> em um disco que já tenha partição <em>ESP</em> e inserir a seguinte configuração nas <em>entries</em> do <em>systemd boot</em>:</p>
+        <code>title FreeBSD<br>efi <em>/EFI/freebsd/loader.efi</em></code>
+        <p>* Se o seu loader está em outra localização, basta alterar o caminho que vai dar tudo certo 😉</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 03/03/2024)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

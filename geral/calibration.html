@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calibragem</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Use sua TV e seu monitor da maneira certa"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda um básico para melhorar a imagem da sua TV ou monitor"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Usando sua TV e seu monitor da maneira certa</h1>
+        <h2>Introdução</h2>
+        <p>Ninguém cria um conteúdo igual a esse site sem ser muito chato com tecnologia, e essa chatisse ficava muito evidente quando algum dos meus amigos vinham na minha casa e assistiam algo no meu computador ou tv, quase todos eles diziam algo como "eu nunca vi uma imagem tão boa quanto essa tv / esse monitor na minha vida, o que você fez?" E minha resposta (bem sarcástica) era mais ou menos a mesma: "Sabe aquelas opções de calibragem de brilho, cor e definição? Então, eu uso elas."</p>
+        <p>Quando a pessoa escutava isso, a reação dela é como se ela tivesse descoberto um <i>cheat code</i> pra vida real, por algum motivo muito além da minha compreensão as pessoas preferem comprar uma tv nova pra tentar melhorar a imagem do que trocar o cabeamento e calibrar a tv que já tem, e vai por mim: A diferença é gritante!</p>
+        <img class="responsiva" src="https://images.squarespace-cdn.com/content/v1/582bdb9ee3df28e79513e437/1487836181665-F49A9TUFZXB9BCNXTOTR/image-asset.png?format=1000w" alt="">
+        <p>Já cansei de ver casos de pessoas com monitores de milhares de reais que sequer ativaram os <em>144hz</em> e o <em>Perfil de Cor</em> do fabricante e até recentemente quase vi um amigo de profissão que trabalha numa empresa aqui perto jogar no lixo uma das melhores tvs de plasma já feitas pela LG por achar que ela estava quebrada por ficar "piscando"... Mas era só o <em>Modo Loja</em> ligado mesmo (você sabe quem você é 🤣).</p>
+        <p>O mais engraçado é que <strong>as chances são que você que está lendo isso também não tem a mais p*** ideia do que é o <em>Modo Loja</em> ou <em>Perfil de Cor!</strong></em> Se esse é o caso, parabéns! Você acaba de perceber que jogou no lixo muito da qualidade que poderia ter aproveitado.</p>
+        <h2>Calibragem? Perfil de Cor? Modo loja? O que é isso?</h2>
+        <p>Você sequer sabia que isso existia, né? Então, esse é um assunto tão complexo, profundo e variável quanto especificações para fotografia, e se for para destrinchar cada aspecto do que é cada um desses essa página teria dezenas de milhares de videos de horas de conteúdo. Mas eu sinceramente não tenho tempo pra isso e provavelmente você também não, mas assim como você não precisa ser um profissional rico cheio de equipamento caro, com anos e anos de experiência e estudos para tirar uma boa foto, você também não precisa de equipamentos caríssimos, anos e anos de experiência e estudos para uma visualização decente.</p>
+        <p>O objetivo dessa documentação não vai ser ter uma tela perfeitamente calibrada e com 0,5% de desvio de algum padrão de cor profissional, o foco aqui é fazer você aproveitar um pouco mais da qualidade que seu display pode te oferecer.</p>
+        <p>Mas para chegar lá você precisa entender uma base de como tudo isso funciona...</p>
+        <h2>Uma introdução (à introdução) do básico</h2>
+        <p>Se você prestou alguma atenção na imagem acima você deve estar curioso para saber como conseguir esse mesmo resultado na sua tv ou monitor e como eu não quero pagar de <i>coach</i> aqui vou tentar explicar parte por parte da maneira mais direta (porém suficiente) possível, o processo que você vai entender um pouco mais aqui chama-se <em>calibragem</em>, e como eu costumo comparar T.I. com carros (por ser algo palpável, tangível) para facilitar o entendimento, entenda da seguinte forma: Assim como você calibra os pneus do seu carro para atingir a pressão ideal para a estabilidade da direção, <em>você calibra a tela para atingir o sinal ideal para manter a qualidade de imagem</em>. E assim como você nunca vai atingir a calibragem perfeita nos pneus do seu carro por influência da distribuição de peso, mudanças de força G, umidade e temperatura <em>você também nunca vai ter uma calibragem perfeita na sua tv ou monitor devido a diferença de luminosidade, distância do ponto de visão e qualidade na fonte de conteúdo,</em> <strong>MAS</strong> assim como dirigir um carro com os pneus calibrados é muito melhor do que um carro com pneus furados <strong>assistir numa tela calibrada é infinitamente melhor do que assistir numa tela não calibrada.</strong> </p>
+        <p>Entenda a calibragem como o processo para ajustar as configurações da TV ou monitor (especialmente aquelas relacionadas ao sinal) para atingir uma melhor experiência de uso. Existem calibragens profissionais, feitas com referências de padrões de cor da indústria e ferramentas específicas (como colorímetros ou até mesmo luxímetros), essas sempre serão melhores do que as que faremos aqui MAS como eu disse anteriormente, calibrar sempre é melhor do que não calibrar.</p>
+        <p>Inclusive é importante salientar uma coisa: <strong>O foco da calibragem não é deixar <em>"bonitinha"</em> a imagem do seu display, o foco da calibragem é deixar a imagem <em>natural e precisa!</em></strong> Já cheguei a ver casos de pessoas (provavelmente ignorantes que só queriam provocar) dizendo coisas como <i>"ah, mas <strong>EU ACHO</strong> que antes aquela cena estava mais bonita"</i> depois de terem desativado o <em>Contraste Dinâmico</em>, e o principal problema disso é justamente limitar a tecnologia a um gosto específico, eu não estou dizendo que você não deve ajustar o que você usa para o que você gosta, mas a verdade é que sinais imperfeitos causam anomalias e tem muita gente por aí que se pudesse deixava tudo que assiste em tom de preto com bolinhas cor de rosa. O que eu quero dizer com isso é que esse processo não busca deixar tudo que você assiste <i>no tom que você gosta</i>, e sim <em>fazer com que o seu aparelho exiba o máximo de cores e da maneira mais fiel possível</em>, capiche?</p>
+        <h2>Passo 0 - Ajeita essa cadeira, menino!</h2>
+        <p>Se você está usando uma TV de tubo 14 polegadas ligada no computador através de um cabo de vídeo RCA (aquele amarelo) e sentado com 10 metros de distância da TV existe um limite (bem baixo) do que da pra se melhorar, então antes de mais nada o que mais vai fazer diferença é usar o monitor ou tv com o cabeamento certo, com a distância certa e com o ângulo certo no lugar certo.</p>
+        <p>Eu costumava até zuar meus colegas dizendo que eles nunca jogaram um jogo de PlayStation 2 na tv, o que eles jogaram foi chuvisco, e quando eles viram a diferença que um cabo <em>componente</em> faz no lugar de um cabo <em>RCA</em> eles concordaram comigo...</p>
+        <img class="responsiva" src="https://nerdtechy.com/wp-content/uploads/2020/05/final-fantasy-ps2-composite-vs-hdmi.jpg" alt="">
+        <p>(vai por mim, esse é o exemplo mais imparcial que conseguir achar, na vida real a diferença é ainda maior...)</p>
+        <p>Existe uma ordem que você pode seguir para começarmos aqui, a primeira parece idiota mas as pessoas as vezes nem se tocam disso: <strong>Você deve enchergar a tela! Sim, é sério!</strong></p>
+        <p><strong>De nada adianta ter a melhor tv ou monitor do mundo se está com a tela quebrada ou você está vendo com reflexo e ângulo iguais a imagem abaixo:</strong></p>
+        <img class="responsiva" src="https://www.stocktons.co.uk/wp-content/uploads/2020/01/reflex_mirrors_prisma_03_800x.jpg" alt="">
+        <p>O importante aqui é esclarecer pra você é que existe uma condição ideal de tamanho de display, distância, ângulo e luminosidade ambiente para assistir. Me assusta a quantidade de pessoas que usam aparelhos caros e esquecem de comprar uma <em>montagem decente pra parede</em> para usar na tv ou um <em>suporte para monitor</em>. Então seja lá qual é a sua TV ou monitor, se você é pobre ou se é rico, coloque de maneira que fique numa distância e ângulos adequados, e que não bata reflexo.</p>
+        <p>Se a sua tela está quebrada não jogue fora, conserte; Se está muito longe, aproxime; Se existe alguma luz que gera reflexo, use uma cortina ou mude a tv/monitor de lugar; Se o ângulo está atrapalhando, compre um suporte móvel e mude o ângulo. O ponto aqui é: <em>Se você já investiu mais de 1000 reais numa tela, não custa nada investir 10% disso pra aproveitar melhor o aparelho né?</em></p>
+        <p>Algumas pessoas sequer sabem que dependendo da tecnologia do seu display, o ângulos de visão pode estourar o brilho que você vê na tela, ou apagar tudo e até mesmo deixar a imagem em negativo!</p>
+        <img class="responsiva" src="https://www.zdnet.com/a/img/2014/10/04/a7c8640a-4baa-11e4-b6a0-d4ae52e95e57/bad-viewing.jpg" alt="">
+        <p>Já cansei de ver telas da mais alta tecnologia com uma distância de 6 metros do sofá devido ao fato de que o dono na casa "acha bonito", então vamos resumir aqui:</p>
+        <p><em>Qualquer display de até 50 polegadas, distância <strong>máxima</strong> de 2 metros. Qualquer display para computador distância <strong>mínima</strong> de um braço. O aparelho <strong>sempre</strong> deve estar na altura da sua linha de visão e com um ângulo de maneira que você veja a tela "reta", "de frente", sem nenhuma inclinação para os lados, para cima ou para baixo.</em> O display deve estar na altura natural da sua cabeça, o mais confortável possível, de modo que você não precise erguer ou abaixar para ver a imagem, se este não é o caso compre um desses:</p>
+        <img class="responsiva" src="https://s2.glbimg.com/Mavg0xCkLuaiuqxAwZGC96WZDpA=/0x0:686x609/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2021/R/Z/YQg61eTvSvaa9MHE7sBQ/suporte-elg-3.jpg" alt="">
+        <h3>Adendo para deficientes visuais</h3>
+        <p>No seu caso é ainda mais importante buscar um tamanho e uma distância que facilite a sua visão, converse com o seu médico para saber a proximidade máxima para a tela e compre o tamanho que facilite a sua vida, não tem problema algum montar um painel de projeção de 120 polegadas com 2 palmos de distância da sua face e ligar isso no seu computador se o médico te permitiu e é o que te permite enchergar, utilize telas maiores para compensar a sua perda de visão, aumento de resolução ou da tecnologia de imagem não vão fazer muita diferença para você, qualquer tela decente de <em>1080p</em> da e sobra. Reforçando: Fuja de telas mais caras e abrace tecnologias mais simples em telas maiores a menos que você possa pagar por uma qualidade maior que tenha uma melhoria real pro seu cotidiano.</p>
+        <h2>Passo 0 V2 - Limpa essa tela</h2>
+        <p>Você já colocou o seu display na distância certa, no ângulo certo e no lugar certo para não bater reflexo? Ótimo, agora limpa essa tela.</p>
+        <p><em>Eu tô falando sério.</em></p>
+        <p>É algo que também deveria ser óbvio mas por algum motivo infelizmente as pessoas não levam em consideração, tudo que obstrui a visualização da tela deprecia a experiência, eu já cheguei a ver <strong>gente que usava a tv ainda com aquele adesivo de eficiência de energia do <em>Inmetro</em></strong>. Então já sabe: Se tiver adesivo de eficiência na tela do seu display ou se tiver sujeira, tire.</p>
+        <p>De tempos em tempos use soluções limpa-tela com alguma flanela de microfibra (<strong>e apenas flanelas de microfibra</strong>) e cuidado para não acumular líquido nos cantos do display, passe primeiro uma flanela limpa e seca para retirar a poeira e depois uma com uma solução limpa-tela, você acha isso fácil nas lojinhas de eletrônicos da sua cidade ou mesmo na internet.</p>
+        <h2>Passo 0 V3 - Troque esses cabos</h2>
+        <p>Aqui o caldo começa a engrossar e precisamos saber um pouco mais da parte técnica, nada muito aprofundado, o que você <em>PRECISA</em> entender é que os cabos são responsáveis por mandar o sinal de vídeo para o display e que <strong>nem todos os cabos são iguais!</strong></p>
+        <img class="responsiva" src="https://i.ytimg.com/vi/un55V1jYOek/maxresdefault.jpg" alt="">
+        <p><em>Cada cabo trabalha com um protocolo diferente, tem uma resistência diferente a interferência e consegue entregar uma quantia de dados diferente.</em></p>
+        <img class="responsiva" src="https://cdn.shopify.com/s/files/1/0162/0510/products/1_5b357482-c0c7-4994-aeb2-1c74959f67e6_2048x.jpg?v=1551271332" alt="">
+        <p>Então, <strong>se você usar um cabo errado você pode perder cores, você pode ter até anomalias de cores e uma considerável perda de definição.</strong></p>
+        <h3>Então, quais cabos devo utilizar?</h3>
+        <p>Isso varia muito e cada caso é um caso, como eu disse, é algo bem profundo e complexo, só para você ter uma ideia existem diversos aparelhos que por mais que possibilitam o uso de uma saída considerada "superior" eles tem uma saída de imagem de maior qualidade numa outra (como é o caso do Playstation 2 que até permite o uso de RGB mas quase sempre a melhor experiência que você vai ter vai ser com cabo componente), mas pra fins de simplificação siga a seguinte regra: <em>Utilize o cabo para a melhor saída possível</em> do seu computador / videogame / bluray. etc. Uma coisa que é importante salientar é que <strong>mesmo saídas iguais podem ter resultados diferentes dependendo da qualidade do cabo</strong>, e isso fica ainda mais evidente em <em>sinais analógicos</em> como RF (aquele cabo único que conectava na entrada de antena da TV), RCA / composto (aquele cabo amarelo que vem com o DVD Player), S-Video (raro aqui no Brasil, parece cabo de teclado/mouse antigo), Componente (aquela saída vermelho, azul e verde) , D-SUB (erroneamente conhecido aqui no Brasil como cabo VGA)... . Uma baixa qualidade de fabricação vai resultar em muita interferência em cabos de sinal analógico, e em cabos de sinal digital pode levar até mesmo <strong>a queima do aparelho!</strong> É uma experiência diferenciada a imagem de um cabo componente artesanal no PlayStation 2? Sim! Existe uma diferença visível na imagem, porém, <strong>basta você não usar aquele cabo HDMI de 10zão do camelô</strong>, compra de alguma marca conhecida aqui no Brasil (quando eu digo marca conhecida aqui no Brasil não estou falando de marca pirata conhecida, estou falando de marca legalizada aqui) tá tudo bem.</p>
+        <p>Você não entende nada sobre saídas? Tudo bem, da pra simplificar, essa é (mais ou menos) a ordem de conexões para escolher os cabos para conectar seus dispositivos (do "melhor" para o "pior"):<br>
+        <em>DisplayPort > HDMI > SCART RGB > DVI-D > D-SUB (VGA) > YPbPr (componente) > S-Video > RCA (composto) > RF</em>. (se não sabe qual cabo é cada um desses basta jogar no Google para identificar)</p>
+        <p>Comprou o "melhor" cabo que conecta os dispositivos? O cabo é de uma marca brasileira ou legalizada no Brasil e não de alguma marca chinesa desconhecida? Então tá ok!</p>
+        <h2>Passo 1 - Eu já mudei tudo de lugar, coloquei no suporte na altura e ângulo certos, limpei a tv/monitor, troquei os cabos, da pra calibrar agora?</h2>
+        <p>Tá quase, se já garantimos que o aparelho está em ótimas condições de funcionamento, transmissão e visibilidade, agora precisamos garantir que a fonte de imagem também está.</p>
+        <h3>Fonte de imagem? O que raios é isso?</h3>
+        <p>Bom, vamos para a parte técnica novamente. Se você tem uma tv ou monitor que não seja de tubo, a imagem nela é criada através de um conjunto de pequenos pontos coloridos chamados <em>pixels</em>. Em resumo, <em>pixel é o menor elemento de uma imagem, é o menor pedacinho possível do seu display capaz de representar 1 cor</em>.</p>
+        <img class="responsiva" src="https://jasonhogan.ca/file/2020/02/Pixels-1.png" alt="">
+        <p>Esse conjunto de pixels cria a imagem, a quantidade de pixels na imagem é chamado de <em>resolução</em>.</p>
+        <img class="responsiva" src="https://piamulholland.files.wordpress.com/2011/09/ppi.jpg" alt="">
+        <p>Via de regra, <em>quanto maior é a resolução de uma imagem mais definição essa imagem <i>pode</i> ter</em>.</p>
+        <p>- Pode? Como assim "pode"?</p>
+        <p>Nada impede você de ter uma tela com <em>8294400</em> pixels mas usar uma imagem de <em>76800</em> pixels:</p>
+        <img class="responsiva" src="https://i0.wp.com/www.skooterblog.com/wp-content/uploads/2016/01/sonic-abertura.png" alt="">
+        <p>Então a resolução só vai fazer diferença <strong>se</strong> você tiver uma imagem grande o suficiente para ocupar <strong>todos</strong> os pontos da tela:</p>
+        <img class="responsiva" src="https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg" alt="">
+        <p>Sem contar que essa resolução pode ter diversas "proporções", você já reparou que jogos antigos aparentam ficar "esticados" em telas mais novas?</p>
+        <img class="responsiva" src="https://i.ytimg.com/vi/4wV4wnZd3yI/maxresdefault.jpg" alt="">
+        <p>Isso acontece devido ao fato de que os jogos antigos foram feitos baseando em resoluções de proporções "quadradas", geralmente <em>5:4 ou 4:3</em>, e a maioria dos monitores de hoje em dia são feitos baseados em resoluções de proporção "retangular" como <em>16:9 ou 16:10</em>. Se a tela do display tiver uma proporção diferente da fonte de imagem, das duas uma: Ou a imagem vai ficar esticada ou vai ficar na proporção certa mas com tarjas pretas.</p>
+        <img class="responsiva" src="https://www.rtings.com/images/black-bars-aspect-ratio-16-9-21-9-4-3-cinemawide.png" alt="">
+        <p>E para calibrar o display é necessário <strong>ter uma fonte de imagem com saída de vídeo na resolução <em>exata</em> do display</strong>. Ou seja, <strong>se o seu monitor tem como resolução máxima 1920 por 1080 (16:9), então o seu computador também deve estar selecionado a saída em 1920 por 1080!</strong></p>
+        <p>Se você estiver utilizando um computador com Windows ligado a um monitor, clicar com o botão direito na tela, selecionar <em>Configurações de Exibição</em> ele já vai exibir qual é a resolução recomendada para seu monitor:</p>
+        <img class="responsiva" src="https://img-21.ccm2.net/l4z4q8k73VTh4SL9A54yfVriRso=/404x/e392c65546994e5cac4338dfd37ca036/ccm-faq/resolucao1.JPG" alt="">
+        <p>E a maioria dos videogames também tem uma opção desse tipo:</p>
+        <img class="responsiva" src="https://nuangel.net/wp-content/uploads/2018/03/360resolution.jpg" alt="">
+        <p>Eu não posso dar uma fórmula válida para todos os casos, cada display tem sua resolução nativa e cada aparelho tem suas resoluções compatíveis, o ponto é: <strong>Descubra a resolução máxima do seu display e configure o seu computador para usar ela!</strong></p>
+        <h3>Tá, coloquei na resolução nativa do display, e agora?</h3>
+        <p>Se a resolução está batendo agora precisamos conferir se a cor está batendo.</p>
+        <p>- Se a cor está batendo? Como assim?</p>
+        <p>Agora precisamos entender o que são perfis de cor, você já reparou que mesmo passando o mesmo vídeo, o vermelho no seu monitor não é o mesmo vermelho no seu notebook e que também não é o vermelho no seu smartphone? Tem uma razão pra isso, cada aparelho é feito com uma infinidade de componentes, cada um desses componentes "interpretam" o sinal de cor de uma forma, alguns podem puxar para um tom mais azulado, outros para um tom mais amarelado, o ponto é que cada aparelho tem "o seu próprio vermelho"... <em>E pra quem quer qualidade de imagem isso é uma droga!</em> Isso significa que qualquer vídeo, jogo, anime, novela, filme, whatever que você veja no seu display não vai ser igual ao que o autor da obra fez, e pra piorar a situação, significa que se você edita imagens ou videos, quando finalizar o seu trabalho pode ser que fique horrível pois aquilo só ficava bem no <em>SEU</em> monitor.</p>
+        <p>E para corrigir esse problema é que os <em>Perfis de Cor</em> foram criados, grosso modo eles podem padronizar o sinal de cor de modo que o vermelho do meu monitor é o mais próximo possível do vermelho do seu monitor... E eu tenho quase certeza que se você usa monitor você nunca baixou o maldito arquivo de perfil de cor do fabricante do seu monitor para ter um sinal de cor mais preciso 🙄.</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb487e1cac.png?height=200p&trim=2,2,2,2&crop=16:9" alt="">
+        <p>Então se você usa monitor vai agora no site do fabricante do seu monitor e baixe a porcaria do driver e perfil de cor, seu preguiçoso!</p>
+        <p> <em>-Ah, mas eu uso televisão</em></p>
+        <p>Pois pro seu caso você deve atualizar o sistema da televisão, pois algumas anomalias são resolvidas por sistemas antigos do aparelho, embora raro acontece. Verifique no site do fabricante qual é a ultima atualização disponível e qual é o processo para atualizar, as chances são que se a sua TV é uma SmartTV ela vai ter uma opção de atualização de software no menu principal <strong>MAS</strong> nem sempre é possível achar a atualização mais recente através desse menu.</p>
+        <p>Via de regra para atualizar a sua televisão basta procurar o modelo do aparelho no Google e ir no site do fabricante (<strong>Não baixe de nenhum outro lugar que não o site do fabricante!</strong>), formatar o pendrive com tabela de partição em <em>MBR</em> e com uma partição em <em>FAT32</em>, extrair o arquivo baixado do site do fabricante para uma pasta na raiz do pendrive e conectar o pendrive na porta USB da televisão.</p>
+        <p>Se você não sabe como formatar seu pendrive com tabela de partição em <em>MBR</em> e com uma partição ativa em <em>FAT32</em> siga o tutorial abaixo:</p>
+        <a class="link" href="cliformat.html">Formatando Pendrive no Windows</a>
+        <p><em>Voltando para o caso de você que usa monitor</em>, uma vez que você baixou <strong>direto do site do fabricante</strong> e instalou os drivers e o perfil de cor, agora é necessário ativá-lo. Primeiramente vá em <em>Gerenciamento de Cores</em>:</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb7d619d1f.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p>Selecione o seu monitor para o driver e marque a opção <em>Usar minhas configurações para este dispositivo</em>:</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb80f39538.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p>Clique no botão <em>Adicionar...</em>:</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb82dca997.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p>Selecione o perfil de cor instalado:</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb910a584b.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p>Marque a opção <em>Definir como Perfil Padrão</em>:</p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/07/img_596fb96345d0f.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p><strong>Se você utiliza mais de 1 monitor faça isso para o(s) outro(s) também!</strong></p>
+        <p>- Então agora tá tudo certo?</p>
+        <p>Mais ou menos, ainda é possível que o próprio driver de vídeo da máquina esteja limitando o intervalo de cores, caso você esteja utilizando uma placa Nvidia, clique com o botão direito na Área de Trabalho, selecione <em>Painel de Controle da NVIDIA</em>, na guia <em>Monitor</em> selecione <em>Mudar resolução</em>, abaixo na guia <em>3. Aplique as configurações a seguir.</em> marque <em>Utilize configurações de cor da NVIDIA</em> e em <em>Intervalo de saída dinâmica</em> selecione <em>Completo</em> e depois <em>Aplicar</em>, como na imagem abaixo: </p>
+        <img class="responsiva" src="https://i.redd.it/x44a5pwwned51.png" alt="">
+        <p><strong>Se você utiliza mais de 1 monitor faça isso para o(s) outro(s) também!</strong></p>
+        <p><strong>PS:</strong> Caso você tenha uma placa <em>Intel</em> ou <em>AMD</em> verifique as mesmas opções para o seu caso!</p>
+        <img class="responsiva" src="https://www.amd.com/system/files/2018-12/DH008-02.png" alt="">
+        <p><strong>Imagem de exemplo</strong></p>
+        <p> - E agora, podemos calibrar a imagem?</p>
+        <p>Agora sim!</p>
+        <h2>Passo 2 - "Mudando para a casa" e desligando as anomalias</h2>
+        <p>Quando a empresa responsável pelo seu display foi fabricá-lo, ela provavelmente colocou diversas tecnologias para facilitar o marketing ou simplesmente enganar trouxa... É, desculpa mas é real. Isso varia de aparelho para aparelho mas é mais ou menos parecido.</p>
+        <p>A primeira coisa é ir no menu de configurações principal e mudar o idioma do sistema para Português (caso ainda não esteja) e depois no menu principal do aparelho vai ter alguma opção como <em>Seleção de Modo</em> ou <em>Modo de Uso</em>, com as opções <em>Modo Loja</em> e <em>Modo Casa</em>, selecione então <em>Modo Casa</em>.</p>
+        <img class="responsiva" src="https://s2.glbimg.com/Kruf29UTmiXVdRKD6ChdhE0w-O4=/0x0:695x389/600x0/smart/filters:gifv():strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2017/T/F/ues7AnTIKmCbdmsj3fYg/04.jpg" alt="">
+        <p>Nesse modo o display (embora isso seja mais comum em TVs alguns monitores também possuem) fica exibindo anúncios, alterando perfis de video e não salva nenhuma configuração. Então lembre-se: <strong>Comprou display novo? Muda o idioma para Português do Brasil e muda do modo Loja para o modo Casa!</strong></p>
+        <h3>Uma patifaria desligada, uma de muitas...</h3>
+        <p>Agora tem uma que parece ser negativa mas tem uma razão para ser desligada, que é a opção de economia de energia. Se você tá com dificuldades de pagar a conta e quer economizar não tem problema, sem julgamentos aqui, mas na real o que esse modo vai fazer vai ser podar o brilho da sua TV ou monitor e criar diversas anomalias na imagem, então se possível desative essa função na sua tv ou monitor.</p>
+        <img class="responsiva" src="https://s2.glbimg.com/FiFMP2GTctDBeNhm0RjSlKtj-Vo=/0x0:695x462/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2018/6/A/ABLyKORPydTYfDCuvpNQ/passo-3.jpg" alt="">
+        <p>Lembra que eu disse que existem diversas tecnologias nos aparelhos para "enganar trouxa"? Então, varia de modelo para modelo (pois cada fabricante da o nome que quiser a essas tecnologias que em sua esmagadora maioria são inúteis ou prejudiciais para a imagem), dessa vez tanto no menu principal quanto nos ajustes de imagem desabilite TODAS essas tecnologias adicionais, seja <em>Contraste Dinâmico, Nível de Preto, Realce de Contorno, Live Color, Tom de Pele, HDR+, Suavização de Movimento, Super Resolução, Interpolação de Movimento, Redução de Ruído, Redução de Ruído MPEG, Função Cinema, "Qualquer Coisa" Eye Care ou Eye Confort, TruMotion, MotionPlus, EcoSensor, Auto Picture,</em> enfim, <em>TUDO</em> que alterar a imagem de maneira articial (se tiver em dúvidas do que cada uma delas faz leia o manual do seu aparelho) <strong>com exceção de uma caso quando e somente quando você for jogar:</strong> <em>O modo Jogo</em>. O modo jogo verdadeiramente ajuda na redução de latência para quem joga, por hora deixe desativado mas se encontrar isso no seu aparelho lembre-se de ativar quando for jogar.</p>
+        <img class="responsiva" src="https://gscs.lge.com/gscs/support/fileupload/downloadFile.do?portalId=P1&fileId=BD_N-1374832621183" alt="">
+        <h3>Ufa... Com todas as patifarias desligadas finalmente podemos seguir...</h3>
+        <h2>Passo 3 - Calibrando a tela</h2>
+        <p>Se você chegou até aqui as chances são que a imagem da sua TV ou Monitor já está infinitamente melhor, sem anomalias de cor, sem quadros falsos, com uma cor mais precisa, mas a verdadeira calibragem começa agora. A primeira coisa que precisamos é de uma imagem ou vídeo para verificar os níveis de nitidez, contraste, brilho, cor. etc. Existem diversas imagens e vídeos de referência para esse processo e cada um para o seu devido perfil de cor, eu costumo utilizar o <em>AVS 709</em> e o <em>Lagon</em> dependendo do aparelho. Calma, não só eu vou deixar o link para download das referências mas também um material guia para a calibragem.</p>
+        <p>Para baixar o <em>AVS 709</em>:</p>
+        <a class="link" href="https://www.avsforum.com/threads/avs-hd-709-blu-ray-mp4-calibration.948496/">Este link</a>
+        <p>Para acessar o <em>Lagon LCD Test</em>:</p>
+        <a class="link" href="http://www.lagom.nl/lcd-test/">Este link</a>
+        <p>E aí vai da seu setup e display, se for uma TV eu recomendo jogar os arquivos  <em>.MP4</em> em um pendrive e rodar e se for um monitor acessar link por link em tela cheia.</p>
+        <p><strong>Para uma boa calibragem o ideal é que o display fique num lugar escuro, sem nenhum tipo de luz para que você veja o máximo possível dos detalhes do aparelho, ou seja, de noite e com luzes apagadas.</strong></p>
+        <p>Displays modernos geralmente tem uma variação de nível de preto, nível de branco, cor, tom, e nitidez entre outras opções.</p>
+        <h3>1 - Antes de mais nada, a <em>Nitidez</em></h3>
+        <p>Alguns fabricantes também chamam essa opção de <em>Definição</em>, pra você entender como esse atributo funciona faz o seguinte, abre a imagem abaixo em tela cheia (ou o vídeo do padrão dessa imagem na tv):</p>
+        <img class="responsiva" src="https://www.rtings.com/images/test-materials/2015/103_Picture_Fit.png" alt="">
+        <p><strong>Clique com o botão direito, selecione <em>abrir imagem em nova aba</em> e aperte <em>F11</em> nessa guia para que a imagem preencha toda a tela</strong></p>
+        <p>Deixe a nitidez no máximo e você vai perceber que algumas anomalias vão começar a surgir na imagem, como se ela tivesse "riscada" com uma linha branca, deixe a nitidez no mínimo e você vai perceber que os detalhes somem e ficam borrados. Essa imagem é cheia de formas complexas, curvas pretas num fundo branco e bolinhas brancas num fundo preto justamente para que você ache o ponto em que todos os detalhes apareçam (especialmente nas curvas) mas que anomalias não comecem a surgir.</p>
+        <p>O segredo aqui é aumentar o máximo possível sem ter nenhuma anomalia visível, geralmente esse valor fica entre <em>0</em> e <em>20</em>, mas obviamente varia de display para display.</p>
+        <h3>2 - Depois o <em>Brilho</em></h3>
+        <img class="responsiva" src="https://www.rtings.com/images/test-materials/2015/101_Brightness.png" alt="">
+        <p><strong>Clique com o botão direito, selecione <em>abrir imagem em nova aba</em> e aperte <em>F11</em> nessa guia para que a imagem preencha toda a tela</strong></p>
+        <p>O brilho basicamente controla a profundidade de preto na tela, se você deixar muito baixo não vai haver distinção entre tons de preto e se deixar muito alto o preto vai ficar acinzentado, o ideal é ter o mínimo de brilho possível sem "apagar" os detalhes da tela. Coloque o brilho no mínimo e vá aumentando até o ponto exato em que você consegue enchergar as listras do <em>17</em> ao <em>25</em>.</p>
+        <p>Caso mesmo deixando o brilho no mínimo a imagem fique acinzentada ou mesmo deixando no máximo não dê pra ver as listras, procure se a sua televisão tem uma opção de controle de <em>Backlight</em> ou <em>Luz de Fundo</em>, e ajuste essa configuração até o ponto que permita você enchergar as listras sem deixar o preto acinzentado.</p>
+        <h3>Depois o <em>Contraste</em></h3>
+        <img class="responsiva" src="https://www.rtings.com/images/test-materials/2015/102_Contrast.png" alt="">
+        <p><strong>Clique com o botão direito, selecione <em>abrir imagem em nova aba</em> e aperte <em>F11</em> nessa guia para que a imagem preencha toda a tela</strong></p>
+        <p>O contraste vai ajustar o nível de detalhe em imagens claras, se você deixar ele muito alto as cores podem ficar "misturadas" e se deixar muito baixo o branco não vai ter brilho, o segredo aqui é deixar o branco brilhante porém sem fazer as cores se misturarem. Diminua o contraste no seu display para o mínimo e, em seguida, aumente <em>APENAS</em> até que <em>SOMENTE</em> as linhas de <em>230</em> até <em>234</em> apareçam.</p>
+        <h3>Por último mas não menos importante, a <em>Cor</em></h3>
+        <p>Cor ajusta o nível de saturação das cores nas imagens. Muito pouca saturação vai deixar as cores da imagem mortas e acinzentadas, cor demais vai deixar a imagem supersaturada e artificial. Abaixe a cor no mínimo possível e vá aumentando <em>APENAS</em> até a cor ficar viva e natural.</p>
+        <iframe width="1280" height="720" src="https://www.youtube.com/embed/LXb3EKWsInQ" title="COSTA RICA IN 4K 60fps HDR (ULTRA HD)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p><strong>Assista na resolução mais alta possível e em tela cheia!</strong></p>
+        <h2>Passo 4 - Extra</h2>
+        <h3>Dica 1 - Seu Smartphone é seu guia</h3>
+        <p>Alguns aparelhos permitem não só a edição da cor mas também o balanco de branco (vermelho, verde, azul), e isso no "olhômetro" tende a ser bem complicado de fazer, mas existe um truque!</p>
+        <p>Se você tem um smartphone decente com uma tela decente (de iPhone a Redmi Note vale), uma boa maneira de calibrar esse equilíbrio é abrir a mesma imagem no smartphone e na tela (em tela cheia, obviamente) e tentar deixar a tela da sua TV ou monitor igual as cores do seu smartphone.</p>
+        <h3>Dica 2 - Aumente a taxa de atualização e mude o <em>Tempo de Resposta</em></h3>
+        <p>Como eu disse acima, já vi muito caso de gente pagando milhares de reais por um monitor para jogos e sequer faz uso da taxa de atualização do monitor, então se você acabou de comprar seu monitor <em>Gamer</em> (eu odeio esse termo), não deixe de alterar a taxa de atualização!</p>
+        <p> - Taxa de atualização? O que é isso?</p>
+        <p>Basicamente é quantas imagens por segundo seu monitor vai exibir, via de regra: Quanto mais imagens, menos atraso, melhor responsividade no jogo e melhor noção de movimento.</p>
+        <!--
+        <img class="responsiva" src="https://thumbs.gfycat.com/WindyThirstyAmericanriverotter-max-1mb.gif" alt="">
+        -->
+        <p><strong>De nada adianta comprar um monitor caríssimo para jogos se você não fizer uso disso!</strong></p>
+        <p><strong>Procedimento para driver</strong> Essa configuração também pode ser feita através do <em>Driver da Placa de Vídeo</em>:</p>
+        <img class="responsiva" src="https://blurbusters.com/wp-content/uploads/2019/01/NVIDIA-control-panel-refresh-rate-change.png" alt="">
+        <p><strong>Procedimento padrão</strong> Para verificar a taxa de atualização basta clicar com o botão direito na Área de Trabalho e selecionar <em>Configurações de Exibição</em>, na parte inferior da janela seleciona opção <em>Configurações avançadas de tela</em>:</p>
+        <img class="responsiva" src="https://www.oficinadanet.com.br/media/post/30658/750/ativar1443.jpg" alt="">
+        <p>Depois selecione <em>Exibir propriedades do adaptador de vídeo do Monitor 1</em>:</p>
+        <img class="responsiva" src="https://www.oficinadanet.com.br/media/post/30658/750/ativar1444.jpg" alt="">
+        <p>Na janela de propriedades do adaptador clique na guia <em>Monitor</em> e na parte inferior em <em>Taxa de atualização da tela</em> selecione <em>a maior taxa que o seu monitor permite</em>.</p>
+        <img class="responsiva" src="https://www.oficinadanet.com.br/media/post/30658/750/ativar1445.jpg" alt="">
+        <p>As vezes, até mesmo nas configurações do seu monitor pode ter uma opção de tempo de resposta como <em>Response Time</em> (como é o caso dos monitores da Samsung) ou mesmo algum <em>Modo Jogo</em>.</p>
+        <!--
+        <img class="responsiva" src="https://i.ppy.sh/e14e3ecd1546e71a53adf2614652e2993b02494a/687474703a2f2f692e696d6775722e636f6d2f456143335736322e6a7067" alt="">
+        -->
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 28/10/2022)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

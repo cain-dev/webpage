@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords"
+        content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cain-dev homepage</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - FreeBSD" />
+    <meta property="og:url" content="https://cain-dev.github.io/default/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Aprenda a instalar o FreeBSD 13" />
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg" />
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css" href="os_style.css">
+    <link rel="stylesheet" type="text/css" href="bing.css">
+    <!--/Links-->
+</head>
+
+<body>
+    <!-- <header id="main-header"> -->
+    <header class="mainheaderClass">
+        <ul class="mainheaderULClass">
+            <!-- <li><a href="">Home</a></li> -->
+            <li><input type="checkbox" id="sidebarCheck">
+                <label for="sidebarCheck" id="sidebarButton">☰ menu</label>
+                <nav id="sidebar" class="Autosidebar"> <!-- Sidebar com id para referenciar no CSS -->
+                    <label for="sidebarCheck" id="closeButton">❌ Fechar</label>
+                    <!-- Botão para fechar a sidebar com ícone -->
+                    <ul class="menu"> <!-- Lista com classe para referenciar no CSS -->
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="textos-toggle">
+                            <label class="novaSideBarLabel" for="textos-toggle">Textos</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/unixlike.html">Introdução aos
+                                        Unixlike</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/whatislinux.html">Introdução
+                                        ao
+                                        Linux</a></li>
+                                <!--
+                                <li class="liClass"><a class="novaSidebarUlA" href="#">Introdução aos BSD's</a></li>
+                                -->
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/rwindows.html">Saindo do
+                                        Windows</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/xwindow.html">Ambiente
+                                        Gráficos</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/opsec.html">Segurança de
+                                        Informação</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="texts/applesucks.html">Culto à
+                                        Apple</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="geral-toggle">
+                            <label class="novaSideBarLabel" for="geral-toggle">Geral</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="geral/calibration.html">Calibragem
+                                        de
+                                        Display</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="geral/remotedesk.html">Suporte
+                                        Remoto</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="geral/smart.html">Verificando
+                                        HDD/SSD</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="geral/datarecovery.html">Recuperação
+                                        de
+                                        Dados</a></li>
+                            </ul>
+                        </div>
+                        <!--
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="freebsd-toggle">
+                            <label class="novaSideBarLabel" for="freebsd-toggle">FreeBSD</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="">Otimização</a></li>
+                            </ul>
+                        </div>
+                        -->
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="linux-toggle">
+                            <label class="novaSideBarLabel" for="linux-toggle">Linux</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="linux/nm_proton.html">NetworkManager
+                                        ProtonVPN</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="linux/sway.html">Archlinux
+                                        Moderno</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="linux/terminocentric.html">Terminocêntrismo</a></li>
+                            </ul>
+                        </div>
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="windows-toggle">
+                            <label class="novaSideBarLabel" for="windows-toggle">Windows</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="windows/ameliorated.html">Windows 10
+                                        Ameliorated</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="windows/cliformat.html">Formatação
+                                        em
+                                        FAT32</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="windows/optimizations.html">Otimização
+                                        geral</a></li>
+                            </ul>
+                        </div>
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="jogos-toggle">
+                            <label class="novaSideBarLabel" for="jogos-toggle">Jogos</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA" href="games/retroarch.html">Retroarch</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="games/game_stream.html">Streaming</a></li>
+                            </ul>
+                        </div>
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="install-toggle">
+                            <label class="novaSideBarLabel" for="install-toggle">Instalação de Sistemas</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="install/os_install.html">Introdução</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/dualboot.html">Introdução ao
+                                        Dualboot</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/mint.html">Linux Mint</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/debian.html">Debian</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/batocera.html">Batocera</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/proxmox.html">Proxmox</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="install/archlinux.html">Archlinux</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/freebsd.html">FreeBSD</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/openbsd.html">OpenBSD</a>
+                                </li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/netbsd.html">NetBSD</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/haiku.html">Haiku</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/router_cfw.html">OpenWRT,
+                                        DD-WRT e
+                                        etc.</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="install/hackintosh_old.html">Hackintosh (old
+                                        way)</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="install/hackintosh_new.html">Hackintosh (new
+                                        way)</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="install/windows.html">Windows</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="side">
+                            <input class="novaInput" type="checkbox" id="extra-toggle">
+                            <label class="novaSideBarLabel" for="extra-toggle">Outros</label>
+                            <ul class="novaUl">
+                                <li class="liClass"><a class="novaSidebarUlA"
+                                        href="extra/alternatives.html">Alternativas de
+                                        Software</a></li>
+                                <li class="liClass"><a class="novaSidebarUlA" href="extra/links.html">Links Úteis</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                </nav>
+            </li>
+            <li>
+                <p class="mainheaderPClass">@cain-dev</p>
+            </li>
+            <li>
+                <a href="extra/contact.html">Contato</a>
+            </li>
+        </ul>
+    </header>
+    <main style="margin-top: 6em;" id="main-area">
+        <h1>Seja bem-vindo!</h1>
+           <!-- <img class="logo" src="assets/images/cainlogo.png" alt="">-->
+            <p class="homebanner">Para solicitar qualquer serviço de consultoria (seja para aquisição de setup, análise de infraestrutura, de nível pessoal ou empresarial) ou treinamento (seja para implementação, administração e manutenção de sistemas ou focado em segurança) basta clicar no link de <em>Contato</em> acima e preencher o formulário 😉</p>
+            <p>Este é o meu despejo pessoal de textos, seja de <i>rants</i> ou de documentações de instalação de sistema, casp queira acessar meus dofiles o link é <a class="link" href="https://github.com/cain-dev/dotfiles">este aqui</a>.<br>Espero isso te seja útil =)</p> 
+    </main>
+    <footer id="main-footer">
+        <p>Página em construção 🚧<br></p>
+    </footer>
+</body>
+
+</html>

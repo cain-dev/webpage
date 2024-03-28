@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do NetBSD 9.3</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - NetBSD"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o NetBSD 9.3"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.netbsd.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <img class="responsiva" src="https://www.netbsd.org/images/NetBSD-tb.png" alt="">
+        <h1>Instalação do NetBSD 9.3</h1>
+        <h2>Introdução</h2>
+        <p>Se FreeBSD aquele o primo chato que adora ficar enchendo o saco, disputando com o Linux e querendo se mostrar e o OpenBSD é aquele primo distante, bem <i>cult</i>, que faz pouco, mas o que faz é sempre digno de prêmio então o NetBSD é aquele tio tranquilo que não enche o saco de ninguém, não busca holofotes mas que você sempre pode contar com ele.</p>
+        <p>De cara um aviso: FreeBSD e OpenBSD são sistemas que embora não sejam desenhados para o <i>desktop</i> podem ser utilizados com algum grau de tranquilidade como <i>daily driver</i> e com certa compatibilidade de hardware <i>consumer class</i>, este definitivamente <strong>não é o caso</strong> do NetBSD! NetBSD é um sistema em que não só <i>desktop environments</i> populares (como o Cinnamon) ainda estão classificados como <i>work in progress</i> mas até mesmo <i>login managers</i> estão nessa situação.</p>
+        <p>Eu estou dizendo que é impossível utilizar o NetBSD como <i>desktop</i>? Não! Inclusive, também mostrarei como se fazer aqui, mas esqueça drivers proprietários funcionais (isso se o driver existir) e até mesmo esqueça aceleração de hardware, e até o devido suporte a <em>Unicode</em> (e não, eu não estou zuando!), se você vai pra um NetBSD com essa expectativa sua frustração vai ser cavalar, como servidor? Embora não tenha tantos projetos para carregar (como o PfSense para o FreeBSD e o TrueNAS para o PC-BSD), funciona maravilhosamente estável e bem, obrigado.</p>
+        <p><strong>AVISO: Esta documentação presume que você é um usuário que entende o básico de sistemas unixlike e como editar arquivos de configuração.</strong></p>
+        <h3>Como proceder:</h3>
+        <ul>
+            <li>Para navegar nos menus utilize as setas (←↑↓→)</li>
+            <li>Para alterar o campo de seleção tecle ↹ Tab</li>
+            <li>Para selecionar as opções ( * ) nos menus tecle Espaço</li> 
+            <li>Enter ⏎ quando quiser confirmar a seleção.</li>
+        </ul>
+        <p></p>
+        <p>Essa é a tela de inicial do NetBSD, tecle Enter ou aguarde o fim da contagem...</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/01.png" alt="">
+        <p>Selecione <em>english</em> como idioma de instalação... Se você fala qualquer outro fique a vontade também 😄</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/02.png" alt="">
+        <p>Selecione o seu teclado aqui, no caso vou selecionar o <em>Brazilian</em> para <em>ABNT2</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/03.png" alt="">
+        <p>Selecione instalar NetBSD no disco rígido</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/04.png" alt="">
+        <p>Confirme a sua escolha</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/05.png" alt="">
+        <p>Selecione o disco que você deseja utilizar</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/06.png" alt="">
+        <p>O sistema vai tentar interpretar a geometria do seu disco, apenas confirme que é a geometria correta a menos que você saiba muito bem o que está fazendo</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/07.png" alt="">
+        <p>Para um processo simples de instalação recomendo usar o disco inteiro</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/08.png" alt="">
+        <p>E usar os tamanhos padrão de partições</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/09.png" alt="">
+        <p>Confirme sua escolha</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/10.png" alt="">
+        <p>Aceite a gravação</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/11.png" alt="">
+        <p>Obviamente <em>BIOS console</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/12.png" alt="">
+        <p>Aqui você pode escolher o modelo de instalação, de uma instalação completa sem o <em>X11</em>, uma instalação mínima ou até mesmo uma instalação customizada selecionando até mesmo partes desejadas do <em>X11</em>, via de regra escolha <em>Full installation</em> para usar com desktop e <em>Minimal installation</em> para uso com servidores.</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/13.png" alt="">
+        <p>Como eu baixei a <em>ISO</em> de instalação vou selecionar <em>CD-ROM / DVD / Install image media</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/14.png" alt="">
+        <p>Aguarde o fim da instalação</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/15.png" alt="">
+        <p>Confirme o fim da instalação</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/16.png" alt="">
+        <p>E agora vamos configurar algumas, começando pelo <em>configure network</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/17.png" alt="">
+        <p>Selecione a interface de rede desejada</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/18.png" alt="">
+        <p>Apenas aperte <em>Enter</em> para queo tipo seja detectado automaticamente</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/19.png" alt="">
+        <p>Selecione <em>YES</em> para a autoconfiguração</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/20.png" alt="">
+        <p>Insira domínio DNS caso tenha ou simplesmente deixe em branco e tecle <em>Enter</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/21.png" alt="">
+        <p>Se está tudo certo selecione <em>YES</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/22.png" alt="">
+        <p>Confirme que deseja utilizar essa configuração na máquina alvo</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/23.png" alt="">
+        <p>Agora podemos configurar o fuso-horário</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/24.png" alt="">
+        <p>No meu caso estou utilizando <em>America/Sao_Paulo</em> mas mude conforme a sua região, obviamente</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/25.png" alt="">
+        <p>Uma vez selecionado saia para o menu de configurações novamente</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/26.png" alt="">
+        <p>Mude a senha de administrador</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/27.png" alt="">
+        <p><em>YES</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/28.png" alt="">
+        <p>Insira a senha de administrador</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/29.png" alt="">
+        <p>Habilite a instalação de pacotes binários</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/30.png" alt="">
+        <p>Usuário <em>FTP</em> baixar via <em>HTTP</em> e selecione <em>Install pkgin and update package summary</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/31.png" alt="">
+        <p><em>pkgin</em> instalado, tecle <em>Enter</em> para retornar ao menu</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/32.png" alt="">
+        <p>Selecione <em>Add a user</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/33.png" alt="">
+        <p>Insira o nome de usuário desejado</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/34.png" alt="">
+        <p>Confirme para permitir elevação de privilégios</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/35.png" alt="">
+        <p>Selecione o terminal padrão <em>/bin/sh</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/36.png" alt="">
+        <p>Insira a senha deste usuário</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/37.png" alt="">
+        <p>E por fim você pode selecionar o que deseja utilizar na instalação alvo, por exemplo você pode ativar o <em>sshd</em> para habilitar o daemon para conexão <em>ssh</em>, <em>ntpd</em> para daemon de <em>NTP</em>, <em>mdnsd</em> para <em>mDNS</em>, <em>xdm</em> para login gráfico, <em>cgd</em> para driver de dispositivo critográfico e <em>RAIDFrame</em> para suporte a <em>RAID</em> via software, após setar as suas opções desejadas finalize a configuração em <em>Finished configuring</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/38.png" alt="">
+        <p>Tecle <em>Enter</em> para encerrar a instalação</p>
+        <img class="responsiva" src="../assets/images/install/netbsd/39.png" alt="">
+        <p>Se tudo deu certo você verá o login gráfico do <em>XDM</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/40.png" alt="">
+        <p>E poderá logar no <em>ctwm</em></p>
+        <img class="responsiva" src="../assets/images/install/netbsd/41.png" alt="">
+        <h2>Pós-instalação</h2>
+        <h3>Caso precise alterar a resolução utilize o comando <em>xrandr</em> para verificar as resoluções disponíveis, e para setar uma resolução específica faça como no comando abaixo:</h3>
+        <code>xrandr -s 1280x720</code>
+        <h3>Setar teclado para ABNT2</h3>
+        <p>Antes de mais nada é interessante fazer com que o teclado funcione corretamente, para isso use o comando:</p>
+        <code>setxkbmap -layout br -variant abnt2</code>
+        <h3>Elevação de privilégios com o <em>DOAS</em></h3>
+        <p>Se você seguiu corretamente os passos até aqui o seu usuário faz parte do grupo <em>wheel</em>, para elevação de privilégio instale o <em>doas</em> com o comando:</p>
+        <code>pkgin install doas</code>
+        <p>O doas precisa de uma simples configuração para elevação de privilégio, edite o arquivo <em>/usr/pkg/etc/doas.conf</em> e insira a linha:</p>
+        <code>permit persist keepenv :wheel</code>
+        <p>Caso você queira a elevaçao de privilégios sem inserção de senha (não recomendado) utilize a linha:</p>
+        <code>permit nopass keepenv :wheel</code>
+        <!-- Não recomendado
+        <h3>Mudança de Shell</h3>
+        <code>chsh -s /usr/pkg/bin/zsh <em>usuário</em></code>
+        -->
+        <h3>Instalação de Ambiente Gráfico</h3>
+        <p>Como citei na instalação, o NetBSD <strong>não é</strong> um sistema operacional com todo o devido suporte para desktops modernos, mas mesmo sendo bastante limitado, caso você deseje uma interface simples para facilitar a utilização do sistema não é tão complicado assim. É claro que as opções de gerenciadores de janela como <em>i3</em> + <em>rofi</em> ou <em>dmenu</em> + <em>lemonbar</em> ou <em>polybar</em> compilada podem funcionar maravilhosamente bem, mas se você quer um <em>sway</em> rodando de forma estável, bom... É melhor buscar outro sistema.</p>
+        <p>Pelo que eu pude contar existem <em>1</em> opção de ambiente completo que funcionam relativamente bem: O <em>XFCE4</em> (que como sempre é o que roda melhor em tudo fora do Linux).</p>
+        <h4>Preparando as coisas - <em>DBUS</em></h4>
+        <p>Primeiro copie o script de <em>dbus</em> para o diretório <mark>/etc/rc.d</mark>:</p>
+        <code>cd /etc/rc.d<br>cp /usr/pkg/share/examples/rc.d/dbus <em>.</em></code>
+        <p>* Note que tem um ponto alí acima!</p>
+        <p>Edite o arquivo <mark>/etc/rc.conf</mark> e insira a linha:</p>
+        <code>dbus=YES</code>
+        <h4>Preparando as coisas - <em>xinit</em></h4>
+        <code>cp /etc/X11/xinit/xinitrc ~/.xinitrc<br>chmod u+w ~/.xinitrc</code>
+        <p>Uma vez que mudamos o login para um login gráfico (<em>xdm</em>), o arquivo para ser lido para inicialização passa a ser o <em>.xinitrc</em></p>
+        <code>ln -s .xinitrc ~/.xsession</code>
+        <h4>XFCE</h4>
+        <p>Para instalar o XFCE utilize o comando:</p>
+        <code>pkgin in xfce4</code>
+        <p>Comente as linhas do <em>uxterm</em> e do <em>ctwm</em> e adicione <mark>startxfce4</mark> em <em>~/.xinitrc</em> como no exemplo abaixo:</p>
+        <code># /usr/X11R7/bin/uxterm &<br># exec /usr/X11R7/bin/ctwm -W<br>startxfce4</code>
+        <!--
+        <h4>Mate</h4>
+        <code>mate-session</code>
+        <p>Para instalar o Mate utilize o comando:</p>
+        <code>pkgin in mate</code>
+        -->
+        <h4>Corrigindo diretórios</h4>
+        <p>Algumas interfaces ao serem instaladas não criam automaticamente a estrutura para as pastas de usuário (Imagens, Músicas, Vídeos etc), para resolver isso instale o pacote <em>xdg-user-dirs</em> com o comando abaixo:</p>
+        <code>pkgin install xdg-user-dirs</code>
+        <p>Logado como o seu usuário, use o comando abaixo para atualizar os diretórios:</p>
+        <code>xdg-user-dirs-update</code>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 03/03/2024)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

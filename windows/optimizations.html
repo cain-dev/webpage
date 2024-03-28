@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otimizações</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Otimização para Roteador, Windows, Linux e BSD's"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Melhoria de fontes, melhoria de sinal WiFi e diversas outras otimizações para seu setup"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Otimizando o PC e a Rede</h1>
+        <h2>Introdução</h2>
+        <p>Existem algumas coisas que você pode fazer para otimizar o uso da máquina no que diz respeito a segurança e responsividade após instalar o sistema operacional. Coisas simples que não requerem muito conhecimento técnico mas produzem resultados imediatos (embora alguns deles sejam arriscados e devem ser tratados com a devida responsabilidade).</p>
+        <h2>Atualização de BIOS</h2>
+        <p><em>BIOS</em> ou <em>Basic Input/Output System</em>, é um <i>firmware</i>, um software embarcado, que tem a finalidade de checar, configurar e manter o hardware, é o primeiro software a ser carregado assim que você liga o computador. Atualizações dessa BIOS geralmente trazem correções de segurança, suporte a hardware e/ou correção de bugs.</p>
+        <p>Para atualizar sua BIOS hoje em dia você não precisa de nada além de um pen drive com o arquivo de atualização, entretanto, se houver alguma falha na hora do carregamento como uma queda de energia, por exemplo, e o BIOS for danificado, <strong>é possível que o computador deixe de funcionar</strong>. É algo rápido e fácil de se fazer, mas requer uma certa responsabilidade.</p>
+        <h3>1 - Identifique a sua Máquina</h3>
+        <p>Ao ligar o seu computador geralmente aparece uma tela informando <mark>Press</mark> (alguma tecla) <mark>to enter Setup</mark> ou <mark>Press</mark> (alguma tecla) <mark>to UEFI BIOS setting</mark>, aperte essa tecla no processo de inicialização para ter acesso a configuração do BIOS.</p>
+        <img class="responsiva" src="../assets/images/install/pressf2.jpg" alt=""><br>
+        <p>Geralmente nas placas mães mais novas já na tela inicial (ou na guia de <mark>Info</mark> ou <mark>System Info</mark> você poderá ver o modelo da placa mãe e qual a versão do BIOS, anote o modelo da placa mãe, a versão do BIOS e a revisão/versão da placa.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/biosversion.jpg" alt=""><br>
+        <p>Você também pode encontrar essa informação fisicamente gravada na sua placa mãe:</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/moboversion.jpg" alt=""><br>
+        <h3>2 - Prepare o Pen Drive</h3>
+        <p>Para atualizar o BIOS em máquinas atuais você vai precisar de um pen drive confiável (<strong>nada de pen drive de 1tb comprado no Aliexpress ou pen drive de camelô!</strong>) com uma tabela de partição em <mark>MBR</mark> e com uma partição <mark>FAT32</mark>. Você pode utilizar o <a class="link" href="http://ridgecrop.co.uk/index.htm?guiformat.htm">fat32format</a> para preparar o pen drive dessa forma.</p>
+        <h3>3 - Baixe o Arquivo de Atualização</h3>
+        <p>Acesse o site do fabricante da sua placa mãe (ou do seu notebook), encontre a página de suporte para o seu dispositivo e verifique a última versão do BIOS disponível para ele, não há necessidade de atualizar caso sua máquina já esteja na última versão.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/biosupdate.jpg" alt="">
+        <p><strong>ALERTA: Não siga com a instalação se há risco de pen drive corrompido ou risco de queda de energia! Tenha a certeza que todos os cabos estão muito bem conectados, que não há animais por perto pois o computador não pode ser desligado até que o processo finalize!</strong></p>
+        <h3>4 - Atualizando o BIOS</h3>
+        <p>Copie o arquivo de atualização para a pasta raiz do pen drive (extraia na raiz caso ele venha zipado), <strong>lembre-se de ejetar o dispositivo com segurança</strong>. Acesse o Setup com o pen drive conectado. No Setup busque a opção <mark>Update Bios</mark>, mas se também existir uma opção <mark>Save BIOS</mark> ou <mark>Backup BIOS</mark>, faça <strong>antes</strong> o backup do BIOS para o seu pen drive e só depois selecione fazer atualização com o arquivo mais novo.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/biosupdate2.jpg" alt="">
+        <p><strong>Não interrompa o processo e não desligue o computador! É natural que demore algum tempo após o fim da barra de progresso, também é natural que o computador reinicie algumas vezes e mesmo que demore iniciar novamente. Deixe que o computador faça tudo sozinho e não toque em nada até que ele inicie na tela de boot normalmente!</strong></p>
+        <h2>Roteador</h2>
+        <p>1 - Para acessar o roteador basta digitar o endereço IP dele na barra de endereços do seu navegador, geralmente o endereço é <mark>192.168.0.1</mark> ou <mark>192.168.1.1</mark> (caso nenhum desses funcione você pode tentar pelo endereço de <mark>gateway padrão</mark> usando o comando no terminal do Windows:</p>
+        <code>ipconfig</code>
+        <img class="responsiva" src="../assets/images/windows/optimization/gateway.jpg" alt="">
+        <p>ou no terminal do Linux:</p> 
+        <code>netstat -nr</code>
+        <p>2 - Assim que acessar o roteador salve um arquivo de backup das configurações e resete para a configuração de fábrica (lembre-se de anotar as configurações de autenticação da conexão  + MAC caso seja necessário). Por fim, atualize o firmware do roteador (basta buscar o modelo no site do fabricante, aqui se aplica o mesmo da seção de atualização do BIOS);</p>
+        <p>3 - Mude usuário e senha de acesso, <strong>lembre-se de colocar uma senha forte</strong>;</p>
+        <p>4 - Desative o <mark>Acesso Remoto</mark> e o <mark>WPS</mark>;</p>
+        <p>5 - Mude a criptografia do Wifi para <mark>WPA2 AES</mark> e o <mark>DNS</mark> para o OpenDNS (IPv4: <mark>208.67.222.222</mark> e <mark>208.67.220.220</mark>; IPv6: <mark>2620:119:35::35</mark> e <mark>2620:119:53::53</mark>);</p>
+        <p>6 - <em>MTU</em> ou <em>Maximum transmission unit</em>, determina o tamanho da maior unidade de dados de protocolo que pode ser comunicada em uma única transação da camada de rede. Em resumo, uma MTU configurada incorretamente pode levar a transferências com falha e conectividade intermitente.<br>O valor do MTU pode ser otimizado no seu roteador, para configurar o MTU através do Windows abra o terminal e use o comando: <mark>ping google.com -f -l 1500</mark>, se retornar: <code>Resposta de xxx.xxx.xxx.xxx bytes=xx (enviado xxxx) tempo=xx TTL=xx</code> indica que o MTU de <mark>1500</mark> é válido mesmo no seu roteador... Mas provavelmente vai aparecer um alerta de: <code>O pacote precisa ser fragmentado, mas a fragmentação está ativa.</code> se este é o caso cancele o teste atual com <mark>Control + C</mark> e insira o comando com valores menores, como por exemplo 1400 como no comando abaixo: <code>ping google.com -f -l <mark>1400</mark></code> eu recomendo diminuir de centena em centena até retornar uma resposta e depois ir subindo dezenas e por fim unidades até o resultado retornar: <code>Resposta de xxx.xxx.xxx.xxx bytes=xx (enviado xxxx) tempo=xx TTL=xx</code> <mark>O maior valor que retornar essa resposta, some +28 e inserira nas configurações de MTU do seu roteador</mark>.</p>
+        <p>7 - Outra coisa que pode acabar com a comunicação no caso do Wifi é o congestionamento de canal, para resolver isso instale o <a class="link" href="https://play.google.com/store/apps/details?id=com.farproc.wifi.analyzer&hl=en">Wifi Analyzer</a> no seu smartphone, e assim que abrir o app no gráfico de canais veja qual é o canal mais livre (ou menos congestionado) e mude para este canal no seu roteador de acordo com a imagem:</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/wifianalyzer.jpg" alt="">
+        <p>Nesses caso o gráfico indica que as áreas de canal <mark>4,5,6,7</mark> estão livres.</p>
+        <h2>Sistemas Operacionais (Windows, Linux e BSD's)</h2>
+        <p>1 - Escolha e baixe uma das versões do <a class="link" href="https://github.com/StevenBlack/hosts">Steven Black Unified Hosts File</a>, recomendo o <mark>Unified hosts = (adware + malware)</mark> por ser a menos invasiva. Para baixar esse <mark>hostsfile</mark> basta clicar com o botão direito do mouse no link da coluna <mark>Raw hosts</mark> e depois selecionar <mark>Salvar Link Como...</mark> e salvar com o Nome: <mark>hosts</mark> (sem .txt) e o Tipo: <mark>Todos os arquivos (*.*)</mark>.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/stevenblackhostsfile.jpg" alt="">
+        <p>Caso esteja no Windows acesse a pasta <mark>C:\Windows\System32\drivers\etc\</mark> e caso esteja em Linux ou BSD <mark>/etc</mark> e faça backup do arquivo <mark>hosts</mark> que aí está e depois o substitua para uma das versões do <mark>Unified Hosts File</mark></p>
+        <h2>Windows</h2>
+        <h3>Substituindo o Mixer do Windows pelo EarTrumpet</h3>
+        <img class="responsiva" src="../assets/images/windows/optimization/winmixer.jpg" alt="">
+        <p>Se você é do tipo de pessoa que joga ouvindo alguma música ou tem que atender chamadas no computador enquanto estava assistindo algum vídeo no YouTube, eu imagino que essa imagem acima te faça sentir ódio, e se você já utilizou Linux, *BSD ou Mac então provavelmente te dá mais ódio ainda. O aplicativo de Mixer nativo do Windows é um pé no saco mas podemos usar coisa melhor:</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/eartrumpet.jpg" alt="">
+        <p>Absurdamente melhor, né? Você pode baixar o <em>EarTrumpet</em> através desse link aqui: <a class="link" href="https://apps.microsoft.com/store/detail/eartrumpet/9NBLGGH516XP?cid=eartrumpet.landing">Aqui</a>. Assim que o app terminar de baixar (e você abrir ele) basta arrastar o ícone do EarTrumpet para a área de notificação e ocultar o mixer original do Windows.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/eartrumpet2.jpg" alt="">
+        <h3>Melhorando as fontes do Windows com o Mactype</h3>
+        <p>Se você já usou qualquer outro sistema operacional com uma qualidade maior de renderização de fontes (como por exemplo um Linux com TrueType ou Mac) e acessa muito texto no seu computador, você provavelmente tem horror a renderização de fontes do Windows (ainda que tenha configurado o ClearType corretamente). No melhor dos casos você só não tem ideia do quão podre é, mas da pra resolver (um pouco) isso com o <em>MacType</em>.</p>
+        <p>O MacType é um script de código aberto que pode melhorar (e muito) a qualidade de renderização das fontes do Windows, para começar baixe o MacType <a class="link" href="https://www.mactype.net/download.php?latest">aqui</a> e faça a instalação do programa e reinicie o computador.</p>
+        <p>No <em>Menu Iniciar</em> você vai encontrar um aplicativo chamado <em>MacType Wizard</em>.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/mactype1.jpg" alt="">
+        <p>Recomendo deixar as configurações como na imagem acima.</p>
+        <img class="responsiva" src="../assets/images/windows/optimization/mactype2.jpg" alt="">
+        <p>Após isso basta selecionar um dos perfis disponíveis e depois clicar em <em>Finish</em>, caso o <em>MacTray</em> não esteja ativo clique em <em>Click to start MacTray</em> e depois <em>Close</em>, o ícone do aplicativo deve aparecer na sua <em>Área de Notificação</em></p>
+        <img class="responsiva" src="../assets/images/windows/optimization/mactype3.jpg" alt="">
+        <p>Clicando com o botão direito sobre este ícone você pode habilitar o efeito (<em>(E)nabled</em>), desabilitar o efeito (<em>(D) isabled</em>) e até mudar o perfil se desejar (no meu caso eu costumo utilizar o perfil <em>iOS</em> )</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 20/09/2022)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

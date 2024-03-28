@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do OpenBSD 6.9</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - OpenBSD"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o OpenBSD"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.openbsd.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Instalação do OpenBSD</h1>
+        <h2>Introdução</h2>
+        <p>O OpenBSD é um sistema operacional unixlike com foco em segurança, livre e de código aberto e baseado em BSD. Criado em '95 como fork do NetBSD por Theo de Raadt. Essa instalação alvo é para uma máquina de testes para quem quer iniciar os estudos em OpenBSD, com nano, gerenciador de login padrão da distro, IceWM para um mínimo de usabilidade, Firefox e um gerenciador de arquivos gráfico.</p>
+        <p><strong>Aviso: Não recomendo a instalação do OpenBSD em modo UEFI e muito menos para iniciantes</strong></p>
+        <p>Nessa tela apenas aguarde o carregamento dos arquivos...</p>
+        <img class="responsiva" src="../assets/images/install/openbsd/openbsd1.jpg" alt="">
+        <p>Essa é a tela de início da instalação, como não existe contexto ou interface a documentação segue sem demais capturas de tela.</p>
+        <img class="responsiva" src="../assets/images/install/openbsd/openbsd2.jpg" alt="">
+        <code>Welcome to the OpenBSD/amd64 6.9 installation program.<br>(I)nstall, (U)pgrade, (A)utoinstall or (S)hell?</code>
+        <p>Digite <mark>i</mark> e tecle <mark>Enter</mark> para iniciar a instalação</p>
+        <code>Choose your keyboard layout ('?' or 'L' for list)</code>
+        <p>Digite <mark>br</mark> e tecle <mark>Enter</mark> para selecionar o layout <mark>ABNT2</mark></p>
+        <code>System hostname? (short form, e.g. 'foo')</code>
+        <p>Digite o seu <mark>hostname</mark> e tecle <mark>Enter</mark></p>
+        <code>Available network interfaces are: (interfaces)<br>Which network interface do you wish to configure? (or 'done') [em0]</code>
+        <p>Se a sua interface de rede desejada estiver dentro de <mark>[]</mark> tecle <mark>Enter</mark> <strong>ou</strong> digite a <mark>interface</mark> correta e tecle <mark>Enter</mark></p>
+        <code>IPv4 address for em0? (or 'dhcp' or 'none') [dhcp]</code>
+        <p>Tecle <mark>Enter</mark> para configurar o <mark>IPv4 com dhcp</mark> <strong>ou</strong> caso queira um ip específico <mark>insira o ip desejado</mark> para a interface e tecle <mark>Enter</mark></p>
+        <code>IPv6 address for em0? (or 'autoconf' or 'none') [none]</code>
+        <p>Tecle <mark>Enter</mark> para utilizar somente IPv4, <mark>autoconf</mark> para configuração automática de IPv6 <strong>ou</strong> <mark>insira o ip desejado</mark> para a interface e tecle <mark>Enter</mark></p>
+        <code>Which network interface do you wish to configure? (or 'done') [done]</code>
+        <p>Tecle <mark>Enter</mark> para finalizar a configuração de interfaces de rede</p>
+        <code>DNS domain name? (e.g. 'example.com') [my.domain]</code>
+        <p>Tecle <mark>Enter</mark> caso não tenha a necessidade de configurar um DNS domain name <strong>ou</strong> insira o domain name</p>
+        <code>Password for root account? (will not echo)</code>
+        <p>Insira a <mark>senha de administrador</mark> e tecle <mark>Enter</mark></p>
+        <code>Password for root account? (again)</code>
+        <p>Insira novamente a <mark>senha de administrador</mark> e tecle <mark>Enter</mark></p>
+        <code>Start sshd(8) by default? [yes]</code>
+        <p>Insira <mark>no</mark> a menos que você queira ter a possibilidade de se conectar a essa máquina via ssh</p>
+        <code>Do you expect to run the X Window System? [yes]</code>
+        <p>Tecle <mark>Enter</mark> caso queira utilizar uma interface gráfica ou digite <mark>no</mark> caso queira utilizar a máquina apenas por console</p>
+        <code>Do you want the X Window System to be started by xenodm(1)? [no]</code>
+        <p>Digite <mark>yes</mark> e tecle <mark>Enter</mark></p>
+        <code>Setup a user? (enter a lower-case loginname, or 'no') [no]</code>
+        <p>Insira o <mark>nome de usuário</mark> que você deseja para o seu usuário padrão ou tecle <mark>Enter</mark> para utilizar na conta de administrador (<strong>não recomendado</strong>)</p>
+        <code>Full name for user seuuser? [seuuser]</code>
+        <p>Tecle <mark>Enter</mark> ou insira o <mark>nome completo</mark> do usuário da conta</p>
+        <code>Password for user seuuser? (will not echo)</code>
+        <p>Insira a <mark>senha de usuário</mark> e tecle <mark>Enter</mark></p>
+        <code>Password for user seuuser? (again)</code>
+        <p>Insira novamente a <mark>senha de usuário</mark> e tecle <mark>Enter</mark></p>
+        <code>What timezone are you in? ('?' for list) [America/Sao_Paulo]</code>
+        <p>Tecle <mark>Enter</mark> se a região estiver correta <strong>ou</strong> <mark>?</mark> para listar as zonas de fuso horário e depois <mark>digite a região</mark> e depois <mark>subregião</mark> caso queira mudar</p>
+        <code>Available disks are: wd0<br>Which disk is the root disk? ('?' for details) [wd0]</code>
+        <p><mark>?</mark> mostra detalhes dos discos disponíveis, digite qual é o disco em que deseja instalar o sistema ou apenas tecle <mark>Enter</mark> caso o disco em <mark>[wd0]</mark> seja o disco correto</p>
+        <code>No valid MBR GPT.<br>Use (W)hole disk MBR, whole disk (G)PT, (O)penBSD area or (E)dit? [OpenBSD]</code>
+        <p>Recomendo teclar <mark>Enter</mark> ou <mark>w</mark> para usar todo o disco em MBR para BIOS, ou você pode editar as partições com a opção <mark>e</mark></p>
+        <code>Use (A)uto layout, (E)dit auto layout, or create (C)ustom layout? [a]</code>
+        <p>Tecle <mark>Enter</mark> para utilizar o layout padrão, <strong>ou</strong> <mark>e</mark> caso deseje editar manualmente</p>
+        <code>Let's install the sets!<br>Location of sets? (cd0 disk http nfs or 'done') [cd0]</code>
+        <p>Se o dispositivo de instalação estiver correto (<mark>[cd0]</mark> no caso da minha instalação) tecle <mark>Enter</mark></p>
+        <code>Pathname to the sets? (or 'done') [6.9/amd64]</code>
+        <p>Se o sistema foi reconheccido corretamente em <mark>[]</mark> tecle <mark>Enter</mark></p>
+        <code>Select sets by entering a set name, a file name pattern or 'all'. De-select sets by prepending a '-', e.g.: '-game'. Selected sets are labelled '[X]'.<br>Set name(s)? (or 'abort' or 'done') [done]</code>
+        <p>Insira <mark>-game*</mark>, não precisaremos de jogos nessa máquina, se <mark>game.tgz</mark> for desmarcado tecle <mark>Enter</mark></p>
+        <code>Directory does not contain SHA256.sig. Continue without verification? [no]</code>
+        <p>Insira <mark>yes</mark></p>
+        <code>Location of sets? (cd0 disk http nfs or 'done') [done]</code>
+        <p>Apenas tecle <mark>Enter</mark></p>
+        <code>Time appears wrong. Set to ''? [yes]</code>
+        <p>Se a data entre <mark>' '</mark> estiver correta tecle <mark>Enter</mark></p>
+        <code>CONGRATULATIONS! Your OpenBSD install has been successfully completed!<br>Exit to (S)hell, (H)alt or (R)eboot? [reboot]</code>
+        <p>Insira <mark>h</mark> para desligar ou <mark>r</mark> para reiniciar</p>
+        <code>The operating system has halted.<br>Please press any key to reboot.</code>
+        <p>Tecle <mark>Enter</mark></p>
+        <h2>Pós-Instalação</h2>
+        <p>Assim que o sistema iniciar ele vai carregar um gerenciador de login bem modesto:</p>
+        <img class="responsiva" src="../assets/images/install/openbsd/openbsd3.jpg" alt="">
+        <p>Por questões de segurança manteremos esse gerenciador de login mesmo, para alternar para um terminal e começar a configurar o básico do sistema você pode usar <mark>Ctrl</mark>+<mark>Alt</mark>+<mark>F1</mark>. Para atualizar os pacotes do sistema logue como root e dê o comando</p>
+        <code>pkg_add -u</code>
+        <p>Agora vamos instalar um editor de texto via console para alterar algumas configurações, um gerenciador de janelas, um navegador e um gerenciador de arquivos com </p>
+        <code>pkg_add nano icewm firefox thunar</code>
+        <p>(ou qualquer outro gerenciador de arquivos que você deseje)</p>
+        <p>Com <mark>Ctrl</mark>+<mark>Alt</mark>+<mark>F2</mark> logue no seu usuário padrão e crie um arquivo <mark>.xsession</mark> com</p>
+        <code>nano .xsession</code>
+        <p>contendo</p>
+        <code>exec icewm-session</code>
+        <p>retorne para o <mark>tty5</mark> com <mark>Ctrl</mark>+<mark>Alt</mark>+<mark>F5</mark> e tente iniciar uma sessão no <mark>IceWM</mark> com o seu usuário, se tudo deu certo você verá essa tela</p>
+        <img class="responsiva" src="../assets/images/install/openbsd/openbsd4.jpg" alt="">
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 19/12/2021)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

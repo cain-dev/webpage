@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminocentric</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Terminocêntrismo"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Toda a facilidade de usar o computador que só um terminal pode oferecer"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        	<h1>Ambiente Terminocêntrico</h1>
+        	<h2>Introdução</h2>
+        	<p>Seja pelo fato de ter uma máquina antiga e de baixo poder de processamento, seja pela busca de entender o Linux ou simplesmente pela vontade de ser um "I use Arch, btw" user, se você instalou um Arch com Sway e invejou os rices do Unixporn é bem provavel que você notou o fascínio da comunidade por aplicativos de terminal, que além de serem muito mais rápidos também PODEM ser muito agradáveis estéticamente...</p>
+		<p>Mas você não está satisfeito em apenas ter uma interface funcionando e usar os mesmos aplicativos de sempre, você quer um setup terminocêntrico! Mas... Não sabe como conseguir ferramentas que substituam perfeitamente o caso de uso atual? Então esse tutorial é pra vocẽ!</p>
+		<p>Mas antes disso um aviso: <strong>Desse ponto em diante basicamente não tem mais colher de chá ou videozinho no youtube pra resolver em 2 comandos, daqui pra frente o que há é leitura de documentação de software e testes, muita leitura, e muitos testes! Não existe atalhos!</strong> Se você está tudo bem com isso então vamos começar:</p>
+		<h2><mark>Usecase Target</mark></h2>
+		<p>O alvo dessa documentação é fazer um setup terminocêntrico tão capaz quanto o básico de uso de um computador hoje em dia: <mark>Navegação</mark> (isso você já tinha antes), <mark>Gerenciamento de arquivos</mark> (abrir, copiar, colar, excluir, visualizar, editar, comprimir, extrair), <mark>Gerenciamento de Mídias Removíveis</mark> (automontagem, interface para montar, desmontar, remover), <mark>Edição de Código</mark> (com visualização de árvore de diretórios)</p>
+		<h2>Instalação de NerdFonts</h2>
+		<p>Escolha e baixe alguma das fontes desse link <a class="link" href="https://www.nerdfonts.com/font-downloads">Aqui</a>, mova as fontes para <mark>/usr/local/share/fonts/otf</mark> ou <mark>/usr/local/share/fonts/ttf</mark>. Os arquivos de fonte precisam ter permissões de leitura suficientes para todos os usuários, ou seja, pelo menos <mark>chmod 444</mark> para arquivos e <mark>555</mark> para diretórios.</p>
+		<p>Por último execute o comando abaixo para atualizar o cache de fontconfig</p>
+		<code>fc-cache</code>
+		<h2>Instalação do Terminal, Kitty</h2>
+		<code>sudo pacman -S kitty</code>
+		<p>Diretório de configuração: <mark>~/.config/kitty/kitty.conf</mark></p>
+		<p>Você pode ver a documentação de configuração do Kitty <a class="link" href="https://sw.kovidgoyal.net/kitty/overview/#configuring-kitty">aqui</a></p>
+		<p>Você pode ver a minha configuração do Kitty <a class="link" href="https://github.com/cain-dev/dotfiles/blob/main/kitty/kitty.conf">aqui</a></p>
+		<p>Caso você queira instalar um tema recomendo esse repositório <a class="link" href="https://github.com/dexpota/kitty-themes">aqui</a></p>
+        
+        <h2>Instalação e configuração do Shell, Zsh com Oh-My-Zsh</h2>
+        <p>Eu já migrei de shell para shell e recentemente tenho usado o <em>Zsh</em>, eu creio que ele é o que existe de ideal entre customização e facilidade de uso vs compatibilidade, instale com o comando e siga a configuração básica:</p>
+        <code>pacman -S zsh</code>
+        <p>Instale o framework com o Oh-My-Zsh com o comando abaixo:</p>
+        <code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code>
+        <p>Existem 2 plugins que eu considero indispensáveis para a utilização de um terminal atualmente, o <em>autosuggestions</em> e o <em>syntax-highlighting</em>, instale eles com os comandos abaixo:</p>
+        <code>git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions<br>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</code>
+        <p>Acesse o arquivo <em>~/.zshrc</em>, e na linha <em>plugins=(git)</em> adicione os plugins  <em>zsh-syntax-highlighting</em> e <em>zsh-autocomplete</em> para ficar como no exemplo abaixo:</p>
+        <code>plugins=(git zsh-syntax-highlighting zsh-autosuggestions)</code>
+        <p>Recomendo também que configure as opções de locale internas do framework, encontre a linha <em>export LANG=en_US.UTF-8</em> e substitua por:</p>
+        <code>export LANG=pt_BR.UTF-8</code>
+        <p><strong>Lembre-se:</strong> Acesse o arquivo de configuração do <em>kitty</em> em <mark>~/.config/kitty/kitty.conf</mark> e sete <em>shell</em> para <em>zsh</em> como no exemplo abaixo:</p>
+        <code>shell zsh</code>
+        <h2>Instalação do Gerenciador de arquivos, Ranger</h2>
+		<code>sudo pacman -S ranger atool unzip unrar python-pillow poppler ffmpegthumbnailer</code>
+		<p>Você pode ver a documentação de guia de usuário do Ranger <a class="link" href="https://github.com/ranger/ranger/wiki/Official-user-guide">aqui</a></p>
+		<p>Você pode ver a documentação de Wiki do Ranger <a class="link" href="https://github.com/ranger/ranger/wiki">aqui</a></p>
+		<p>Você pode ver a minha configuração do Ranger <a class="link" href="https://github.com/cain-dev/dotfiles/tree/main/ranger">aqui</a></p>
+		<p><mark>rc.conf</mark> é usado para definir várias opções e vincular teclas a funções.<br>
+		<mark>rifle.conf</mark> decide qual programa usar para abrir um arquivo.<br>
+		<mark>scope.sh</mark> é um script de shell usado para gerar visualizações para vários tipos de arquivo.<br>
+		<mark>commands.py</mark> contém a implementação de várias funções, escritas em Python, usadas para modificar o comportamento do ranger e implementar seus próprios comandos personalizados.</p>
+		<p>Use <code>ranger --copy-config=rc</code> ou substitua <mark>rc</mark> por <mark>commands</mark>, <mark>rifle</mark>, ou <mark>scope</mark>, para copiar os arquivos de configuração padrão para o diretório <mark>~/.config/ranger</mark> e modificá-los lá, apenas copie os arquivos que você deseja editar.</p>
+		<h3>Habilitar Ícones no Ranger</h3>
+		<p>Para possibilitar a visualização de ícones no ranger você pode utilizar o plugin <mark>ranger_devicons</mark>, basta copiar o arquivo <mark>devicons.py</mark> para a pasta de plugins do ranger e adicionar a linha <mark>default_linemode devicons</mark> no <mark>rc.conf</mark> ou utilizar os códigos abaixo:</p>
+		<code>git clone https://github.com/cdump/ranger-devicons2 ~/.config/ranger/plugins/devicons2</code>
+		<code>echo "default_linemode devicons2" >> $HOME/.config/ranger/rc.conf</code>
+		<h3>Habilitar Lixeira e Esvaziamento de Lixeira</h3>
+		<p>Primeiramente crie o diretório da lixeira <mark>~/.local/share/Trash/files/</mark> e mapeie o comando abaixo no <mark>rc.conf</mark></p>
+		<code>map DD shell mv %s /home/${USER}/.local/share/Trash/files/</code>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+class empty(Command):
+	""":empty
+
+	Empties the trash directory ~/.Trash
+	"""
+
+	def execute(self):
+		self.fm.run("rm -rf /home/${USER}/.local/share/Trash/files/*")
+		</code></pre>
+		<p>Para limpar a lixeira digite use o comando <code>:empty</code> e tecle <mark>Enter</mark></p>
+		<h3>Habilitar Extração de Arquivos</h3>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+import os
+from ranger.core.loader import CommandLoader
+
+class extract_here(Command):
+    def execute(self):
+        """ extract selected files to current directory."""
+        cwd = self.fm.thisdir
+        marked_files = tuple(cwd.get_selection())
+
+        def refresh(_):
+            cwd = self.fm.get_directory(original_path)
+            cwd.load_content()
+
+        one_file = marked_files[0]
+        cwd = self.fm.thisdir
+        original_path = cwd.path
+        au_flags = ['-x', cwd.path]
+        au_flags += self.line.split()[1:]
+        au_flags += ['-e']
+
+        self.fm.copy_buffer.clear()
+        self.fm.cut_buffer = False
+        if len(marked_files) == 1:
+            descr = "extracting: " + os.path.basename(one_file.path)
+        else:
+            descr = "extracting files from: " + os.path.basename(
+                one_file.dirname)
+        obj = CommandLoader(args=['aunpack'] + au_flags
+                            + [f.path for f in marked_files], descr=descr,
+                            read=True)
+
+        obj.signal_bind('after', refresh)
+        self.fm.loader.add(obj)
+		</code></pre>
+		<h3>Habilitar Compressão de Arquivos</h3>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+import os
+from ranger.core.loader import CommandLoader
+
+class compress(Command):
+    def execute(self):
+        """ Compress marked files to current directory """
+        cwd = self.fm.thisdir
+        marked_files = cwd.get_selection()
+
+        if not marked_files:
+            return
+
+        def refresh(_):
+            cwd = self.fm.get_directory(original_path)
+            cwd.load_content()
+
+        original_path = cwd.path
+        parts = self.line.split()
+        au_flags = parts[1:]
+
+        descr = "compressing files in: " + os.path.basename(parts[1])
+        obj = CommandLoader(args=['apack'] + au_flags + \
+                [os.path.relpath(f.path, cwd.path) for f in marked_files], descr=descr, read=True)
+
+        obj.signal_bind('after', refresh)
+        self.fm.loader.add(obj)
+
+    def tab(self, tabnum):
+        """ Complete with current folder name """
+
+        extension = ['.zip', '.tar.gz', '.rar', '.7z']
+        return ['compress ' + os.path.basename(self.fm.thisdir.path) + ext for ext in extension]
+
+		</code></pre>
+		<h3>Habilitar Visualização de Imagens e PDF</h3>
+		<p>Para habilitar a visualização de imagens no Ranger através do Kitty adicione essas linhas no <mark>rc.conf</mark></p>
+		<code>set preview_images true<br>set preview_images_method kitty</code>
+		<p>Para habilitar a visualização de demais arquivos adicione essas linhas no <mark>rc.conf</mark></p>
+		<code>set use_preview_script true</code>
+		<p>Para habilitar exibição de thumbnail de vídeos habilite as seguintes linhas no <mark>scope.sh</mark>:</p>
+		<pre><code>
+## Video
+video/*)
+	# Thumbnail
+	ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
+	exit 1;;
+		</code></pre>
+		<p>Por padrão o ranger permite a visualização de PDF como documento de texto, caso você queira a visualização de PDF de maneira gráfica descomente e habilite as seguintes linhas no <mark>scope.sh</mark>:</p>
+		<pre><code>
+## PDF
+         application/pdf)
+             pdftoppm -f 1 -l 1 \
+                      -scale-to-x "${DEFAULT_SIZE%x*}" \
+                      -scale-to-y -1 \
+                      -singlefile \
+                      -jpeg -tiffcompression jpeg \
+                      -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
+                 && exit 6 || exit 1;;
+		</code></pre>
+		<h2>Instalação do Editor de Código, Neovim</h2>
+		<p>Antes de mais nada instalaremos o Neovim com</p>
+		<code>sudo pacman -S neovim</code>
+		<p>Para acesso rápido no gerenciador de arquivos é interessante definir o Neovim como editor padrão nas variáveis de ambiente, para isso declare a seguinte variável</mark></p>
+		<code>EDITOR=nvim</code>
+		<p>Com isso basta mapear um atalho para edição de arquivo (no meu caso eu uso a tecla e: <mark>map e edit</mark>)</p>
+		<h3>Habilitar plugins com o vim-plug</h3>
+		<p>O Neovim (ou o Vim original ou mesmo alguma outra versão) é quase que uma religião, é uma ferramenta poderosíssima e absurdamente extensível e leve, existem diversas maneiras de incrementar o Neovim mas uma das (se não a) mais populares é através do gerenciador de plugins <mark>vim-plug</mark>. Para instalar o vim-plug baixe o arquivo desse endereço <a class="link" href="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim">aqui</a>, basta salva-lo como o arquivo <mark>plug.vim</mark> na pasta <mark>~/.config/nvim/autoload</mark>.</p>
+		<p>Agora é interessante preparar o arquivo de configuração do Neovim que fica em <mark>~/.config/nvim/init.vim</mark>. Para instalar plugins basta adicionar o link do plugin nesse arquivo como no exemplo abaixo e usar o comando <mark>:PlugInstall</mark> no Neovim.</p>
+		<pre><code>
+" início da função 
+call plug#begin()
+" adicione aqui os links dos plugins que você deseja
+Plug 'https://github.com/vim-airline/vim-airline'
+Plug 'https://github.com/ryanoasis/vim-devicons'
+Plug 'https://github.com/sainnhe/sonokai'
+Plug 'https://github.com/preservim/nerdtree'
+call plug#end()
+		</code></pre>
+		<p>Inclusive esses são os plugins que eu recomendo, caso você queira ver o meu arquivo de configuração basta acessar esse link <a class="link" href="https://github.com/cain-dev/dotfiles/blob/main/nvim/init.vim">aqui</a><p>
+		<h3>Habilitar clipboard no Neovim</h3>
+		<p>Uma função indispensável para a edição de arquivos é acesso ao clipboard do sistema, para isso é importante que você tenha alguma ferramenta para tal, se você estiver usando o <mark>X11</mark> você deve instalar o <mark>xclip</mark> se você estiver usando <mark>Wayland</mark> você deve instalar o <mark>wl-clipboard</mark>, e por fim você deve adicionar a linha abaixo no arquivo de configuração do Neovim</p>
+		<code>set clipboard=unnamedplus</code>
+
+        	<!--
+			<a class="link" href="https://"></a>
+		-->
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 01/05/2022)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatando Pendrive</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Formate o pendrive na unha!"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a formatar o maldito pendrive em FAT32 e não ter mais erro"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Formatando Pendrive FAT32 - MBR</h1>
+        <h2>Introdução</h2>
+        <p>Gerenciamento de arquivos é algo que de uma forma ou de outra faz parte de quase todo tipo de dispositivo hoje em dia, de calculadoras salvando arquivos de resultados até televisões que usam de arquivos no pendrive para serem atualizadas, e todos eles tendem a exigir um dispositivo <em>formatado em FAT32 com a tabela de partições em MBR</em>, e o motivo disso é em parte por uma questão histórica e em parte por questão de compatibilidade. É provável que em algum momento da sua vida você precisou formatar um pendrive em <em>FAT32</em>, e você espetou o pendrive no pc, selecionou o pendrive no Windows, clicou com o botão direito e fez a formatação e... Mesmo assim o dispositivo não reconheceu.</p>
+        <p>Mas você tentou novamente, baixou algum programa aleatório que permitia formatar em FAT32, colocou pra formatar e... Não funcionou. E agora?</p>
+        <p>Isso pode acontecer por inúmeros motivos, mais de uma partição no dispositivo, uma tabela de partição diferente, erro na sinalização da partição... Existe alguma maneira de garantir que o pendrive esteja formatado da maneira certa para possibilitar essa compatibilidade sem chance de errar? Existe sim! E é extremamente tranquilo de fazer.</p>
+        <p><strong>Antes de seguir faça backup dos arquivos do seu pendrive pois tudo será apagado</strong></p>
+        <h2>Formatando</h2>
+        <h3>Passo 1 - Apagando tudo</h3>
+        <p>Abra o <em>Prompt de Comando</em> selecionando a opção <em>Executar como administrador</em></p>
+        <img class="responsiva" src="https://www.howtogeek.com/wp-content/uploads/2017/05/cpa_4.png?trim=1,1&bg-color=000&pad=1,1" alt="">
+        <p>O programa da linha de comando para fazer as devidas alterações é o <em>diskpart</em>, para acessá-lo basta digitar o nome e teclar <em>Enter</em></p>
+        <code>diskpart</code>
+        <p>Agora precisamos saber qual dos discos é o pendrive, para isso use o comando abaixo e tecle <em>Enter</em></p>
+        <code>list disk</code>
+        <img class="responsiva" src="https://learn.microsoft.com/en-us/windows-server/administration/media/diskpart/diskpart-2.png" alt="">
+        <p>Essa janela exibe <strong>todos</strong> os discos conectados ao computador, tenha a certeza de que você consegue identificar qual desses discos é o pendrive do contrário <strong>você vai apagar tudo do disco que selecionar!</strong> Assim que tiver a certeza de ter identificado qual deles é o pendrive <strong>verifique se a guia <em>GPT</em> está marcada com um <em>*</em></strong>, isso vai ser importante mais adiante. Quando estiver confiante em prosseguir digite o comando <em>select disk</em> acompanhando do <em>número do disco</em>, vamos supor que o meu pendrive seja o <em>Disk 1</em>, então o comando que eu devo usar para selecionar é:</p>
+        <code>select disk 1</code>
+        <p><strong>obviamente você vai selecionar o disco de acordo com a súa máquina, <em>se no seu caso o pendrive for o disco 1 é select disk 1</em> mas <em>se for o 3 é select disk 3</em></strong></p>
+        <p>Uma vez que o disco relativo ao pendrive está insira o comando para apagar tudo no disco</p>
+        <code>clean</code>
+        <h3>Passo 2 - Convertendo a tabela de partições</h3>
+        <p>Espere acabar e retornar a mensagem <em>DiskPart succeeded in cleaning the disk.</em> Se no passo acima a guia <em>GPT</em> do pendrive estava marcada com um <em>*</em> significa então que você precisa usar o comando abaixo para converter a tabela de partições do pendrive em <em>MBR</em>, para isso utilize o comando abaixo (se não foi o seu caso apenas ignore este passo):</p>
+        <code>convert mbr</code>
+        <h3>Passo 3 - Criando a partição</h3>
+        <p>Uma vez que o pendrive foi completamente apagado e já está com uma tabela de partição em <em>MBR</em> agora só falta criar a partição <em>FAT32</em> e <em>primária</em>, para isso use o comando abaixo:</p>
+        <code>create partition primary</code>
+        <h3>Passo 4 - Formatando para <em>FAT32</em></h3>
+        <p>Já com uma partição primária criada no disco precisamos formatar essa partição para <em>FAT32</em>, para isso use o comando abaixo para selecionar a partição:</p>
+        <code>select partition 1</code>
+        <p>Se e somente se você precisa que essa partição seja <em><i>bootável</i></em> utilize o comando abaixo:</p>
+        <code>active</code>
+        <p>para formatar como <em>FAT32</em> o comando é:</p>
+        <code>format fs=fat32</code>
+        <p>Pronto! Agora você tem um pendrive em com uma tabela de partição em <em>MBR</em> com uma partição única em <em>FAT32</em>. Se você quiser que esse disco já seja montado no sistema para você usar o pendrive use o comando:</p>
+        <code>assign</code>
+        <p>Para finalizar</p>
+        <code>exit</code>        
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 28/10/2022)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proton VPN</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Uma VPN gratuita e bem integrada ao sistema"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Entenda como integrar o Proton VPN ao seu NetworkManager"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Usando o Proton VPN integrado ao NetworkManager</h1>
+        <h2>Introdução</h2>
+        <p>Devido a crescente "necessidade de se utilizar uma VPN" (se é que você me entende), eu fiquei atento para as possibilidades mas nenhuma me deixava confortável... Até ver o serviço da Proton! Mesmo assim, eu não estava interesssado em utilizar nenhum aplicativo externo, então criei essa documentação para te possibilitar o uso de VPN integrado ao NetworkManager que você pode fazer em menos de 5 minutos.</p>
+        <h2>Pegando os dados necessários</h2>
+        <p>Acesse a sua conta Proton e depois acesse <a class="link" href="https://account.proton.me/u/3/vpn/OpenVpnIKEv2">esse link</a>.<br><br></p>
+        <h3>Em <em>Credenciais</em>:</h3>
+        <p>Copie o <em>Nome de usuário OpenVPN / IKEv2</em> e a <em>Senha OpenVPN / IKEv2</em> para algum arquivo de texto;</p>
+        <h3>Em <em>Arquivos de configuração OpenVPN</em>:</h3>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn1.png" alt="">
+        <ol>
+            <li><p>Na opção <em>Selecione a plataforma</em> selecione <em>GNU/Linux</em>;</p></li>
+            <li><p>Na opção <em>Selecione o protocolo</em> selecione <em>UDP</em>;</p></li>
+            <li><p>Na opção <em>Selecione o arquivo de configuração e baixe</em> selecione <em>Configurações do servidor gratuito</em>.</p></li>
+            <li><p>Nas opções de servidores clique em <em>Baixar</em> no servidor que se deseja conectar.</p></li>
+        </ol>
+        <p>Uma vez que você tem as credenciais e o arquivo de configuração do servidor baixado, é necessário instalar a extensão do OpenVPN para o seu NetworkManager caso ainda não tenha, para isso utilize o comando abaixo.</p>
+        <h4>Para Archlinux:</h4>
+        <code>pacman -S networkmanager-openvpn</code>
+        <h4>Para Debian:</h4>
+        <code>sudo apt install openvpn network-manager-openvpn-gnome</code>
+        <p>Para armazenar as credenciais instale o Gnome Keyring com o comando abaixo.</p>
+        <h4>Para Archlinux:</h4>
+        <code>pacman -S gnome-keyring</code>
+        <h4>Para Debian:</h4>
+        <code>sudo apt install gnome-keyring</code>
+        <p>Para uma interface gráfica de usuário instale o editor de conexões do Network Manager com o comando abaixo:</p>
+        <h4>Para Archlinux</h4>
+        <code>sudo pacman -S nm-connection-editor</code>
+        <h4>Para Debian</h4>
+        <code>sudo apt install network-manager-gnome</code>
+        <p>Para instalar um miniaplicativo de bandeja de sistema utilize o comando abaixo:</p>
+        <h4>Para Archlinux</h4>
+        <code>sudo pacman -S network-manager-applet</code>
+        <h4>Para Debian</h4>
+        <code>sudo apt install network-manager-applet</code>
+        <h3>Configurando o NetworkManager</h3>
+        <p>Clique no símbolo de conexão, na barra do sistema e selecione <em>Editar conexões</em>:</p>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn2.png" alt="">
+        <p>Clique em <em>Adicionar</em> para criar uma nova conexão. Selecione <em>Importar uma configuração de VPN salva…</em> e no menu suspenso e clique em <em>Criar…</em>:</p>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn3.png" alt="">
+        <p>Importe o arquivo de configuração do servidor ao qual deseja se conectar, navegando até o local onde você baixou o arquivo de configuração:</p>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn4.png" alt="">
+        <p>Insira as credenciais do OpenVPN nos campos <em>Nome de usuário</em> e <em>Senha</em> da nova janela e clique em <em>Salvar</em>:</p>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn5.png" alt="">
+        <p>Para estabelecer a conexão com o Proton VPN clique no ícone da rede na barra de tarefas. Selecione <em>Conexões VPN</em>, clique na entrada de sua configuração recém-adicionada e ela se conectará automaticamente ao servidor Proton VPN escolhido.</p>
+        <img class="responsiva" src="../assets/images/linux/nm_proton/protonvpn6.png" alt="">
+        <!--
+        <h2>E se eu utilizar o IWD?</h2>
+        <p>No seu caso basta utilizar o IWD como backend para o NetworkManager, primeiramente instale o NetworkManager (caso você não tenha) com o comando:</p>
+        <h4>Para Archlinux</h4>
+        <code>sudo pacman -S networkmanager</code>
+        <h4>Para Debian</h4>
+        <code>sudo apt install network-manager</code>
+        <p>E crie um arquivo em <em>/etc/NetworkManager/conf.d/iwd.conf</em> que contenha:</p>        
+        <code>[device]<br>wifi.backend=iwd</code>
+        <p>Interrompa o <em>NetworkManager.service</em>, desative o <em>wpa_supplicant.service</em>, depois reinicie o <em>NetworkManager.service</em>:</p>
+        <code>sudo systemctl stop NetworkManager<br>sudo systemctl disable --now wpa_supplicant<br>sudo systemctl restart NetworkManager</code>
+        <p>Se você não tinha o NetworkManager habilitado anteriormente lembre-se de habilitá-lo com o comando:</p>
+        <code>sudo systemctl enable NetworkManager</code>
+        -->
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧<br>(Atualizada pela última vez em 28/04/2023)</p>
+        <a class="link" href="index.html">Retornar para a página principal</a>
+    </footer>
+</body>
+</html>
