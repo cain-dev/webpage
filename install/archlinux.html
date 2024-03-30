@@ -36,41 +36,124 @@
         <p>A instalação alvo para essa documentação baseia-se em um sistema em modo <mark>BIOS</mark> com o <mark>GRUB</mark> como inicializador <strong>ou</strong> em modo <mark>UEFI</mark> com <mark>systemd-boot</mark> como inicializador; com a raiz do sistema com o sistema de arquivos <mark>EXT4</mark>; com rede baseada em <mark>iwd</mark> com <mark>systemd-resolved</mark> para instalações minimalistas (como <i>laptops</i> menos potentes que só precisam de uma conexão sem fio) <strong>ou</strong> <mark>Network Manager</mark> com <mark>systemd-resolved</mark> para um gerenciamento de rede com maior compatibilidade; utilizando o <mark>PipeWire</mark> como servidor de áudio.</p>
         <p>Se por acaso você tem interesse na instalação de um outro bootloader como o <mark>rEFInd</mark> ou deseja utilizar outro sistema de arquivos para a raiz do sistema como o <mark>F2FS</mark>, <mark>BTRFS</mark> ou <mark>ZFS</mark> <strong>Não siga essa documentação como guia para fazer o particionamento do disco, formatação das partições e instalação de <i>bootloader</i>!</strong>.</p>
         <p><strong>⚠️&nbsp;Alerta: É necessário experiência prévia com terminais e sistemas Unixlike!</strong></p>
+        <details class="spoiler" >
+            <summary>Selecionando os mirror's <strong>Não recomendado!</strong> (Clique para ver)</summary>
+            <p>Vamos começar do começo... Isso é absurdamente desnecessário, ok? Não faça! Isso está aqui para fins educacionais, já adianto que se você demorar muito para chegar nesse paso o próprio Arch fara uma busca pelos melhores mirrors então de estalo já desative o serviço com:</p>
+            <code>systemctl stop reflector.service</code>
+            <p>Existem diversas maneiras de editar o arquivo que lista os servidores <i>mirrors</i> e habilitar apenas os servidores brasileiros para uma melhor conexão para o processo de instalação, mas a que eu recomendo é através dos comandos de substituição do <mark>vim</mark>. Você pode abrir o arquivo de <i>mirrors</i> no <mark>vim</mark> com o seguinte comando:</p>
+            <code>vim /etc/pacman.d/mirrorlist</code>
+            <p>Com o vim aberto <strong>não aperte nenhuma outra tecla!</strong> (a menos que esteja acostumado a usar o vim), apenas escreva o comando abaixo e depois tecle <em>Enter</em> para comentar e desabilitar todos os servidores de uma vez só:</p>
+            <code>:%s/Server/#Server/g</code>
+            <p>Uma vez que todos os servidores foram comentados, utilize as <em>setas do teclado</em> e o <em>delete</em> para apagar o <mark>#</mark> que precede o link dos servidores brasileiros. Quando finalizar utilize o comando abaixo para salvar e sair:</p>
+            <code>:wq</code>
+            <p>Então você pode atualizar o banco de dados dos pacotes com o seguinte comando:</p>
+            <code>pacman -Syy</code>
+        </details>
         <!-- Passo 1 Configurar o layout do teclado -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo 1 - Configurar o <i>layout</i> do teclado</h2>
-        <p>Antes de digitar qualquer outro comando é necessário que o teclado esteja devidamente configurado, supondo que você tenha um teclado padrão <mark>ABNT2</mark> utilize o comando abaixo para selecionar o layout correto:</p>
+        <h2>Passo 1 - Configurar o <i>layout</i> do teclado e fonte do terminal</h2>
+        <p>Antes de digitar qualquer outro comando é necessário que o teclado esteja devidamente configurado, supondo que você tenha um teclado padrão <mark>ABNT2</mark> utilize o comando abaixo para carregar o layout correto:</p>
         <code>loadkeys br-abnt2</code>
         <!-- Passo opcional - Mudar a fonte da padrão do terminal -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo opcional - Mudar a fonte padrão do terminal</h2>
-        <p>Eu frequentemente tenho que instalar o ArchLinux em um <i>laptop</i> que possuo e a fonte fica pequena demais na tela para o meu gosto, caso você tenha o mesmo problema que eu e queira alterar a fonte para uma fonte que fique mais agradável em telas menores utilize o comando abaixo:</p>
+        <h2>Opcional - Mudar a fonte padrão do terminal</h2>
+        <p>Eu frequentemente tenho que instalar o ArchLinux em um <i>laptop</i> que possuo e a fonte fica pequena demais na tela para o meu gosto, caso você tenha o mesmo problema que eu e queira alterar a fonte para uma outra que fique mais visível você pode utilizar uma das fontes contidas em <mark>/usr/share/kbd/consolefonts/</mark> e o comando <mark>setfont</mark> como no comando abaixo:</p>
         <code>setfont ter-124b</code>
         <!-- Passo opcional - Verificar o ambiente de inicialização -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo opcional - Verificar o ambiente de inicialização</h2>
+        <h2>Passo 2 - Verificar o ambiente de inicialização</h2>
         <p>Para garantir que você iniciou o sistema da forma correta você pode utilizar o comando:</p>
+        <!--
         <code>ls /sys/firmware/efi/efivars</code>
+        -->
+        <code>cat /sys/firmware/efi/fw_platform_size</code>
+        <p>Se o comando retornar 64, o sistema está inicializado no modo UEFI e tem um UEFI x64 de 64 bits. Se o comando retornar 32, o sistema está inicializado no modo UEFI e tem um UEFI IA32 de 32 bits; embora seja suportado, limitará a escolha do carregador de boot ao <mark>systemd-boot</mark>. Se o arquivo não existir, o sistema está inicializado no modo BIOS (ou CSM). Se o sistema não inicializou no modo desejado (UEFI vs BIOS), reinicie o computador e reconfigure a placa-mãe.</p>
+        <!--
         <p>Se o comando mostrar o diretório sem erro, o sistema está inicializado no modo UEFI. Se o diretório não existir, o sistema pode ser estar no modo BIOS (ou CSM). Caso não esteja no ambiente correto reinicie o seu computador e configure a placa mãe corretamente.</p>
+        -->
         <!-- Passo 2 Conectar-se a internet -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo 2 - Conectar-se a internet</h2>
+        <h2>Passo 3 - Conectar-se a internet</h2>
         <!-- Passo 2 Opção A - Caso esteja conectado com cabo de rede-->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->     
+        <p>Antes e mais nada verifique se a sua interface está listada e habilitada com o comando:</p>
+        <code>ip link</code>
         <h3>Opção A - Caso esteja conectado com cabo de rede</h3>
-        <p>Caso tenha conectado o computador ao cabo de rede para acessar a internet basta verificar se há aquisição de um endereço IP válido e se há conexão com a rede local através do comando:</p>
+        <p>Caso tenha conectado o computador ao cabo de rede para acessar a internet as chances são que seu roteador já faz todo o trabalho, então basta verificar se há aquisição de um endereço IP válido e se há conexão com a rede local através do comando:</p>
         <code>ip address show</code>
         <p>Se recebemos um endereço IP válido podemos conferir se há conexão com a internet com o comando:</p>
-        <code>ping google.com</code>
-        <p>Se a conexão com o Google não teve falhas você pode pular para o Passo 3</p>
+        <code>ping archlinux.org</code>
+        <p>Se a conexão com o archlinux.org não teve falhas você pode pular para o Passo 4</p>
         <!-- Passo 2 Opção B - Caso queira se conectar a internet através de uma rede sem fio -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Opção B - Caso queira se conectar a internet através de uma rede sem fio</h3>
+        <details class="spoiler" >
+            <summary>Caso tenha a placa de WiFi bloqueada (Clique para ver)</summary>
+            <p>Muitos laptops possuem um botão (ou switch) de hardware para desligar a placa wireless; entretanto, ela também pode ser bloqueada pelo kernel. Isso pode ser resolvido por rfkill. Para mostrar o status atual:</p>
+            <code>rfkill</code>
+            <p>Vai retornar um menu mais ou menos assim:</p>
+            <code>
+            <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>TYPE</th>
+                    <th>DEVICE</th>
+                    <th>SOFT</th>
+                    <th>HARD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0</td>
+                    <td>bluetooth</td>
+                    <td>hci0</td>
+                    <td>unblocked</td>
+                    <td>unblocked</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>wlan</td>
+                    <td>phy0</td>
+                    <td>unblocked</td>
+                    <td>unblocked</td>
+                  </tr>
+                </tbody>
+                </table>
+            </code>
+            <p>Se a placa estiver <i>hard-blocked</i>, use o botão interruptor físico para desbloqueá-la. Se a placa não estiver <i>hard-blocked</i> e sim <i>soft-blocked</i>, desbloqueie como no comando abaixo:</p>
+            <code>rfkill unblock wlan</code>
+        </details>
         <p>Caso você queira utilizar uma conexão sem fio para se conectar a internet podemos utilizar a ferramenta <mark>iwd</mark> para fazer a conexão, para acessá-la execute o comando:</p>
         <code>iwctl</code>
         <p>Uma vez que estamos no controle do <mark>iwctl</mark> podemos listar os dispositivos disponíveis para conexão sem fio, para isso utilize o comando:</p>
         <code>device list</code>
-        <p>Os dispositivos reconhecidos pelo sistema serão listados, uma vez que você sabe qual é o nome do dispositivo de conexão sem fio no seu computador, utilize o comando abaixo para iniciar uma varredura das redes disponíveis para conexão substituindo o trecho <mark>device</mark> pelo nome (o que está abaixo da guia <mark>Name</mark>) do seu dispositivo:</p>
+        <p>Os dispositivos reconhecidos pelo sistema serão listados como no exemplo abaixo:</p>
+        <code>
+        <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Powered</th>
+                <th>Adapter</th>
+                <th>Mode</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><mark>device</mark></td>
+                <td>DE:AD:BE:EF:01:02</td>
+                <td>off</td>
+                <td><mark>adapter01</mark></td>
+                <td>station</td>
+              </tr>
+            </tbody>
+            </table>
+        </code>
+        <p>Caso o seu adaptador esteja desligado como no exemplo acima, utilize o comando abaixo para iniciá-lo:</p>
+        <code>adapter <mark>adapter01</mark> set-property Powered on</code>
+        <p>Uma vez que você sabe qual é o nome do dispositivo de conexão sem fio no seu computador, utilize o comando abaixo para iniciar uma varredura das redes disponíveis para conexão substituindo o trecho <mark>device</mark> pelo nome (o que está abaixo da guia <mark>Name</mark>) do seu dispositivo:</p>
         <code>station <mark>device</mark> scan</code>
         <p>Agora podemos listar as redes sem fio disponíveis, para isso podemos utilizar o comando:</p>
         <code>station <mark>device</mark> get-networks</code>
@@ -84,24 +167,12 @@
         <code>ip addr show</code>
         <p>Se recebemos um endereço IP válido podemos conferir se há conexão com a internet com o comando:</p>
         <code>ping google.com</code>
-        <p>Se a conexão com o Google não teve falhas você pode prosseguir para o Passo 3</p>
+        <p>Se a conexão com o Google não teve falhas você pode prosseguir para o Passo 4</p>
         <!-- Passo opcional - Verificar a hora -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo opcional - Verificar a hora</h2>
         <p>No ambiente de instalação o <em>systemd-timesyncd</em> é ativado por padrão e o horário será sincronizado automaticamente assim que uma conexão com a internet for estabelecida. Para garantir que o relógio do sistema está correto utilize o comando:</p>
         <code>timedatectl</code>
-        <!-- Passo 3 Edição do arquivo de mirrors -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo 3 - Mudança de servidores <i>mirrors</i></h2>
-        <p>Existem diversas maneiras de editar o arquivo que lista os servidores <i>mirrors</i> e habilitar apenas os servidores brasileiros para uma melhor conexão para o processo de instal, mas a que eu recomendo é através dos comandos de substituição do <mark>vim</mark>. Você pode abrir o arquivo de <i>mirrors</i> no <mark>vim</mark> com o seguinte comando:</p>
-        <code>vim /etc/pacman.d/mirrorlist</code>
-        <p>Com o vim aberto <strong>não aperte nenhuma outra tecla!</strong> (a menos que esteja acostumado a usar o vim), apenas escreva o comando abaixo e depois tecle <em>Enter</em> para comentar e desabilitar todos os servidores de uma vez só:</p>
-        <code>:%s/Server/#Server/g</code>
-        <p>Uma vez que todos os servidores foram comentados, utilize as <em>setas do teclado</em> e o <em>delete</em> para apagar o <mark>#</mark> que precede o link dos servidores brasileiros. Quando finalizar utilize o comando abaixo para salvar e sair:</p>
-        <code>:wq</code>
-        <p>Então você pode atualizar o banco de dados dos pacotes com o seguinte comando:</p>
-        <code>pacman -Syy</code>
-        <p><strong>Observação</strong>: Se você demorar muito a chegar nesse paso o próprio Arch fara uma busca pelos melhores mirrors.</p>
         <!-- Passo 4 Particionar as unidades de armazenamento -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 4 - Particionar as unidades de armazenamento</h2>
@@ -124,7 +195,7 @@
         <!-- Passo extra para quem utiliza NVME -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <details class="spoiler" >
-            <summary>Passo extra para quem utiliza NVME</summary>
+            <summary>Passo extra para quem utiliza NVME (Clique para ver)</summary>
             <p>Como alternativa à substituição manual do tamanho do setor detectado automaticamente, alguns SSDs podem ter o tamanho do setor alterado durante a formatação, para que reportem um número mais próximo do tamanho real do setor e portanto podendo melhorar sua performance.</p>
             <p>Para ver se um determinado dispositivo NVMe oferece suporte a isso, use o comando abaixo:</p>
             <code>nvme id-ns -H /dev/<mark>nvme0n1</mark> | grep "Relative Performance"</code>
@@ -705,7 +776,7 @@
         <p> A primeira partição para ser formatada é a partição <mark>ESP</mark>, ela deve ser formatada em <mark>FAT32</mark>. Supondo que por acaso a sua partição <mark>ESP</mark> é a <mark>/dev/storageAP1</mark>, utilize o comando abaixo para formatar a partição substituindo o <mark>/dev/storageAP1</mark> para o devido endereço da partição <mark>ESP</mark> no seu dispositivo:</p>
         <code>mkfs.fat -F32 /dev/<mark>storageAP1</mark></code>
         <details class="spoiler" >
-            <summary>Formatação avançada</summary>
+            <summary>Formatação avançada (Clique para ver)</summary>
             <p>Diferentes sistemas de arquivo (e até mesmo ferramentas) podem ter por padrão o uso de tamanhos distintos de setor. Caso você queira especificar o tamanho do setor utilize o argumento <em>-S</em> como no exemplo abaixo:</p>
             <code>mkfs.fat -F 32 <em>-S 4096</em> /dev/<mark>storageAP1</mark></code>
         </details>
@@ -716,7 +787,7 @@
         <p>Tanto a partição raiz do sistema <em>/</em> quanto a partição <em>/home</em> devem ser formatadas em <mark>EXT4</mark>. Considerando que elas estão no endereço <mark>/dev/storageAP3</mark> utilize o comando abaixo para formatar cada uma delas:</p>
         <code>mkfs.ext4 /dev/<mark>storageAP3</mark></code>
         <details class="spoiler" >
-            <summary>Formatação avançada</summary>
+            <summary>Formatação avançada (Clique para ver)</summary>
             <p>Diferentes sistemas de arquivo (e até mesmo ferramentas) podem ter por padrão o uso de tamanhos distintos de setor. Caso você queira especificar o tamanho do setor utilize o argumento <em>-b</em> como no exemplo abaixo:</p>
             <code>mkfs.ext4  <em>-b 4096</em> /dev/<mark>storageAP3</mark></code>
         </details>
@@ -800,7 +871,7 @@
         </p>Descomente a linha "pt_BR.UTF-8 UTF-8" e gere a localização com o comando:</p>
         <code>locale-gen</code>
         <details class="spoiler" >
-            <summary>Maneira preguiçosa de configurar o locale-gen (clique para ver) </summary>
+            <summary>Maneira preguiçosa de configurar o locale-gen (Clique para ver) </summary>
             <p>Você pode encontrar em alguns vídeos uma maneira bastante preguiçosa porém bastante objetiva de gerar o locale-gen com um comando só, que é através do comando abaixo:</p>
             <code>echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen</code>
             <p>O que esse comando vai fazer é simplesmente adicionar outra linha de locale ao final do arquivo e gerar o locale-gen através dela.</p>
@@ -827,13 +898,10 @@
         <!-- NetworkManager e systemd-resolved -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <!-- SUBSTITUÍDO POR DNSMASQ
-        
         <h4>NetworkManager e systemd-resolved</h4>
         <p>Apenas habilite os serviços <mark>NetworkManager</mark> e <mark>systemd-resolved</mark> com o comando:</p>
         <code>systemctl enable NetworkManager.service systemd-resolved.service</code>
-        
         -->
-        
         <!-- NetworkManager e dnsmasq -->
         <h4>NetworkManager e dnsmasq (configuração padrão para Desktop)</h4>
         <p>Para deixar o NetworkManager funcionando basta habilitar o seu serviço com o comando:</p>
@@ -925,8 +993,8 @@
             <summary>Indicando o endereço da partição raiz por Block device names (mais simples / ID genérico)</summary>
             <p>Crie o arquivo <em>arch.conf</em> com o nano com o comando:</p>
             <code>nano /boot/loader/entries/arch.conf</code>
-            <p>Edite o arquivo para ficar da seguinte forma:</p>
-            <code>title&emsp;Archlinux<br>linux&emsp;/vmlinuz-linux<br>initrd&emsp;/amd-ucode.img<br>initrd&emsp;/initramfs-linux.img<br>options&emsp;root=/dev/<mark>storageAP1</mark> rw</code>
+            <p>Considerando que <mark>storageAP3</mark> é a sua partição <em>raiz (<mark>/</mark>)</em> edite o arquivo para ficar da seguinte forma:</p>
+            <code>title&emsp;Archlinux<br>linux&emsp;/vmlinuz-linux<br>initrd&emsp;/amd-ucode.img<br>initrd&emsp;/initramfs-linux.img<br>options&emsp;root=/dev/<mark>storageAP3</mark> rw</code>
         </details>
         <details class="spoiler" >
             <summary>Indicando o endereço da partição raiz por UUID (mais complexo / ID único)</summary>
@@ -936,7 +1004,7 @@
             <p>Agora basta acessar o arquivo com o nano com o comando:</p>
             <code>nano /boot/loader/entries/arch.conf</code>
             <p>Edite o arquivo para ficar da seguinte forma:</p>
-            <code>title&emsp;Archlinux<br>linux&emsp;/vmlinuz-linux<br>initrd&emsp;/amd-ucode.img<br>initrd&emsp;/initramfs-linux.img<br>options&emsp;root="UUID=<mark>UUID da partição</mark>" rw</code>
+            <code>title&emsp;Archlinux<br>linux&emsp;/vmlinuz-linux<br>initrd&emsp;/amd-ucode.img<br>initrd&emsp;/initramfs-linux.img<br>options&emsp;root=UUID=<mark>UUID da partição</mark> rw</code>
         </details>
         <p><strong>Observações:</strong></p>
             <ul>
@@ -995,7 +1063,7 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>KDE</h3>
         <p>Utilize o comando:</p>
-        <code>pacman -S plasma-wayland-session plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config pipewire-pulse</code>
+        <code>pacman -S plasma-workspace plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config pipewire-pulse</code>
         <p><strong>Observação!</strong> Inclua esses pacotes caso também deseje essas funções:</p>
         <ul>
             <li><em>kcalc</em> (Se e somente se você utilizará uma calculadora)</li>
@@ -1044,159 +1112,129 @@
         <code>systemctl enable lightdm</code>
         <!-- Adicionando fontes para compatibilidade, suporte a línguas estrangeiras e símbolos -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Adicionando fontes para compatibilidade, suporte a línguas estrangeiras e símbolos:</h3>
+        <h2>Fontes</h2>
+        <p>As fontes em sistemas Unixlike são uma completa "toca de coelho" a parte, e eu recomendo que caso você queira personalizar o seu sistema você se aprofunde um pouco mais nisso, porém de começo adicionaremos algumas fontes para compatibilidade, como suporte para línguas estrangeiras e símbolos.</p>
+        <!--
         <p>Para compatibilidade:</p>
         <code>sudo pacman -S ttf-dejavu ttf-liberation</code>
-        <p>Para caracteres internacionais:</p>
-        <code>sudo pacman -S adobe-source-han-sans-otc-fonts adobe-source-han-serif-otc-fonts</code>
-        <p>Para símbolos:</p>
-        <code>sudo pacman -S noto-fonts noto-fonts-emoji</code>
-        <!-- Instalar Firefox com suporte a localização pt-br -->
+        <p>Para suporte de caracteres internacionais do chinês tradicional, chinês simplificado, japonês e Korean.:</p>
+        <code>sudo pacman -S adobe-source-han-sans-otc-fonts adobe-source-han-serif-otc-fonts</code> // Também é lançado pelo Google no projeto de fontes Noto como Noto Sans CJK.
+        -->
+        <h3>Liberation</h3>
+        <p>Liberation é uma família de fontes que visa compatibilidade métrica com Arial, Times New Roman e Courier New, necessário para aplicativos como da Steam que fazem uso pesado dessas fontes.</p>
+        <code>sudo pacman -S ttf-liberation</code>
+        <h3>Noto</h3>
+        <p>Noto é uma família de fontes que compreende mais de 100 fontes individuais, que juntas são projetadas para cobrir todas as escritas codificados no padrão Unicode (Sim, é definição da Wikipédia, me julgue). Também há um pacote adicional para cobrir o padrão pictográfico (emoji).</p>
+        <code>sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-extra noto-fonts-emoji</code>
+        <!-- Habilitar Multilib -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Instalar Firefox com suporte a localização pt-br</h2>
-        <code>pacman -S firefox firefox-i18n-pt-br</code>
-        <!-- Ativando o TRIM -->
+        <h2>Habilitar repositório <i>multilib</i></h2>
+        <p>O repositório multilib contém softwares e bibliotecas 32-bit que podem ser usados para rodar e compilar aplicações 32-bit em sistemas 64-bit, necessário para instalação de drivers de vídeo e Steam.<br>Para habilitar a biblioteca acesse o arquivo <mark>/etc/pacman.conf</mark> e descomente as linhas abaixo:</p>
+        <!-- Instalar drivers da AMD -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Ativando o TRIM:</h3>
-        <p>Caso você utilize SSD's você pode otimizá-los ativando o serviço TRIM com o comando:</p>
-        <code>systemctl enable fstrim.timer</code>
-        <!-- Habilite cor no pacman -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Habilite cor no pacman:</h3>
-        <p>Para ativar cor no pacman basta acessar o arquivo de configuração do pacman com o nano com o comando:</p>
-        <code>nano /etc/pacman.conf</code>
-        <p>Descomente a linha deletando o <mark>#</mark> antes de <mark>Color</mark></p>
-        <!-- Melhore o desempenho do sistema Linux com noatime -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Melhore o desempenho do sistema de arquivos EXT4 com noatime:</h3>
-        <p>Acesse o fstab com o nano com o comando:</p>
-        <code>nano /etc/fstab</code>
-        <p>Mude de:</p>
-        <code>UUID=XXXXXXXXXXXXXXXXXXXX  / ext4 <mark>relatime</mark>,errors=remount-ro 0 1</code>
-        <p>Para:</p>
-        <code>UUID=XXXXXXXXXXXXXXXXXXXX  / ext4 <mark>noatime</mark>,errors=remount-ro 0 1</code>
-        <p>E em seguida salve o arquivo</p>
-        <!-- Desabilite o Watchdog timer -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Melhore o desempenho desabilitando o Watchdog timer:</h3>
-        <p>Para desativar os timers de watchdog (tanto software quanto hardware), adicione o <mark>nowatchdog</mark> aos seus parâmetros de inicialização.</p>
-        <p>O parâmetro de inicialização nowatchdog pode não funcionar para o watchdog de hardware Intel TCO. Nesta circunstância, o módulo do kernel para o TCO pode ser desativado usando o parâmetro do kernel <mark>modprobe.blacklist=iTCO_wdt</mark>.</p>
-        <p>Se você estiver usando CPUs AMD Ryzen, verifique também <mark>sp5100-tco</mark> em seu <em>systemd/Journal</em>. Este é o watchdog de hardware dentro da série de chipsets AMD 700. Para desativá-lo crie um arquivo em <mark>/etc/modprobe.d/disable-sp5100-watchdog.conf</mark> contendo:</p>
-        <code>blacklist sp5100_tco</code>
-        <p><strong>OU</strong></p>
-        <p>use o parâmetro de kernel <mark>modprobe.blacklist=sp5100_tco</mark>.</p>
-        <p>Para verificar, reinicie o computador e verifique se o comando abaixo retorna o valor <mark>0</mark>:</p>
-        <code>cat /proc/sys/kernel/watchdog</code>
-        <!-- Habilitar NTP -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h3>Habilitar NTP</h3>
-        <code>sudo timedatectl set-ntp true</code>        
-        <!-- Instalar drivers proprietários da Nvidia -->
-        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Instalar drivers proprietários da Nvidia (caso você possua placa de vídeo Nvidia ainda suportada)</h2>
-        <p>Utilize a seguinte linha de comando para o kernel <mark>linux</mark>:</p>
-        <code>sudo pacman -S nvidia</code>
-        <p>Ou utilize a seguinte linha de comando para o kernel <mark>linux-lts</mark>:</p>
-        <code>sudo pacman -S nvidia-lts</code>
-        <p>É recomendável que isso seja feito durante o processo de instalação, mas se por algum motivo você opte por fazer a instalação futuramente, pode ser que o sistema selecione o driver <mark>nouveau</mark> automaticamente ainda que a sua placa seja suportada pelo driver proprietário.</p>
-        <p>Para verificar qual driver está em ativo utilize o comando:</p>
-        <code>lspci -nnk | grep -iA2 vga</code>
-        <p>Se na linha <em>Kernel driver in use:</em> estiver <em>nouveau</em>, crie o arquivo <mark>/etc/modprobe.d/blacklist-nouveau.conf</mark>, e adicione as linhas:</p>
-        <code>blacklist nouveau<br>options nouveau modeset=0</code>
-        <p>Após isso atualize o initramfs para o kernal padrão com:</p>
+        <h2>Instalação de Drivers</h2>
+        <h3>AMD (drivers atuais)</h3>
+        <h4>Pacotes</h4>
+        <p>Se você tem uma placa de vídeo AMD recente instale os pacotes desejados como no exemplo abaixo:</p>
+        <ul>
+            <li><p>Instale o pacote <mark>mesa</mark> para aceleração 3D.</p></li>
+            <li><p>Instale o pacote <mark>lib32-mesa</mark> para aceleração 3D em aplicações 32-bit.</p></li>
+            <li><p>Instale o pacote <mark>xf86-video-amdgpu</mark> para aceleração 2D no Xorg.</p></li>
+            <li><p>Instale o pacote <mark>vulkan-radeon</mark> para suporte a Vulkan.<br>(A menos que você tenha um motivo muito específico para usar o pacore <mark>amdvlk</mark>.</p></li>
+            <li><p>Instale o pacote <mark>lib32-vulkan-radeon</mark> para suporte a Vulkan em aplicações 32-bit.<br>(A menos que você tenha um motivo muito específico para usar o pacote <mark>lib32-amdvlk</mark>).</p></li>
+            <li><p>Instale o pacote <mark>libva-mesa-driver</mark> para video decoding por VA-API.</p></li>
+            <li><p>Instale o pacote <mark>lib32-libva-mesa-driver</mark> para video decoding por VA-API em aplicações 32-bit.</p></li>
+            <li><p>Instale o pacote <mark>mesa-vdpau</mark> para video decoding por VDPAU.</p></li>
+            <li><p>Instale o pacote <mark>lib32-mesa-vdpau</mark> para video decoding por VDPAU em aplicações 32-bit.</p></li>
+        </ul>
+        <h4>Carregando o driver amdgpu</h4>
+        <p>Considerando que você está utilizando o script <mark>mkinitcpio</mark> (já que ele é uma dependência comum dos pacotes de kernel) edite o arquivo <mark>/etc/mkinitcpio.conf</mark> e na linha...</p>
+        <code>MODULES=()</code>
+        <p>Tenha a certeza que apenas o módulo <mark>amdgpu</mark> é carregado ou que ao menos ele venha antes do módulo <mark>radeon</mark> caso você precise de ambos (não recomendado), de modo que fique:</p>
+        <code>MODULES=(amdgpu ...)</code>
+        <p>Após isso atualize o initramfs para o kernel padrão com o comando:</p>
+        <code>mkinitcpio -p linux</code>
+        <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
+        <code>mkinitcpio -p linux-lts</code>
+        <h4>Setando parâmetros de módulo de kernel (Southern Islands e Sea Islands)</h4>
+        <p><strong>SE E SOMENTE SE</strong> o seu PC seja a porcaria de uma APU Southern Islands ou Sea Islands (como o meu laptop) é interessante você ativar o suporte para o driver <mark>amdgpu</mark>.</p>
+        <p>Para habilitar suporte para chips Southern Islands (SI) use o parâmetro <mark>si_support=1</mark> e para Sea Islands (CIK) use o parâmetro <mark>cik_support=1</mark><br>Para desabilitar suporte para chips Southern Islands (SI) use o parâmetro <mark>si_support=0</mark> e para Sea Islands (CIK) use o parâmetro <mark>cik_support=0</mark>.<br>O desejável aqui é ativar o suporte para ambos no módulo <mark>amdgpu</mark> e desativar o suporte no módulo <mark>radeon</mark>, para isso edite o arquivo <mark>/etc/modprobe.d/amdgpu.conf</mark> e insira uma das linhas abaixo:</p>
+        <code>options amdgpu si_support=1<br>options amdgpu cik_support=1</code>
+        <p>Por fim edite o arquivo <mark>/etc/modprobe.d/radeon.conf</mark> e insira uma das linhas abaixo:</p>
+        <code>options radeon si_support=0<br>options radeon cik_support=0</code>
+        <h4>blacklisting o driver radeon</h4>
+        <p>Talvez o seu kernel ainda carregue o driver <mark>radeon</mark>, para verificar utilize o comando:</p>
+        <code>lspci -k | grep -A 3 -E "(VGA|3D)"</code>
+        <p>Verifique os drivers em uso e a ordem deles, verifique se o driver <mark>amdgpu</mark> está em perfeito funcionamento, se tiver é desnecessário o carregamento do driver <mark>radeon</mark>. Para desabilitar o driver <em>radeon</em> por completo, garanta que o módulo <mark>radeon</mark> não está citado no <mark>/etc/mkinitcpio.conf</mark> e se mesmo assim for carregado acesse o arquivo <mark>/etc/modprobe.d/radeon.conf</mark> e insira a linha:</p>
+        <code>blacklist radeon</code>
+        <p>Após isso atualize o initramfs para o kernel padrão com:</p>
         <code>mkinitcpio -p linux</code>
         <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
         <code>mkinitcpio -p linux-lts</code>
         <p>Após isso reinicie o computador e verifique novamente o driver em uso.</p>
-        <!-- Instalando o YAY (opcional) -->
+        <!-- Instalar drivers Intel -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Instalando o YAY (opcional e não recomendado):</h2>
-        <p>Para facilitar a instalação e manutenção dos pacotes do aur utilizaremos o yay. Logue na sua conta de usuário (não na do root) e instale as dependências necessárias com o comando:</p>
-        <code>sudo pacman -S git base-devel</code>
-        <p>Clone o diretório do github com o comando:</p>
-        <code>git clone https://aur.archlinux.org/yay.git</code>
-        <p>Acesse o diretório do yay com o comando:</p>
-        <code>cd yay</code>
-        <p>Crie o pacote e instale o yay com o comando:</p>
-        <code>makepkg -si</code>
-        <p>Após o fim da instalação utilize o yay para instalar os pacotes necessários desejados com o comando:</p>
-        <code>yay -S <mark>nome do pacote</mark></code>
-        <!-- Melhorar renderização de fontes -->
+        <h3>Intel (drivers atuais)</h3>
+        <h4>Pacotes</h4>
+        <p>Se você tem uma placa de vídeo (ainda que integrado) Intel recente instale os pacotes desejados como no exemplo abaixo:</p>
+        <ul>
+            <li><p>Instale o pacote <mark>mesa</mark> para aceleração 3D.</p></li>
+            <li><p>Instale o pacote <mark>lib32-mesa</mark> para aceleração 3D em aplicações 32-bit.</p></li>
+            <li><p>Instale o pacote <mark>vulkan-intel</mark> para suporte a Vulkan.</li>
+            <li><p>Instale o pacote <mark>lib32-vulkan-intel</mark> para suporte a Vulkan em aplicações 32-bit.</li>
+        </ul>
+        <h4>Modesetting DDX</h4>
+        <p>Como a Intel fornece e oferece suporte a drivers de código aberto, os gráficos da Intel são essencialmente plug-and-play, mas caso não tenha iniciado automaticamente ou caso você deseje configurar manualmente edite o arquivo <mark>/etc/X11/xorg.conf.d/20-modesetting.conf</mark>, porém, antes de qualquer coisa recomendo fortemente que você acesse a <a class="link" href="https://wiki.gentoo.org/wiki/Intel">Wikia do Gentoo</a> para configurar corretamente.</p>
+        <p>Aqui vou usar de exemplo uma configuração voltada para utilização de <mark>modesetting</mark> para um processador intel mais recente:</p>
+<pre><code>Section "Device"
+    Identifier "Intel Graphics"
+    Driver "modesetting"
+    Option "AccelMethod" "glamor"
+    Option "DRI" "3"
+EndSection
+</code></pre>
+        <p>Substitua <mark>Option "DRI" "3"</mark> por <mark>Option "DRI" "2"</mark> caso encontre algum artefato, caso não esteja usando Wayland e deseje uma experiência livre de <i>tearing</i> você pode adicionar o argumento <mark>Option "TearFree" "true"</mark>.</p>
+        <h4>xorg.conf</h4>
+        <p>Para driver Gen 4+ (modesetting Mesa), edite o arquivo <mark>/etc/X11/xorg.conf.d/modesetting.conf</mark> e adicione as linhas:</p>
+<pre><code>Section "Device"
+    Identifier  "modesetting"
+    Driver      "modesetting"
+EndSection
+</code></pre>
+        <!-- Instalar drivers proprietários da Nvidia -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Melhorar renderização de fontes</h2>
-        <!--
-        <h3>1 - Editar o <mark>/etc/fonts/local.conf</mark></h3>
-        <code>sudo nano /etc/fonts/local.conf</code>
-        <p>Adicione as linhas:</p>
-        <pre>
-            <code>
-&lt;?xml version="1.0"?&gt;
-&lt;!DOCTYPE fontconfig SYSTEM "fonts.dtd"&gt;
-&lt;fontconfig&gt;
-    &lt;match target="font"&gt;
-        &lt;edit name="antialias" mode="assign"&gt;
-            &lt;bool&gt;true&lt;/bool&gt;
-        &lt;/edit&gt;
-        &lt;edit name="hinting" mode="assign"&gt;
-            &lt;bool&gt;true&lt;/bool&gt;
-        &lt;/edit mode="assign" name="rgba"&gt;
-            &lt;const&gt;rgb&lt;/const&gt;
-        &lt;/edit&gt;
-        &lt;edit mode="assign" name="hintstyle"&gt;
-            &lt;const&gt;hintslight&lt;/const&gt;
-        &lt;/edit&gt;
-        &lt;edit mode="assign" name="lcdfilter"&gt;
-            &lt;const&gt;lcddefault&lt;/const&gt;
-        &lt;/edit&gt;
-    &lt;/match&gt;
-&lt;/fontconfig&gt;
-            </code>
-        </pre>
-        <h3>2 - Editar o <mark>~/.Xresources</mark></h3>
-        <p><strong>IMPORTANTE:</strong>Este arquivo deve ser alterado na conta do seu usuário e não como <mark>root</mark>, lembre-se de trocar para a sua conta caso necessário.<br>Uma vez logado na sua conta de usuário edite o arquivo com o comando:</p>
-        <code>nano ~/.Xresources</code>
-        <p>Se as seguintes linhas ainda não estão presentes, adicione ao final do arquivo os seguintes valores:</p>
-        <code>
-            Xft.antialias: 1<br>
-            Xft.hinting: 1<br>
-            Xft.rgba: rgb<br>
-            Xft.hintstyle: hintslight<br>
-            Xft.lcdfilter: lcddefault
-        </code>
-        -->
-        <h3>Crie links simbólicos com algumas das predefinições disponíveis</h3>
-        <p>Utilize os comandos abaixo:</p>
-        <code>sudo ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/</code>
-        <code>sudo ln -s /usr/share/fontconfig/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d/</code>
-        <code>sudo ln -s /usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/</code>
-        <h3>Habilite FreeType2</h3>
-        <p>Edite o arquivo <mark>freetype2.sh</mark> com o comando:</p>
-        <code>nano /etc/profile.d/freetype2.sh</code>
-        <p>Descomente a linha:</p>
-        <code>export FREETYPE_PROPERTIES="truetype:interpreter-version=NN"</code>
-        <p>Reconstrua o cache do fontconfig com o comando:</p>
-        <code>sudo fc-cache -fv</code>
-        <h3>Habilitando o Bluetooth</h3>
-        <p>Por padrão o Arch não vem com a <em>stack</em> de bluetooth, mas é bem fácil resolver isso, apenas instale a <em>stack</em> e habilite o serviço:</p>
-        <code>pacman -S bluez bluez-utils</code>
-        <code>systemctl enable bluetooth.service<br>systemctl start bluetooth.service</code>
-        <p>Existem diversos <i>front-ends</i> para facilitar a utilização do bluetooth, se você utiliza o Gnome pode instalar o pacote:</p>
-        <code>pacman -S gnome-bluetooth-3.0</code>
-        <p>Caso utilize KDE pode instalar o pacote:</p>
-        <code>pacman -S bluedevil</code>
-        <p>Caso utilize Cinnamon pode instalar o pacote:</p>
-        <code>pacman -S blueberry</code>
-        <p>E caso queira um pacote agnóstico pode instalar o pacote:</p>
-        <code>pacman -S blueman</code>
-        <h4>Adendo: Controle de PS3</h4>
-        <p>Nas últimas versões do bluez, o valor <mark>ClassicBondedOnly</mark> foi mudad de <mark>false</mark> para <mark>true</mark> por razões de insegurança, mas isso infelizmente impossibilita o pareamento do controle de PS3, então para conectar um controle de PS3 acesse o arquivo <mark>/etc/bluetooth/input.conf</mark>...</p>
-        <code>nano /etc/bluetooth/input.conf</code>
-        <p>...E altere novamente para <mark>false</mark> como no exemplo abaixo:</p>
-<code><pre>
-[General]
-ClassicBondedOnly=false
-</pre></code>
-
+        <h3>NVIDIA (drivers atuais)</h3>
+        <h4>Pacotes</h4>
+        <ul>
+            <li><p>Para do driver NVIDIA para o kernel <mark>linux</mark> instale o pacote <mark>nvidia</mark></p></li>
+            <li><p>Para do driver NVIDIA para o kernel <mark>linux-lts</mark> instale o pacote <mark>nvidia-lts</mark></p></li>
+            <li><p>Para utilitários do driver (como suporte para OpenGL e Vulkan) instale o pacote <mark>nvidia-utils</mark></p></li>
+            <li><p>Para utilitários do driver (como suporte para OpenGL e Vulkan) para aplicações 32-bit instale o pacote <mark>lib32-nvidia-utils</mark></p></li>
+            <li><p>Para utilitário de configuração do driver instale o pacote <mark>nvidia-settings</mark></p></li>
+            <li><p>Para utilitário de configuração automática do Xorg instale o pacote <mark>nvidia-xconfig</mark></p></li>
+        </ul>
+        <h4>DRM kernel mode setting</h4>
+        <p>Como drivers NVIDIA não suportam carregamento tardio automático de KMS, é necessário ativar a configuração do modo kernel DRM (Direct Rendering Manager) para fazer com que os compositores Wayland funcionem corretamente, para isso adicione <mark>nvidia_drm.modeset=1</mark> nos seus parâmetros de kernel.</p>
+        <h4>Carregamento antecipado</h4>
+        <p>O parâmetro de kernel é suficiente na maioria dos casos <em>MAS</em> se você quiser garantir que o driver seja carregado o mais rápido possível deve se adicionar <mark>nvidia</mark>, <mark>nvidia_modeset</mark>, <mark>nvidia_uvm</mark> e <mark>nvidia_drm</mark> ao <i>initramfs</i>. Considerando que você está utilizando o script <mark>mkinitcpio</mark> (já que ele é uma dependência comum dos pacotes de kernel) edite o arquivo <mark>/etc/mkinitcpio.conf</mark> e na linha...</p>
+        <code>MODULES=()</code>
+        <p>Adicione <mark>nvidia</mark>, <mark>nvidia_modeset</mark>, <mark>nvidia_uvm</mark> e <mark>nvidia_drm</mark>, de modo que fique:</p>
+        <code>MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)</code>
+        <p>Após isso atualize o initramfs para o kernel padrão com o comando:</p>
+        <code>mkinitcpio -p linux</code>
+        <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
+        <code>mkinitcpio -p linux-lts</code>
+        <h4>blacklisting o driver nouveau</h4>
+        <p>Pode ser que o sistema selecione o driver <mark>nouveau</mark> automaticamente ainda que a sua placa seja suportada pelo driver proprietário.</p>
+        <p>Para verificar qual driver está em ativo utilize o comando:</p>
+        <code>lspci -nnk | grep -iA2 vga</code>
+        <p>Se na linha <em>Kernel driver in use:</em> estiver <em>nouveau</em>, crie o arquivo <mark>/etc/modprobe.d/blacklist-nouveau.conf</mark>, e adicione as linhas:</p>
+        <code>blacklist nouveau<br>options nouveau modeset=0</code>
+        <p>Após isso atualize o initramfs para o kernel padrão com:</p>
+        <code>mkinitcpio -p linux</code>
+        <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
+        <code>mkinitcpio -p linux-lts</code>
+        <p>Após isso reinicie o computador e verifique novamente o driver em uso.</p>
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
