@@ -810,17 +810,27 @@
         <!-- Passo 7 Instalar sistema -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 7 - Instalar sistema</h2>
-        <p>Uma vez que todos os diretórios foram criados e montados, podemos instalar o sistema através do comando <mark>pacstrap</mark>, tendo de referência uma instalação mínima com o kernel <mark>linux</mark> padrão, wifi com o <mark>iwd</mark> e resolução com o <mark>openresolv</mark>, som com o <mark>pipewire-pulse</mark>, <mark>nano</mark> para editor de texto, updates de microcódigo com o pacote <mark>amd-ucode</mark> e elevação de privilégios com o <mark>sudo</mark>.</p>
+        <p>Uma vez que todos os diretórios foram criados e montados, podemos instalar o sistema através do comando <mark>pacstrap</mark>. Considerando que a nossa instalação alvo consiste em:</p>
+        <ul>
+            <li><p>kernel <mark>linux</mark> (padrão)</p></li>
+            <li><p>wifi com o <mark>iwd</mark> e resolução com o <mark>openresolv</mark></p></li>
+            <li><p><mark>nano</mark> para editor de texto</p></li>
+            <li><p>updates de microcódigo com o pacote <mark>amd-ucode</mark></p></li>
+            <li><p>elevação de privilégios com o <mark>sudo</mark></p></li>
+        </ul>
+        <p>Que resultará na linha abaixo:</p>
+        <p><strong>⚠️ Aviso!</strong> Leia a explicação abaixo antes de instalar o seu sistema com o mesmo comando! </p>
+        <code>pacstrap -K /mnt base <em>linux</em> linux-firmware <em>iwd</em> <em>openresolv</em> nano <em>amd-ucode</em> sudo</code>
         <p><strong>Porém:</strong> </p>
         <ul>
-            <li><p>Caso você queira utilizar um kernel lts você pode substituir o pacote <mark>linux</mark> por <mark>linux-lts</mark>;</p></li>
-            <li><p>Caso você não deseje um gerenciamento de rede mínimo para wifi e quer mais compatibilidade e integração com a interface gráfica deve substituir o pacote <mark>iwd</mark> pelo pacote <mark>networkmanager</mark>;<br>(⚠️ Lembrando que é possível utilizar ambos! O <mark>iwd</mark> pode funcionar como <i>backend</i> do <mark>NetworkManager</mark> substituindo o <mark>wpa_supplicant</mark>, instale o pacote <mark>iwd</mark> caso deseje utilizá-lo como <i>backend</i>)</p></li>
-            <li><p>Caso queira uma instalação para <em>Desktop</em> com o <mark>NetworkManager</mark> <strong>Não instale o openresolv!</strong> Mas recomendo o a instalação do <mark>dnsmasq</mark> para possibilitar <i>caching</i>;</p></li>
+            <li><p>Caso você queira utilizar um kernel <em>LTS</em> você pode substituir o pacote <mark>linux</mark> por <mark>linux-lts</mark>;</p></li>
+            <li><p>Caso você não deseje um gerenciamento de rede mínimo para wifi e quer mais compatibilidade e integração com a interface gráfica deve substituir o pacote <mark>iwd</mark> pelo pacote <mark>networkmanager</mark>;⚠️ Lembrando que é possível utilizar ambos! O <mark>iwd</mark> pode funcionar como <i>backend</i> do <mark>NetworkManager</mark> substituindo o <mark>wpa_supplicant</mark>, instale o pacote <mark>iwd</mark> caso deseje utilizá-lo como <i>backend</i>;</p></li>
+            <li><p>Caso queira uma instalação para <i>Desktop</i> com o <mark>NetworkManager</mark> <strong>Não instale o openresolv!</strong> Mas recomendo o a instalação do <mark>dnsmasq</mark> para possibilitar <i>caching</i>;</p></li>
             <li><p>Caso você utilize processadores Intel ao invés de AMD você deve substituir o pacote <mark>amd-ucode</mark> por <mark>intel-ucode</mark>;</p></li>
             <li><p><strong>Se e somente se</strong> você está instalando em modo BIOS adicione <mark>grub</mark> na lista de pacotes para serem instalados.</p></li>
+            <li><p><strong>Se e somente se</strong> você está instalando em modo UEFI e quer um boot menu mais gráfico e customizável (como o do OpenCore) adicione <mark>refind</mark> na lista de pacotes para serem instalados.</p></li>
             <li><p><strong>Se e somente se</strong> você está instalando numa máquina virtual, instale também o pacote <mark>virtualbox-guest-utils</mark> para utilitários do VirtualBox com suporte ao X ou <mark>virtualbox-guest-utils-nox</mark> para utilitários do VirtualBox sem suporte ao X.</p></li>
         </ul>
-        <code>pacstrap -K /mnt base <mark>linux</mark> linux-firmware <mark>iwd</mark> <mark>openresolv</mark> nano <mark>amd-ucode</mark> sudo pipewire pipewire-pulse</code>
         <!-- Passo 8 Gerar FSTAB -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 8 - Gerar FSTAB</h2>
@@ -918,7 +928,6 @@
         <p><strong>⚠️ ALERTA!</strong> Não inicie o serviço <em>iwd.service</em> e nem configure o <em>iwd</em> manualmente! O <em>NetworkManager</em> vai iniciá-lo e gerenciá-lo por conta própria.</p>
         <!-- iwd e openresolv -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        
         <h4>iwd (configuração mínima para Laptop)</h4>
         <p>Primeiro crie a pasta para o arquivo de configuração do iwd:</p>
         <code>mkdir /etc/iwd</code>
@@ -979,8 +988,19 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 13 - Instalação de inicializador</h2>
         <p>Assim como foi dito na introdução, este guia trata da instalação tanto para BIOS quanto para UEFI, escolha uma das opções abaixo para prosseguir:</p>
-        <h3>Opção A - systemd-boot (UEFI multiboot)</h3>
-        <p>Para instalar inicializador systemd-boot utilize o comando abaixo:</p>
+        <!-- OPÇÃO A -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Opção A - GRUB2 (BIOS multiboot)</h3>
+        <img class="responsiva" src="https://upload.wikimedia.org/wikipedia/commons/1/12/GRUB_screenshot.png" alt="GRUB2 boot menu">
+        <p>O GRUB nessa altura do campeonato se tornou o bootloader "de facto" do Linux, é o mais comum que você vai ver por aí e permite um bom grau de personalização e configuração, a instalação do GRUB é extremamente simples, basta usar o comando <mark>grub-install</mark> e selecionar a unidade (e não a partição!) em que você deseja instalar como no comando abaixo:</p>
+        <code>grub-install --target=i386-pc /dev/<mark>storageA</mark></code>
+        <p>Uma vez que o GRUB está instalado, use a ferramenta <em>grub-mkconfig</em> para gerar o <em>/boot/grub/grub.cfg</em>:</p>
+        <code>grub-mkconfig -o /boot/grub/grub.cfg</code>
+        <!-- OPÇÃO B -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Opção B - systemd-boot (UEFI multiboot)</h3>
+        <img class="responsiva" src="https://www.freedesktop.org/wiki/Software/systemd/systemd-boot/systemd-boot-menu.png" alt="systemd-boot menu">
+        <p>Opção padrão para quem está em sistemas UEFI, tem reconhecimento automático para <i>dualboot</i> com Windows e permite um gerenciamento muito facilitado para múltiplas entradas de sistema, embora tenha basicamente 0 grau de customização tem uma manutenção muito fácil. Para instalar inicializador systemd-boot utilize o comando abaixo:</p>
         <code>bootctl --path=/boot install</code>
         <p>Uma vez que o bootloader foi instalado vamos definir o arquivo <em>arch.conf</em> como o arquivo de inicialização padrão do bootloader com o comando:</p>
         <code>echo "default arch.conf" >> /boot/loader/loader.conf</code>
@@ -1007,18 +1027,21 @@
                 <li><p>Caso você utilize kernel Linux LTS lembre-se de modificar a linha <mark>/vmlinuz-linux</mark> para <mark>/vmlinuz-linux-lts</mark> e <mark>initramfs-linux.img</mark> para <mark>initramfs-linux-lts.img</mark></p></li>
                 <li><p>Caso você utilize processadores Intel ao invés de AMD você deve substituir o <mark>amd-ucode.img</mark> por <mark>intel-ucode.img</mark>;</p></li>
             </ul>
-        <h3>Opção B - GRUB2 (BIOS multiboot)</h3>
-        <p>A instalação do GRUB é extremamente simples, basta usar o comando <em>grub-install</em> e selecionar a unidade (e não a partição) em que você deseja instalar como no comando abaixo:</p>
-        <code>grub-install --target=i386-pc /dev/<mark>storageA</mark></code>
-        <p>Uma vez que o GRUB está instalado, use a ferramenta <em>grub-mkconfig</em> para gerar o <em>/boot/grub/grub.cfg</em>:</p>
-        <code>grub-mkconfig -o /boot/grub/grub.cfg</code>
-        <h3>Opção C (minha preferida) - EFISTUB (UEFI singleboot)</h3>
+        <!-- OPÇÃO C -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Opção C - rEFInd (UEFI multiboot)</h3>
+        <img class="responsiva" src="https://repository-images.githubusercontent.com/237197634/93c0c680-46b9-11ea-9eda-b3071a50454b" alt="">
+        <p>Se você já viu imagens de customização de Linux na internet, seja buscando imagens no Google ou talvez no <a class="link" href="https://www.reddit.com/r/unixporn/">r/unixporn</a>, é bem provável que você viu algum tema para menu de boot, e dentre esses o que é provavelmente mais amado pela sua capacidade de customização é o <mark>refind</mark>. A experiência proporcionada por ele é bem próxima do multiboot do OpenCore.  A instalação do refind é absurdamente simples e pode ser feita em um único comando:</p>
+        <code>refind-install --usedefault /dev/<mark>storageAP1</mark></code>
+        <p>Nesse caso, o loader do refind será instalado como o loader padrão do disco (<em>esp/EFI/BOOT/bootx64.efi</em>), e funcionará independente da implementação de UEFI ou da mudança de placa-mãe. Você pode usar o código abaixo se quiser que o loader seja instalado em <mark>esp/EFI/refind/</mark> e tenha essa pasta como o carregador padrão na sua placa mãe:</p>
+        <code>refind-install</code>
+        <h3>Opção D (minha preferida) - EFISTUB (UEFI singleboot)</h3>
         <p>Se o seu computador suporta UEFI e você utiliza apenas um sistema, você pode deixar todo o trabalho de carregar o Linux para sua placa-mãe, esta é a opção que eu mais gosto de utilizar pois deixa o boot muito rápido e com bem menos chance de dar problemas, já que os argumentos de boot tendem a nunca mudar. Basta usar o <em>EFIBOOTMGR</em> como no exemplo abaixo para criar a entrada de boot na sua placa mãe:</p>
         <code>efibootmgr --create --disk /dev/<mark>storageA</mark> --part <mark>P1</mark> --label "Arch Linux" --loader /<mark>vmlinuz-linux</mark>  --unicode 'root=UUID=<mark>UUID</mark> rw initrd=\<mark>amd-ucode.img</mark> initrd=\<mark>initramfs-linux.img</mark> <mark>quiet</mark> <mark>nowatchdog</mark>' --verbose</code>
         <ul>
             <li><p>O dispositivo <em>StorageA</em> é o dispositivo onde está instalado a partição <em>ESP</em>.</p></li>
             <li><p>A partição <em>P1</em> é aquela onde está instalado a partição <em>ESP</em>.</p></li>
-            <li><p><em>UUID</em> é onde deve ser inserido o número de UUID da partição <em>/ (raiz)</em> do sistema.</p></li>
+            <li><p><em>UUID</em> é onde deve ser inserido o número de UUID da partição <em>raiz</em> (<mark>/</mark>) do sistema.</p></li>
             <li><p><strong>Cuidado!</strong> Se você utiliza microcode Intel lembre-se de substituir <mark>amd-ucode.img</mark> por <mark>intel-ucode.img</mark></p></li>
             <li><p><strong>Cuidado!</strong> Se você utiliza kernel LTS lembre-se de substituir os argumentos acima para <em>vmlinuz-linux-lts</em> e <em>initramfs-linux-lts.img</em>.</p></li>
             <li><p><strong>Cuidado!</strong> Os argumentos <em>quiet</em> e <em>nowatchdog</em> são parâmetros de kernel, é bem raro mas pode haver sistemas que não suportem parâmetros por EFISTUB.</p></li>
