@@ -796,21 +796,17 @@
         <h2>Passo 6 - Montar as partições</h2>
         <p>Até aqui temos o armazenamento particionado e formatado, pronto para a instalação do sistema, agora só é necessário montar as partições para que elas fiquem acessíveis para a instalação.</p>
         <h3>Montagem da raiz do sistema</h3>
-        <p>Por questão de conveniêcia montaremos a partição raiz do sistema em <em>/mnt</em>, basta substituir <mark>storageAP3</mark> pelo endereço da partição raiz no <em>seu</em> armazenamento.</p>
+        <p>Montaremos a partição raiz do sistema em <em>/mnt</em>, basta substituir <mark>storageAP3</mark> pelo endereço da partição <em>raiz</em> (<mark>/</mark>) de acordo com o <em>seu</em> sistema:</p>
         <code>mount /dev/<mark>storageAP3</mark> /mnt</code>
         <h3>Montagem da /home</h3>
-        <p><strong>Se e somente se</strong> você fez uma partição separada para o diretório <em>/home</em> você deve criar o diretório <em>/mnt/home</em> com o comando abaixo:</p>
-        <code>mkdir /mnt/home</code>
-        <p>Por questão de conveniêcia montaremos a <em>/home</em> em <em>/mnt/home</em>, basta substituir <mark>storageAP3</mark> pelo endereço da partição <em>/home</em> no seu armazenamento.</p>
-        <code>mount /dev/<mark>storageAP4</mark> /mnt/home</code>
+        <p><strong>Se e somente se</strong> você fez uma partição separada para o diretório <em>/home</em> você deve montar o diretório <em>/mnt/home</em> nessa partição como no comando abaixo, basta substituir <mark>storageAP4</mark> pelo endereço da partição <em>/home</em> de acordo com o <em>seu</em> sistema:</p>
+        <code>mount --mkdir /dev/<mark>storageAP4</mark> /mnt/home</code>
         <h3>Montagem da swap</h3>
-        <p><strong>Se e somente se</strong> você fez uma partição separada para swap é recomendável você montar ela agora com o comando abaixo, basta substituir <mark>storageAP2</mark> pelo endereço da partição <em>swap</em> no seu armazenamento:</p>
+        <p><strong>Se e somente se</strong> você fez uma partição separada para swap é recomendável você montar ela agora com o comando abaixo, basta substituir <mark>storageAP2</mark> pelo endereço da partição <em>swap</em> de acordo com o <em>seu</em> sistema:</p>
         <code>swapon /dev/<mark>storageAP2</mark></code>
         <h3>Montagem da partição ESP <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI")</strong> </h3>
-        <p><strong>Se e somente se</strong> você está instalando o sistema em modo UEFI, será necessário criar um diretório <em>/mnt/boot</em> e montá-lo, para criar o diretório utilize o comando abaixo:</p>
-        <code>mkdir /mnt/boot</code>
-        <p>Uma vez que o diretório foi criado monte-o com o comando abaixo:</p>
-        <code>mount /dev/<mark>storageAP1</mark> /mnt/boot</code>
+        <p><strong>Se e somente se</strong> você está instalando o sistema em modo UEFI, será necessário montar o diretório <em>/mnt/boot</em> nessa partição como no comando abaixo, basta substituir <mark>storageAP1</mark> pelo endereço da partição <em>ESP</em> de acordo com o <em>seu</em> sistema:</p>
+        <code>mount --mkdir /dev/<mark>storageAP1</mark> /mnt/boot</code>
         <!-- Passo 7 Instalar sistema -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 7 - Instalar sistema</h2>
