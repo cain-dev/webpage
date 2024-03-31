@@ -793,7 +793,7 @@
         </details>
         <!-- Passo 6 - Montar as partições -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo 6 - Montar as partições</h2>
+        <h2 id="passo-6" >Passo 6 - Montar as partições</h2>
         <p>Até aqui temos o armazenamento particionado e formatado, pronto para a instalação do sistema, agora só é necessário montar as partições para que elas fiquem acessíveis para a instalação.</p>
         <h3>Montagem da raiz do sistema</h3>
         <p>Montaremos a partição raiz do sistema em <em>/mnt</em>, basta substituir <mark>storageAP3</mark> pelo endereço da partição <em>raiz</em> (<mark>/</mark>) de acordo com o <em>seu</em> sistema:</p>
@@ -1063,8 +1063,27 @@
         <p>Para desligar o computador e concluir a instalação execute o comando:</p>
         <code>shutdown now</code>
         <p><strong>Lembre-se de remover a mídia de instalação assim que o computador desligar!</strong></p>
+        <!-- Passo 14-FAIL DEU RUIM -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h2>DEU RUIM? Calma que (provavelmente) da pra resolver 😁</h2>
+        <p>Ok, você basicamente finalizou a instalação e nada do sistema iniciar, correto? As chances são que você errou na configuração do bootloader ou algo assim (acredite, todos nós passamos por isso vez ou outra...), desde que você não tenha particionado, formatado e montado as partições tudo errado da sim pra continuar de onde parou. Selecione o boot pelo pendrive (ou iso ou seja lá o meio que você escolheu para instalação) e <i>boote</i> normalmente como se fosse refazer a instalação.</p>
+        <h3>Verificando a estrutura dos discos</h3>
+        <p>Comece verificando se a tabela de partição está correta com o comando:</p>
+        <code>fdisk -l</code>
+        <p>Caso queira algo mais gráfico e estiver utilizando <em>BIOS</em> pode usar o comando:</p>
+        <code>cfdisk /dev/<mark>storageA</mark></code>
+        <p><strong>Não edite nada a menos que necessário! Lembre-se que vai perder todos os dados da partição se editá-la!</strong></p>
+        <p>Caso queira algo mais gráfico e estiver utilizando <em>UEFI</em> pode usar o comando:</p>
+        <code>cgdisk /dev/<mark>storageA</mark></code>
+        <p><strong>Não edite nada a menos que necessário! Lembre-se que vai perder todos os dados da partição se editá-la!</strong></p>
+        <h3>Remonte as partições</h3>
+        <p>Siga <a class="link" href="#passo-6">Passo 6</a> e certifique-se que as partições foram montadas corretamente.</p>
+        <h3>CHROOT</h3>
+        <p>Utilize o comando abaixo para fazer o <em>change root</em>, terminar as correções necessárias e continuar a instalação de onde parou:</p>
+        <code>arch-chroot /mnt</code>
         <!-- Pós instalação -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <br>
         <h2>Retoques pós-instalação</h2>
         <p>Ok, você instalou o Arch, meus parabéns! Mas tudo que você vai ver ao fim dessa instalação é uma tela de login e nenhuma otimização. Mas tem muito que podemos fazer para deixar o Arch mais convidativo para um usuário final.</p>
         <p>A minha primeira recomendação é que você instale uma das interfaces abaixo.</p>
