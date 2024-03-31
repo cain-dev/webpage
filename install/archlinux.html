@@ -51,7 +51,7 @@
         </details>
         <!-- Passo 1 Configurar o layout do teclado -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h2>Passo 1 - Configurar o <i>layout</i> do teclado e fonte do terminal</h2>
+        <h2 id="passo-1">Passo 1 - Configurar o <i>layout</i> do teclado e fonte do terminal</h2>
         <p>Antes de digitar qualquer outro comando é necessário que o teclado esteja devidamente configurado, supondo que você tenha um teclado padrão <mark>ABNT2</mark> utilize o comando abaixo para carregar o layout correto:</p>
         <code>loadkeys br-abnt2</code>
         <!-- Passo opcional - Mudar a fonte da padrão do terminal -->
@@ -1067,6 +1067,8 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>DEU RUIM? Calma que (provavelmente) da pra resolver 😁</h2>
         <p>Ok, você basicamente finalizou a instalação e nada do sistema iniciar, correto? As chances são que você errou na configuração do bootloader ou algo assim (acredite, todos nós passamos por isso vez ou outra...), desde que você não tenha particionado, formatado e montado as partições tudo errado da sim pra continuar de onde parou. Selecione o boot pelo pendrive (ou iso ou seja lá o meio que você escolheu para instalação) e <i>boote</i> normalmente como se fosse refazer a instalação.</p>
+        <h3>Configurando teclado e fonte do terminal</h3>
+        <p>Antes de mais nada configure o seu ambiente seguindo o <a class="link" href="#passo-1">Passo 1</a>.</p>
         <h3>Verificando a estrutura dos discos</h3>
         <p>Comece verificando se a tabela de partição está correta com o comando:</p>
         <code>fdisk -l</code>
