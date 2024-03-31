@@ -817,6 +817,7 @@
             <li><p><mark>nano</mark> para editor de texto</p></li>
             <li><p>updates de microcódigo com o pacote <mark>amd-ucode</mark></p></li>
             <li><p>elevação de privilégios com o <mark>sudo</mark></p></li>
+            <li><p>inicialização com o <mark>systemd-boot</mark> (ferramenta padrão, não precisa ser adicionado ao pacstrap)</p></li>
         </ul>
         <p>Que resultará na linha abaixo:</p>
         <p><strong>⚠️ Aviso!</strong> Leia a explicação abaixo antes de instalar o seu sistema com o mesmo comando! </p>
@@ -828,8 +829,8 @@
             <li><p>Caso queira uma instalação para <i>Desktop</i> com o <mark>NetworkManager</mark> <strong>Não instale o openresolv!</strong> Mas recomendo o a instalação do <mark>dnsmasq</mark> para possibilitar <i>caching</i>;</p></li>
             <li><p>Caso você utilize processadores Intel ao invés de AMD você deve substituir o pacote <mark>amd-ucode</mark> por <mark>intel-ucode</mark>;</p></li>
             <li><p><strong>Se e somente se</strong> você está instalando em modo BIOS adicione <mark>grub</mark> na lista de pacotes para serem instalados.</p></li>
-            <li><p><strong>Se e somente se</strong> você está instalando em modo UEFI e quer um boot menu mais gráfico e customizável (como o do OpenCore) adicione <mark>refind</mark> na lista de pacotes para serem instalados.</p></li>
-            <li><p><strong>Se e somente se</strong> você está instalando numa máquina virtual, instale também o pacote <mark>virtualbox-guest-utils</mark> para utilitários do VirtualBox com suporte ao X ou <mark>virtualbox-guest-utils-nox</mark> para utilitários do VirtualBox sem suporte ao X.</p></li>
+            <li><p><strong>Se e somente se</strong> você está instalando em modo UEFI e quer um boot menu mais gráfico e customizável ao invés do <mark>systemd-boot</mark> adicione <mark>refind</mark> na lista de pacotes para serem instalados.</p></li>
+            <li><p><strong>Se e somente se</strong> você está instalando numa máquina virtual do virtualbox, instale também o pacote <mark>virtualbox-guest-utils</mark> para utilitários do VirtualBox com suporte ao X ou <mark>virtualbox-guest-utils-nox</mark> para utilitários do VirtualBox sem suporte ao X.</p></li>
         </ul>
         <!-- Passo 8 Gerar FSTAB -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
@@ -1275,6 +1276,52 @@ EndSection
         <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
         <code>mkinitcpio -p linux-lts</code>
         <p>Após isso reinicie o computador e verifique novamente o driver em uso.</p>
+        <h2>Otimizações recomendadas</h2>
+        <p>Aqui vai uma lista de coisas simples que você pode fazer para otimizar a sua instalação:</p>
+        <!-- Melhore o desempenho do sistema Linux com noatime -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Melhore o desempenho do sistema de arquivos EXT4 com noatime:</h3>
+        <p>Por padrão o sistema registra informações sobre quando os arquivos foram criados e modificados pela última vez, bem como quando foram acessados ​​pela última vez também, e desabilitar essa função pode trazer ganhos significativos na performance.  Para mudar isso acesse o <mark>/etc/fstab</mark> com o nano como no comando:</p>
+        <code>nano /etc/fstab</code>
+        <p>Altere as linhas dos dispositivos de modo que deixem de ser:</p>
+        <code>UUID=XXXXXXXXXXXXXXXXXXXX  / ext4 <mark>relatime</mark>,errors=remount-ro 0 1</code>
+        <p>Para ficarem dessa forma:</p>
+        <code>UUID=XXXXXXXXXXXXXXXXXXXX  / ext4 <mark>noatime</mark>,errors=remount-ro 0 1</code>
+        <p>E em seguida salve o arquivo.</p>
+        <!-- Ativando o TRIM -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Ativando o TRIM:</h3>
+        <p>Caso você utilize SSD's é essencial que você ative o serviço TRIM, para isso use o comando abaixo:</p>
+        <code>systemctl enable fstrim.timer</code>
+        <!-- Desabilite o Watchdog timer -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Melhore o desempenho desabilitando o Watchdog timer:</h3>
+        <p>Para desativar os timers de watchdog (tanto software quanto hardware), adicione o <mark>nowatchdog</mark> aos seus parâmetros de inicialização.</p>
+        <p>O parâmetro de inicialização nowatchdog pode não funcionar para o watchdog de hardware Intel TCO. Nesta circunstância, o módulo do kernel para o TCO pode ser desativado usando o parâmetro do kernel <mark>modprobe.blacklist=iTCO_wdt</mark>.</p>
+        <p>Se você estiver usando CPUs AMD Ryzen, verifique também <mark>sp5100-tco</mark> em seu <em>systemd/Journal</em>. Este é o watchdog de hardware dentro da série de chipsets AMD 700. Para desativá-lo crie um arquivo em <mark>/etc/modprobe.d/disable-sp5100-watchdog.conf</mark> contendo:</p>
+        <code>blacklist sp5100_tco</code>
+        <p><strong>OU</strong></p>
+        <p>use o parâmetro de kernel <mark>modprobe.blacklist=sp5100_tco</mark>.</p>
+        <p>Para verificar, reinicie o computador e verifique se o comando abaixo retorna o valor <mark>0</mark>:</p>
+        <code>cat /proc/sys/kernel/watchdog</code>
+        <!-- Habilitar NTP -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Habilitar sincronização de relógio</h3>
+        <p>A sincronização vai utilizar um dos serviços de NTP do sistema (por padrão o <em>systemd-timesyncd</em>), vamos começar criando o arquivo de configuração de servidores editando o arquivo <mark>/etc/systemd/timesyncd.conf.d/local.conf</mark> e adicionando as linhas:</p>
+        <code>[Time]<br>NTP=a.ntp.br<br>FallbackNTP=b.ntp.br c.ntp.br</code>
+        <p>Por fim habilite a sincronização com o comando:</p>
+        <code>sudo timedatectl set-ntp true</code>
+        <p>O serviço do <em>systemd-timesyncd</em> vai ser iniciado automaticamente.</p>
+        <!-- Melhorar renderização de fontes -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Habilite a biblioteca FreeType2</h3>
+        <p>Edite o arquivo <mark>/etc/profile.d/freetype2.sh</mark> e descomente a linha:</p>
+        <code>export FREETYPE_PROPERTIES="truetype:interpreter-version=NN"</code>
+        <h3>Habilitar stem-darkening</h3>
+        <p>Você já reparou que o MacOS sempre considera a leitura da fonte um pouco mais importante do que a sua fidelidade? Algumas pessoas que utilizam Linux não gostam muito de como fontes menores parecem bastante "embaçadas", mas da pra ter o melhor dos dois mundos habilitando o <em>stem-darkening</em> para fazer com que fontes menores sejam mais legíveis e menos embaçadas, para isso edite o arquivo <mark>/etc/environment</mark> e insira a linha:</p>
+        <code>FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"</code>
+        <p>Após as alterações reconstrua o cache do fontconfig com o comando:</p>
+        <code>sudo fc-cache -fv</code>    
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
