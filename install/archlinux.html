@@ -1223,6 +1223,8 @@
             <li><p>Instale o pacote <mark>lib32-mesa</mark> para aceleração 3D em aplicações 32-bit.</p></li>
             <li><p>Instale o pacote <mark>vulkan-intel</mark> para suporte a Vulkan.</li>
             <li><p>Instale o pacote <mark>lib32-vulkan-intel</mark> para suporte a Vulkan em aplicações 32-bit.</li>
+            <li><p>Instale o pacote <mark>intel-media-driver</mark> para video decoding por VA-API (para processadores <em>Broadwell</em> em diante).</p></li>
+            <li><p>Instale o pacote <mark>libva-intel-driver</mark> para video decoding por VA-API (para processadores <em>GMA 4500</em> até <em>Coffee Lake</em>).</p></li>
         </ul>
         <h4>Modesetting DDX</h4>
         <p>Como a Intel fornece e oferece suporte a drivers de código aberto, os gráficos da Intel são essencialmente plug-and-play, mas caso não tenha iniciado automaticamente ou caso você deseje configurar manualmente edite o arquivo <mark>/etc/X11/xorg.conf.d/20-modesetting.conf</mark>, porém, antes de qualquer coisa recomendo fortemente que você acesse a <a class="link" href="https://wiki.gentoo.org/wiki/Intel">Wikia do Gentoo</a> para configurar corretamente.</p>
@@ -1276,6 +1278,55 @@ EndSection
         <p><strong>OU</strong> utilize o comando abaixo caso você utilize o kernel LTS:</p>
         <code>mkinitcpio -p linux-lts</code>
         <p>Após isso reinicie o computador e verifique novamente o driver em uso.</p>
+        <!-- Aceleração de Hardware -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h2>Aceleração de vídeo por Hardware</h2>
+        <p>Segundo a própria wiki do Arch Linux "a aceleração de vídeo por hardware possibilita que a placa de vídeo decodifique/codifique vídeo, descarregando assim a CPU e economizando energia". É essencial para qualquer computador moderno para usuário final possuir alguma espécie de aceleração via hardware, no Arch podemos ter aceleração através de 2 meios: VA-API e VDPAU.<br>Uma vez que você já instalou os pacotes como citado acima basta configurar as variáveis de ambiente, edite o arquivo <mark>/etc/environment</mark>.</p>
+        <h3>Configurar VA-API</h3>
+        <p>Adicione a variável <mark>LIBVA_DRIVER_NAME=</mark> seguido do driver para ser utilizado, por exemplo, vamos supor que o driver para ser utilizado no meu caso seja o <mark>radeonsi</mark>, logo a linha para ser acrescentada no arquivo seria:</p>
+        <code>LIBVA_DRIVER_NAME=radeonsi</code>
+        <p>Siga o exemplo abaixo para configurar o seu hardware:</p>
+        <ul>
+            <li><p>Intel</p></li>
+                <ul>
+                    <li>Para o pacote <mark>libva-intel-driver</mark> cite o driver <mark>i965</mark>;</li>
+                    <li>Para o pacote <mark>intel-media-driver</mark> cite o driver <mark>iHD</mark>;</li>
+                </ul>
+            <li><p>AMDGPU</p></li>
+                <ul>
+                    <li>Para <mark>AMDGPU</mark> cite o driver <mark>radeonsi</mark>;</li>
+                </ul>
+        </ul>
+        <h3>Configurar VDPAU</h3>
+        <p>Adicione a variável <mark>VDPAU_DRIVER=</mark> seguido do driver para ser utilizado, por exemplo, vamos supor que o driver para ser utilizado no meu caso seja o <mark>radeonsi</mark>, logo a linha para ser acrescentada no arquivo seria:</p>
+        <code>VDPAU_DRIVER=radeonsi</code>
+        <ul>
+            <li><p>Intel</p></li>
+                <ul>
+                    <li>Para <mark>Intel graphics</mark> cite o driver <mark>va_gl</mark>;</li>
+                </ul>
+            <li><p>AMDGPU</p></li>
+                <ul>
+                    <li>Para <mark>AMDGPU</mark>, execute o comando <mark>grep -i vdpau /var/log/Xorg.0.log</mark> cite o driver da linha <em>VDPAU driver: </em> (que geralmente é <mark>radeonsi</mark>);</li>
+                </ul>
+            <li><p>NVIDIA</p></li>
+                <ul>
+                    <li>Para <mark>NVIDIA VDPAU</mark> cite o driver <mark>vdpau</mark>;</li>
+                    <li>Para <mark>NVIDIA NVDEC</mark> cite o driver <mark>nvidia</mark>;</li>
+                </ul>
+        </ul>
+        <h3>Configurar aceleração para o Firefox (VA-API)</h3>
+        <ol>
+            <li>Certifique-se de que o WebRender esteja ativado entrando no endereço <mark>about:support</mark> e verificando se o valor de composição é "WebRender".</li>
+            <li>Se necessário, o Hardware WebRender pode ser ativado à força definindo <mark>gfx.webrender.all</mark> como <mark>true</mark> em <mark>about:config</mark>.</li>
+            <li>VA-API é habilitado por padrão para GPUs Intel se você estiver usando o Firefox 115 ou uma versão posterior. Para outras GPUs, defina <mark>media.ffmpeg.vaapi.enabled</mark> para <mark>true</mark> em <mark>about:config</mark>.</li>
+        </ol>
+        <h3>Configurando MPV</h3>
+        <p>Edite o arquivo <mark>~/.config/mpv/mpv.conf</mark> </p>
+        <code>hwdec=auto</code>
+        <p>* Isso pode ser suficiente, embora eu recomendo fortemente você olhar as variáveis disponíveis em <a class="link" href="https://man.archlinux.org/man/mpv.1#hwdec=_api1,api2,..._no_auto_auto">mpv man</a>, você pode ver o <a class="link" href="https://github.com/cain-dev/dotfiles/blob/main/mpv/mpv.conf">meu dotfile</a> para configurar para o teu caso.</p>
+        <!-- Otimizações recomendadas -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Otimizações recomendadas</h2>
         <p>Aqui vai uma lista de coisas simples que você pode fazer para otimizar a sua instalação:</p>
         <!-- Melhore o desempenho do sistema Linux com noatime -->
