@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth no Arch</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Bluetooth no Arch"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Ativando o Bluetooth no seu Arch Linux"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <!-- Habilitando Bluetooth -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h1>Habilitando o Bluetooth</h1>
+        <p>Por padrão o Arch não vem com a <em>stack</em> de bluetooth, mas é bem fácil resolver isso, apenas instale a <em>stack</em> e habilite o serviço:</p>
+        <code>pacman -S bluez bluez-utils</code>
+        <code>systemctl enable bluetooth.service<br>systemctl start bluetooth.service</code>
+        <p>Existem diversos <i>front-ends</i> para facilitar a utilização do bluetooth, se você utiliza o Gnome pode instalar o pacote:</p>
+        <code>pacman -S gnome-bluetooth-3.0</code>
+        <p>Caso utilize KDE pode instalar o pacote:</p>
+        <code>pacman -S bluedevil</code>
+        <p>Caso utilize Cinnamon pode instalar o pacote:</p>
+        <code>pacman -S blueberry</code>
+        <p>E caso queira um pacote agnóstico pode instalar o pacote:</p>
+        <code>pacman -S blueman</code>
+        <h2>Controle de PS3</h2>
+        <p>Nas últimas versões do bluez, o valor <mark>ClassicBondedOnly</mark> foi mudado de <mark>false</mark> para <mark>true</mark> por razões de segurança, mas isso infelizmente impossibilita o pareamento do controle de PS3, então para conectar um controle de PS3 acesse o arquivo <mark>/etc/bluetooth/input.conf</mark>...</p>
+        <code>nano /etc/bluetooth/input.conf</code>
+        <p>...E altere novamente para <mark>false</mark> como no exemplo abaixo:</p>
+<code><pre>
+[General]
+ClassicBondedOnly=false
+</pre></code>
+        <p>Uma vez que o valor está alterado, basta parear através da sua GUI.</p>
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
