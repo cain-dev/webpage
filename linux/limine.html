@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limine Bootloader</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Limine"/>
+    <meta property="og:url" content="https://cain-dev.github.io/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o Limine no Arch Linux, um gerenciador de inicialização multiprotocolo avançado e portátil."/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+    <h1>Limine Bootloader</h1>
+    <h2>Introdução</h2>
+    <p>Seja para multiplas entradas de boot para testes e sem muita dor de cabeça ou para utilizar <em>PXE</em>, seja para um boot rápido com fácil manutenção ou para belos temas o Limine é um excelente opção de bootloader, é bem simples de implementar e sem muita chance de erro.</p>
+    <h2>Instalando o Limine</h2>
+    <p>O Limine suporta tanto <em>BIOS</em> quanto <em>UEFI</em>, antes de mais nada é necesário baixar o pacote do Limine.</p>
+    <code>pacman -S limine</code>
+    <h3>Instalando para <em>BIOS</em></h3>
+    <p>A instalação do bootloader em si para bios pode ser feita com 2 comandos, primeiramente mova o arquivo de configuração para o diretório <em>/boot</em>:</p>
+    <code>cp /usr/share/limine/limine-bios.sys /boot/</code>
+    <p>Depois indique o dispositivo para instalação, /dev/<mark>storageAP1</mark> (considerando que <mark>storageAP1</mark> é o seu disco principal):</p>
+    <code>limine bios-install /dev/<mark>storageAP1</mark></code>
+    <h3>Instalando para <em>UEFI</em></h3>
+    <p>A instalação para UEFI é ainda mais simples, pois basta copiar o loader do Limine para o diretório padrão da partição <em>ESP</em>:</p>
+    <code>cp /usr/share/limine/BOOTX64.EFI /efi/EFI/BOOT/BOOTX64.EFI</code>
+    <h2>Criando o arquivo de configuração</h2>
+    <p>Independente se você fez a instalação para <em>BIOS</em> ou <em>UEFI</em>, você deve indicar o <em>UUID</em> do disco em que está o <em>/boot</em> no arquivo de configuração, para isso utilize o comando abaixo:</p>
+    <code>blkid -s UUID -o value /dev/<mark>storageAP2</mark> >> /boot/limine/limine.cfg</code>
+    <p>Você pode configurar o arquivo de diversas formas, seja indicando a partição através do disco de boot, seja <em>label</em>, seja por <em>tftp</em>, aqui vou indicar 2 exemplos.</p>
+    <h3>Fazendo o arquivo baseado na posição do disco e partição <em>hdd://</em></h3>
+<pre><code>:Arch Linux
+    PROTOCOL=linux
+    KERNEL_PATH=hdd://1:2/vmlinuz-linux
+    CMDLINE=root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
+    MODULE_PATH=hdd://1:2/initramfs-linux.img</code></pre>
+    <p>* onde <em>hdd://</em> se refere a utilizar a posição do disco como referência para a partição <em>/boot</em>, e <em>1:2</em> indica o disco <em>1</em> (<em>storageA</em>) partição <em>2</em> (<em>P2</em>).</p>
+    <h3>BOOT baseado na posição do disco e partição <em>boot://</em></h3>
+<pre><code>
+:Arch Linux
+    PROTOCOL=linux
+    KERNEL_PATH=boot://2/vmlinuz-linux
+    CMDLINE=root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
+    MODULE_PATH=boot://2/initramfs-linux.img</code></pre>
+    <p>* onde <em>boot://</em> se refere ao disco de boot, e <em>2</em> indica a partição 2 (<em>P2</em>) desse mesmo disco.</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
