@@ -230,7 +230,9 @@
                 <li><p>Para fazer com que uma partição seja inicializável coloque o cursor sobre a partição e depois selecione <em>[ Bootable ]</em>.</p></li>
                 <li><p>Por fim selecione a opção <em>[ Write ]</em> e confirme digitando <em>yes</em> e teclando <em>Enter</em>.</p></li>
             </ul>
-            <h4>Partição SWAP (opcional mas altamente recomendado)</h4>
+            <!-- Easy Mode CFDISK swap -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
             <p>A memória Swap é um espaço que é utilizado quando o sistema operacional fica sobrecarregado, evita a queda de desempenho, travamentos e desligamentos automáticos. A quantidade de memória swap necessária varia conforme a quantidade de memória ram que seu sistema possui e se você vai ou não utilizar hibernação, também pode variar conforme o tipo de dispositivo de armazenamento e não sendo recomendado o uso na sua configuração padrão em SSD's e NVME's. Fique tranquilo, você pode (e em grande parte dos casos deve) ter algum espaço voltado para swap ainda que seja no seu SSD ou NVME, apenas lembre de verificar a otimização de swap ao fim desse guia.</p>
             <p>Em vez de uma partição swap você também pode utilizar um arquivo de memória swap, assim você não precisa dedicar uma partição no disco especificamente para a swap, essa opção tende a ser preferida pelos usuários de SSD e NVME apesar da partição swap poder resultar numa melhor performance. Independente do caso utilize a partição swap <strong>ou</strong> o arquivo de swap, <strong>não use ambos e também não fique sem nenhum dos dois</strong> (ainda que seja em um outro dispositivo), vai te evitar muita dor de cabeça.</p>
             <p id="tabela-swap">Para saber quanto de swap pode ser necessário para o seu caso verifique na tabela abaixo:</p>
@@ -315,15 +317,18 @@
                     </tbody>
                 </table>
             </figure>
-            
             <p>A partição swap deve ser uma partição <mark>extended</mark> do tipo <mark>82 Linux swap</mark>.</p>
-            <h4>Partição raiz do sistema (root ou /)</h4>
+            <!-- Easy Mode CFDISK / -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição raiz do sistema (<em>root</em> ou <em>/</em>)</h4>
             <p>A partição mais importante do sistema, é a partição em que todos os arquivos de sistema ficam e que tudo é montado. Via de regra, essa é a partição que ocupada todo o resto do armazenamento. No entanto, algumas pessoas preferem delimitar o espaço dessa partição para o tamanho necessário apenas para o funcionamento do sistema e ocupar o resto do armazenamento com uma partição dedicada para a pasta de usuários (/home). Dessa forma, se algum problema ocorrer com a partição do sistema não haverá perdas para os dados de usuário.</p>
             <p>É importante ressaltar que pastas de usuário <strong>não são compatíveis entre distribuições distintas</strong> e ainda numa mesma distribuição podem gerar problemas de incompatibilidade ou com configurações de aplicativos, variáveis e afins. Recomendo delimitar o tamanho da partição de sistema apenas e somente se você pretende fazer mudanças na partição de raiz do sistema sem ter que reinstalar o sistema.</p>
             <p>Se você é um usuário iniciante ou não pretende fazer tais mudanças, faça backup dos seus arquivos num outro dispositivo e <strong>e não delimite o tamanho da partição raiz e também não faça uma partição separada para a /home!</strong></p>
             <p><strong>Observação:</strong> Existe muito debate a respeito de qual é o tamanho necessário para uma partição raiz do sistema, obviamente o necessário varia conforme o tipo da instalação e a quantidade de programas a serem instalados. Na maioria das documentações que vi, a recomendação é de no mínimo <em>20G</em> para a grande maioria dos usuários e de <em>40G</em> a <em>60G</em> para casos mais extremos. Lembrando que <strong>se você pretende usar um arquivo swap na partição do sistema você deve contabilizar o espaço necessário para o arquivo de swap aqui também!</strong></p>
             <p>A partição / deve ser uma partição <mark>primary</mark> do tipo <mark>83 Linux</mark> <strong>e marcada como</strong> <mark>bootable</mark>.</p>         
-            <h4>Partição para /home separada (opcional e não recomendado)</h4>
+            <!-- Easy Mode CFDISK /home -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição para <em>/home</em> separada (opcional e não recomendado)</h4>
             <p>Se decidiu fazer uma partição separada para a /home recomendo que ocupe todo o resto do armazenamento (embora você também pode delimitar o tamanho dessa partição da mesma maneira que a raiz).</p></p>
             <p>A partição /home deve ser uma partição <mark>extended</mark> do tipo <mark>83 Linux</mark>.</p>
             <h4>Terminado!</h4>
@@ -331,7 +336,7 @@
         </details>
         <!-- Partição SWAP em BIOS -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h4>Partição SWAP (opcional mas altamente recomendado)</h4>
+        <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
         <p>A memória Swap é um espaço que é utilizado quando o sistema operacional fica sobrecarregado, evita a queda de desempenho, travamentos e desligamentos automáticos. A quantidade de memória swap necessária varia conforme a quantidade de memória ram que seu sistema possui e se você vai ou não utilizar hibernação, também pode variar conforme o tipo de dispositivo de armazenamento e não sendo recomendado o uso na sua configuração padrão em SSD's e NVME's. Fique tranquilo, você pode (e em grande parte dos casos deve) ter algum espaço voltado para swap ainda que seja no seu SSD ou NVME, apenas lembre de verificar a otimização de swap ao fim desse guia.</p>
         <p>Em vez de uma partição swap você também pode utilizar um arquivo de memória swap, assim você não precisa dedicar uma partição no disco especificamente para a swap, essa opção tende a ser preferida pelos usuários de SSD e NVME apesar da partição swap poder resultar numa melhor performance. Independente do caso utilize a partição swap <strong>ou</strong> o arquivo de swap, <strong>não use ambos e também não fique sem nenhum dos dois</strong> (ainda que seja em um outro dispositivo), vai te evitar muita dor de cabeça.</p>
         <p id="tabela-swap">Para saber quanto de swap pode ser necessário para o seu caso verifique na tabela abaixo:</p>
@@ -439,7 +444,7 @@
         <p>O código para o tipo swap é o <em>82</em>, digite 82 e dê enter para mudar o tipo para "Linux swap"</p>
         <!-- Partição raiz do sistema em BIOS -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->        
-        <h4>Partição raiz do sistema (root ou /)</h4>
+        <h4>Partição raiz do sistema (<em>root</em> ou <em>/</em>)</h4>
         <p>A partição mais importante do sistema, é a partição em que todos os arquivos de sistema ficam e que tudo é montado. Via de regra, essa é a partição que ocupada todo o resto do armazenamento. No entanto, algumas pessoas preferem delimitar o espaço dessa partição para o tamanho necessário apenas para o funcionamento do sistema e ocupar o resto do armazenamento com uma partição dedicada para a pasta de usuários (/home). Dessa forma, se algum problema ocorrer com a partição do sistema não haverá perdas para os dados de usuário.</p>
         <p>É importante ressaltar que pastas de usuário <strong>não são compatíveis entre distribuições distintas</strong> e ainda numa mesma distribuição podem gerar problemas de incompatibilidade ou com configurações de aplicativos, variáveis e afins. Recomendo delimitar o tamanho da partição de sistema apenas e somente se você pretende fazer mudanças na partição de raiz do sistema sem ter que reinstalar o sistema.</p>
         <p>Se você é um usuário iniciante ou não pretende fazer tais mudanças, faça backup dos seus arquivos num outro dispositivo e <strong>e não delimite o tamanho da partição raiz e também não faça uma partição separada para a /home!</strong></p>
@@ -465,7 +470,7 @@
         <p>O código para o tipo Linux é o <em>83</em>, digite 83 e dê enter para mudar o tipo para "Linux"</p>
         <!-- Partição /home em BIOS -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h4>Partição para /home separada (opcional)</h4>
+        <h4>Partição para <em>/home</em> separada (opcional)</h4>
         <p>Para criar a nova partição que será usada como /home utilize o comando:</p>
         <code>n</code>
         <p>O programa vai perguntar que tipo de partição você deseja como no exemplo abaixo:</p>
@@ -514,9 +519,17 @@
                 <li><p>Para alterar o tipo da partição, coloque o cursor sobre a partição e selecione a opção <em>[ Type ]</em>.</p></li>
                 <li><p>Por fim selecione a opção <em>[ Write ]</em> e confirme digitando <em>yes</em> e teclando <em>Enter</em>.</p></li>
             </ul>
-            <h4>Partição ESP (EFI system partition)</h4>
+            <!-- Modo Easy CGDISK - ESP -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição <em>ESP</em> (EFI system partition)</h4>
             <p>Para uma instalação de sistema em modo UEFI precisamos criar uma partição <em>ESP</em>, que é uma partição específica para ser acessada pela placa mãe para iniciar os sistemas. Por questões de compatibilidade o recomendado é <mark>550M</mark> do tipo <mark>ef00</mark> .</p>
-            <h4>Partição SWAP (opcional mas altamente recomendado)</h4>
+            <!-- Modo Easy CGDISK - XBOOTLDR -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição <em>/boot</em> separada - <em>XBOOTLDR</em> (opcional e não recomendado para iniciantes)</h4>
+            <p>O diretório <em>XBOOTLDR</em> contém as imagens de kernel e initramfs, bem como o arquivo de configuração do bootloader, muito útil para não enfrentar problemas de multiboot com o Windows. Um diretório <em>XBOOTLDR</em> separado não é necessário para operação normal do sistema. A partição <em>XBOOTLDR</em> deve conter no mínimo o espaço necessário para o seu kernel e initramfs + fallbacks, mas o recomendado é que seja de pelo menos <mark>1G</mark>, deve ser uma partição do tipo <mark>ea00</mark> (<em>Extended Boot Loader</em>).</p>
+            <!-- Modo Easy CGDISK - SWAP -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
             <p>A memória Swap é um espaço que é utilizado quando o sistema operacional fica sobrecarregado, evita a queda de desempenho, travamentos e desligamentos automáticos. A quantidade de memória swap necessária varia conforme a quantidade de memória ram que seu sistema possui e se você vai ou não utilizar hibernação, também pode variar conforme o tipo de dispositivo de armazenamento e não sendo recomendado o uso na sua configuração padrão em SSD's e NVME's. Fique tranquilo, você pode (e em grande parte dos casos deve) ter algum espaço voltado para swap ainda que seja no seu SSD ou NVME, apenas lembre de verificar a otimização de swap ao fim desse guia.</p>
             <p>Em vez de uma partição swap você também pode utilizar um arquivo de memória swap, assim você não precisa dedicar uma partição no disco especificamente para a swap, essa opção tende a ser preferida pelos usuários de SSD e NVME apesar da partição swap poder resultar numa melhor performance. Independente do caso utilize a partição swap <strong>ou</strong> o arquivo de swap, <strong>não use ambos e também não fique sem nenhum dos dois</strong> (ainda que seja em um outro dispositivo), vai te evitar muita dor de cabeça.</p>
             <p id="tabela-swap">Para saber quanto de swap pode ser necessário para o seu caso verifique na tabela abaixo:</p>
@@ -602,19 +615,25 @@
                 </table>
             </figure>
             <p>A partição swap deve ser to tipo <mark>8200</mark>.</p>
-            <h4>Partição raiz do sistema (root ou /)</h4>
+            <!-- Modo Easy CGDISK - / -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição raiz do sistema (<em>root</em> ou <em>/</em>)</h4>
             <p>A partição mais importante do sistema, é a partição em que todos os arquivos de sistema ficam e que tudo é montado. Via de regra, essa é a partição que ocupada todo o resto do armazenamento. No entanto, algumas pessoas preferem delimitar o espaço dessa partição para o tamanho necessário apenas para o funcionamento do sistema e ocupar o resto do armazenamento com uma partição dedicada para a pasta de usuários (/home). Dessa forma, se algum problema ocorrer com a partição do sistema não haverá perdas para os dados de usuário.</p>
             <p>É importante ressaltar que pastas de usuário <strong>não são compatíveis entre distribuições distintas</strong> e ainda numa mesma distribuição podem gerar problemas de incompatibilidade ou com configurações de aplicativos, variáveis e afins. Recomendo delimitar o tamanho da partição de sistema apenas e somente se você pretende fazer mudanças na partição de raiz do sistema sem ter que reinstalar o sistema.</p>
             <p>Se você é um usuário iniciante ou não pretende fazer tais mudanças, faça backup dos seus arquivos num outro dispositivo e <strong>e não delimite o tamanho da partição raiz e também não faça uma partição separada para a /home!</strong></p>
             <p><strong>Observação:</strong> Existe muito debate a respeito de qual é o tamanho necessário para uma partição raiz do sistema, obviamente o necessário varia conforme o tipo da instalação e a quantidade de programas a serem instalados. Na maioria das documentações que vi, a recomendação é de no mínimo <em>20G</em> para a grande maioria dos usuários e de <em>40G</em> a <em>60G</em> para casos mais extremos. Lembrando que <strong>se você pretende usar um arquivo swap na partição do sistema você deve contabilizar o espaço necessário para o arquivo de swap aqui também!</strong></p>
-            <p>A partição / deve ser to tipo <mark>8304</mark>.</p>           
-            <h4>Partição para /home separada (opcional e não recomendado)</h4>
+            <p>A partição / deve ser to tipo <mark>8304</mark>.</p>
+            <!-- Modo Easy CGDISK - /home -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->           
+            <h4>Partição para <em>/home</em> separada (opcional e não recomendado)</h4>
             <p>Se decidiu fazer uma partição separada para a /home recomendo que ocupe todo o resto do armazenamento (embora você também pode delimitar o tamanho dessa partição da mesma maneira que a raiz).</p></p>
             <p>A partição /home deve ser to tipo <mark>8302</mark>.</p>
             <h4>Terminado!</h4>
             <p>Pule para o <em>Passo 5 - Formatar as partições</em></p>
         </details>
-        <h4>Partição ESP (EFI system partition)</h4>
+        <!-- Modo Nomal CGDISK ESP -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->  
+        <h4>Partição <em>ESP</em> (EFI system partition)</h4>
         <p>Para uma instalação de sistema em modo UEFI precisamos criar uma partição <em>ESP</em>, que é uma partição específica para ser acessada pela placa mãe para iniciar os sistemas. Para criar a partição <em>ESP</em> use o comando:</p>
         <code>n</code>
         <p>O sistema irá exibir a seguinte linha para que você escolha o número da partição:</p>
@@ -628,7 +647,24 @@
         <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o tipo da partição, para o tipo <mark>ESP</mark> devemos digitar o tipo <mark>ef00</mark> e teclar <mark>Enter</mark> de maneira que o diálogo no terminal fique da seguinte forma:</p>
         <code>Hex code or GUID (L to show codes, Enter = 8300): ef00</code>
         <p>Com isso temos uma partição no início do armazenamento, de 550M e do tipo EFI system partition.</p>
-        <h4>Partição SWAP (opcional mas altamente recomendado)</h4>
+        <!-- Modo Nomal CGDISK XBOOTLDR -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h4>Partição <em>/boot</em> separada - <em>XBOOTLDR</em> (opcional e não recomendado para iniciantes)</h4>
+        <p>O diretório <em>XBOOTLDR</em> contém as imagens de kernel e initramfs, bem como o arquivo de configuração do bootloader, muito útil para não enfrentar problemas de multiboot com o Windows. Um diretório <em>XBOOTLDR</em> separado não é necessário para operação normal do sistema. Para criar a nova partição use o comando:</p>
+        <code>n</code>
+        <p>O sistema irá exibir a seguinte linha para que você escolha o número da partição:</p>
+        <code>partition number: default</code>
+        <p>Apenas tecle <mark>Enter</mark>.</p>
+        <p>Logo em seguida o sistema irá exibir a seguinte linha para que você escolha o ponto de início da partição:</p>
+        <code>first sector: default</code>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o ponto de término da partição e delimite o seu tamanho, a partição <em>XBOOTLDR</em> deve conter no mínimo o espaço necessário para o seu kernel e initramfs + fallbacks, mas o recomendado é que seja de pelo menos <mark>1G</mark>, sendo assim deveremos utilizar o comando <mark>+1G</mark> e teclar <mark>Enter</mark>, de maneira que o diálogo no terminal fique da seguinte forma:</p>
+        <code>last sector: +1G</code>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o tipo da partição, para o tipo <mark>XBOOTLDR</mark> devemos digitar o tipo <mark>ea00</mark> e teclar <mark>Enter</mark> de maneira que o diálogo no terminal fique da seguinte forma:</p>
+        <code>Hex code or GUID (L to show codes, Enter = 8300): ea00</code>
+        <p>Com isso temos uma partição de 1G e do tipo Extended Boot Loader.</p>
+        <!-- Modo Nomal CGDISK SWAP -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
         <p>A memória Swap é um espaço que é utilizado quando o sistema operacional fica sobrecarregado, evita a queda de desempenho, travamentos e desligamentos automáticos. A quantidade de memória swap necessária varia conforme a quantidade de memória ram que seu sistema possui e se você vai ou não utilizar hibernação, também pode variar conforme o tipo de dispositivo de armazenamento e não sendo recomendado o uso na sua configuração padrão em SSD's e NVME's. Fique tranquilo, você pode (e em grande parte dos casos deve) ter algum espaço voltado para swap ainda que seja no seu SSD ou NVME, apenas lembre de verificar a otimização de swap ao fim desse guia.</p>
         <p>Em vez de uma partição swap você também pode utilizar um arquivo de memória swap, assim você não precisa dedicar uma partição no disco especificamente para a swap, essa opção tende a ser preferida pelos usuários de SSD e NVME apesar da partição swap poder resultar numa melhor performance. Independente do caso utilize a partição swap <strong>ou</strong> o arquivo de swap, <strong>não use ambos e também não fique sem nenhum dos dois</strong> (ainda que seja em um outro dispositivo), vai te evitar muita dor de cabeça.</p>
         <p id="tabela-swap">Para saber quanto de swap pode ser necessário para o seu caso verifique na tabela abaixo:</p>
@@ -729,7 +765,7 @@
         <p>Com isso temos uma nova partição de 3G e do tipo Linux swap.</p>
         <!-- Partição raiz do sistema (root ou /) em UEFI -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h4>Partição raiz do sistema (root ou /)</h4>
+        <h4>Partição raiz do sistema (<em>root</em> ou <em>/</em>)</h4>
         <p>A partição mais importante do sistema, é a partição em que todos os arquivos de sistema ficam e que tudo é montado. Via de regra, essa é a partição que ocupada todo o resto do armazenamento. No entanto, algumas pessoas preferem delimitar o espaço dessa partição para o tamanho necessário apenas para o funcionamento do sistema e ocupar o resto do armazenamento com uma partição dedicada para a pasta de usuários (/home). Dessa forma, se algum problema ocorrer com a partição do sistema não haverá perdas para os dados de usuário.</p>
         <p>É importante ressaltar que pastas de usuário <strong>não são compatíveis entre distribuições distintas</strong> e ainda numa mesma distribuição podem gerar problemas de incompatibilidade ou com configurações de aplicativos, variáveis e afins. Recomendo delimitar o tamanho da partição de sistema apenas e somente se você pretende fazer mudanças na partição de raiz do sistema sem ter que reinstalar o sistema.</p>
         <p>Se você é um usuário iniciante ou não pretende fazer tais mudanças, faça backup dos seus arquivos num outro dispositivo e <strong>e não delimite o tamanho da partição raiz e também não faça uma partição separada para a /home!</strong></p>
@@ -749,7 +785,7 @@
         <p>Com isso temos uma nova partição de 20G e do tipo Linux x86-64 root (/).</p>
         <!-- Partição /home separada em UEFI -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
-        <h4>Partição para /home separada (opcional)</h4>
+        <h4>Partição para <em>/home</em> separada (opcional)</h4>
         <p>Para criar a nova partição que será usada como /home utilize o comando:</p>
         <code>n</code>
         <p>O sistema irá exibir a seguinte linha para que você escolha o número da partição:</p>
@@ -772,17 +808,23 @@
         <p>Antes de prosseguir com a formatação e montagem das partições é importante ter certeza de que a tabela está correta, para checar as partições utilize o comando abaixo:</p>
         <code>lsblk</code>
         <p>Uma vez que a tabela de partição foi devidamente configurada, é necessário formatar cada partição para o seu devido sistema de arquivos. <strong>Lembrando que este é um passo necessário!</strong> A tabela de partição tem por função <strong>apenas</strong> descrever o endereço de cada espaço no armazenamento.</p>
-        <h3>Formatando a partição ESP <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI")</strong> </h3>
-        <p> A primeira partição para ser formatada é a partição <mark>ESP</mark>, ela deve ser formatada em <mark>FAT32</mark>. Supondo que por acaso a sua partição <mark>ESP</mark> é a <mark>/dev/storageAP1</mark>, utilize o comando abaixo para formatar a partição substituindo o <mark>/dev/storageAP1</mark> para o devido endereço da partição <mark>ESP</mark> no seu dispositivo:</p>
+        <!-- Passo 5 - Formatar as partições ESP e XBOOTLDR-->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Formatando a partição <em>ESP</em> e <em>XBOOTLDR</em> <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI")</strong> </h3>
+        <p> As primeiras partições para serem formatadas são as partições <mark>ESP</mark> e <mark>XBOOTLDR</mark>, elas deve ser formatadas em <mark>FAT32</mark>. Supondo que por acaso a sua partição <mark>ESP</mark> ou a <mark>XBOOTLDR</mark> é a <mark>/dev/storageAP1</mark>, utilize o comando abaixo para formatar a partição substituindo o <mark>/dev/storageAP1</mark> para o devido endereço da partição <mark>ESP</mark> e <mark>XBOOTLDR</mark> no seu dispositivo:</p>
         <code>mkfs.fat -F32 /dev/<mark>storageAP1</mark></code>
         <details class="spoiler" >
             <summary>Formatação avançada (Clique para ver)</summary>
             <p>Diferentes sistemas de arquivo (e até mesmo ferramentas) podem ter por padrão o uso de tamanhos distintos de setor. Caso você queira especificar o tamanho do setor utilize o argumento <em>-S</em> como no exemplo abaixo:</p>
             <code>mkfs.fat -F 32 <em>-S 4096</em> /dev/<mark>storageAP1</mark></code>
         </details>
+        <!-- Passo 5 - Formatar SWAP -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Formatando a partição SWAP</h3>
         <p>A segunda partição para ser formatada será a partição <mark>swap</mark> <strong>caso você a tenha feito</strong>, ela deve ser formatada em formato <mark>swap</mark>. Considerando que a sua partição <mark>swap</mark> é a <mark>/dev/storageAP2</mark> utilize o comando abaixo para formatar a partição:</p>
         <code>mkswap /dev/<mark>storageAP2</mark></code>
+        <!-- Passo 5 - Formatar as partições / e /home -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Formatando a partição / e /home</h3>
         <p>Tanto a partição raiz do sistema <em>/</em> quanto a partição <em>/home</em> devem ser formatadas em <mark>EXT4</mark>. Considerando que elas estão no endereço <mark>/dev/storageAP3</mark> utilize o comando abaixo para formatar cada uma delas:</p>
         <code>mkfs.ext4 /dev/<mark>storageAP3</mark></code>
@@ -795,17 +837,32 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2 id="passo-6" >Passo 6 - Montar as partições</h2>
         <p>Até aqui temos o armazenamento particionado e formatado, pronto para a instalação do sistema, agora só é necessário montar as partições para que elas fiquem acessíveis para a instalação.</p>
-        <h3>Montagem da raiz do sistema</h3>
+        <!-- Passo 6 - Montar a raiz -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Montagem da <em>/</em> (raiz) do sistema</h3>
         <p>Montaremos a partição raiz do sistema em <em>/mnt</em>, basta substituir <mark>storageAP3</mark> pelo endereço da partição <em>raiz</em> (<mark>/</mark>) de acordo com o <em>seu</em> sistema:</p>
         <code>mount /dev/<mark>storageAP3</mark> /mnt</code>
-        <h3>Montagem da /home</h3>
+        <!-- Passo 6 - Montar a home -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Montagem da <em>/home</em></h3>
         <p><strong>Se e somente se</strong> você fez uma partição separada para o diretório <em>/home</em> você deve montar o diretório <em>/mnt/home</em> nessa partição como no comando abaixo, basta substituir <mark>storageAP4</mark> pelo endereço da partição <em>/home</em> de acordo com o <em>seu</em> sistema:</p>
         <code>mount --mkdir /dev/<mark>storageAP4</mark> /mnt/home</code>
-        <h3>Montagem da swap</h3>
+        <!-- Passo 6 - Montar a swap -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Montagem da <em>swap</em></h3>
         <p><strong>Se e somente se</strong> você fez uma partição separada para swap é recomendável você montar ela agora com o comando abaixo, basta substituir <mark>storageAP2</mark> pelo endereço da partição <em>swap</em> de acordo com o <em>seu</em> sistema:</p>
         <code>swapon /dev/<mark>storageAP2</mark></code>
-        <h3>Montagem da partição ESP <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI")</strong> </h3>
-        <p><strong>Se e somente se</strong> você está instalando o sistema em modo UEFI, será necessário montar o diretório <em>/mnt/boot</em> nessa partição como no comando abaixo, basta substituir <mark>storageAP1</mark> pelo endereço da partição <em>ESP</em> de acordo com o <em>seu</em> sistema:</p>
+        <!-- Passo 6 - Montar a ESP -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Montagem da partição <em>ESP</em> <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI")</strong> </h3>
+        <p><strong>Se e somente se</strong> você está instalando o sistema em modo UEFI, será necessário montar o diretório <em>/mnt/boot</em> nessa partição como no comando abaixo (caso tenha feito a partição <em>XBOOTLDR</em> deve ser montado como <em>/mnt/efi</em> ), basta substituir <mark>storageAP1</mark> pelo endereço da partição <em>ESP</em> de acordo com o <em>seu</em> sistema:</p>
+        <code>mount --mkdir /dev/<mark>storageAP1</mark> /mnt/boot</code>
+        <p><strong>OU</strong> caso tenha feito a partição <em>XBOOTLDR</em>:</p>
+        <code>mount --mkdir /dev/<mark>storageAP1</mark> /mnt/efi</code>
+        <!-- Passo 6 - Montar a XBOOTLDR -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Montagem da partição <em>XBOOTLDR</em> <strong>(Apenas se você seguiu "Opção B para sistemas baseados em UEFI" e fez a partição <em>XBOOTLDR</em>)</strong> </h3>
+        <p><strong>Se e somente se</strong> você está instalando o sistema em modo UEFI e fez a partição <em>XBOOTLDR</em>, será necessário montar o diretório <em>/mnt/boot</em> nessa partição como no comando abaixo, basta substituir <mark>storageAP1</mark> pelo endereço da partição <em>ESP</em> de acordo com o <em>seu</em> sistema:</p>
         <code>mount --mkdir /dev/<mark>storageAP1</mark> /mnt/boot</code>
         <!-- Passo 7 Instalar sistema -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
@@ -1003,6 +1060,8 @@
         <img class="responsiva" src="https://www.freedesktop.org/wiki/Software/systemd/systemd-boot/systemd-boot-menu.png" alt="systemd-boot menu">
         <p>Opção padrão para quem está em sistemas UEFI, tem reconhecimento automático para <i>dualboot</i> com Windows e permite um gerenciamento muito facilitado para múltiplas entradas de sistema, embora tenha basicamente 0 grau de customização tem uma manutenção muito fácil. Para instalar inicializador systemd-boot utilize o comando abaixo:</p>
         <code>bootctl --path=/boot install</code>
+        <p><strong>OU</strong> caso você tenha feito a partição <em>XBOOTLDR</em>:</p>
+        <code>bootctl --esp-path=/efi --boot-path=/boot install</code>
         <p>Uma vez que o bootloader foi instalado vamos definir o arquivo <em>arch.conf</em> como o arquivo de inicialização padrão do bootloader com o comando:</p>
         <code>echo "default arch.conf" >> /boot/loader/loader.conf</code>
         <p>Para criar o arquivo de inicialização <em>arch.conf</em>, que informa os arquivos a serem carregados e o endereço da partição raiz do sistema podemos fazer de 2 formas:</p>
@@ -1014,7 +1073,7 @@
             <code>title&emsp;Archlinux<br>linux&emsp;/vmlinuz-linux<br>initrd&emsp;/amd-ucode.img<br>initrd&emsp;/initramfs-linux.img<br>options&emsp;root=/dev/<mark>storageAP3</mark> rw</code>
         </details>
         <details class="spoiler" >
-            <summary>Indicando o endereço da partição raiz por UUID (mais complexo / ID único)</summary>
+            <summary>Indicando o endereço da partição raiz por UUID (mais complexo / ID único)<br><strong>(Faça desse modo se fez um partição XBOOTLDR)</strong></summary>
             <p>Para criar o arquivo da configuração de inicialização do sistema precisamos do identificador único da partição (UUID). Para criar o arquivo já com o identificador único da partição raiz utilize o comando:</p>
             <code>blkid -s UUID -o value /dev/<mark>storageAP3</mark> >> /boot/loader/entries/arch.conf</code>
             <p><strong>Observação:</strong> lembre-se de substituir o endereço /dev/<mark>storageAP3</mark> pelo endereço da sua partição raiz.</p>
@@ -1034,6 +1093,7 @@
         <img class="responsiva" src="https://repository-images.githubusercontent.com/237197634/93c0c680-46b9-11ea-9eda-b3071a50454b" alt="">
         <p>Se você já viu imagens de customização de Linux na internet, seja buscando imagens no Google ou talvez no <a class="link" href="https://www.reddit.com/r/unixporn/">r/unixporn</a>, é bem provável que você viu algum tema para menu de boot, e dentre esses o que é provavelmente mais amado pela sua capacidade de customização é o <mark>refind</mark>. A experiência proporcionada por ele é bem próxima do multiboot do OpenCore.  A instalação do refind é absurdamente simples e pode ser feita em um único comando:</p>
         <code>refind-install --usedefault /dev/<mark>storageAP1</mark></code>
+        <p>* <strong>considerando que</strong> /dev/<mark>storageAP1</mark> é sua partição <em>ESP</em></p>
         <p>Nesse caso, o loader do refind será instalado como o loader padrão do disco (<em>esp/EFI/BOOT/bootx64.efi</em>), e funcionará independente da implementação de UEFI ou da mudança de placa-mãe. Você pode usar o código abaixo se quiser que o loader seja instalado em <mark>esp/EFI/refind/</mark> e tenha essa pasta como o carregador padrão na sua placa mãe:</p>
         <code>refind-install</code>
         <h3>Opção D (minha preferida) - EFISTUB (UEFI singleboot)</h3>
