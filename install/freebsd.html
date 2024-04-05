@@ -186,7 +186,7 @@ EndSection</pre>
         <code>sysrc kld_list+=amdgpu</code>
         <p>Para setar o carregamento do driver para placas pré HD7000 ou Tahiti utilize o comando:</p>
         <code>sysrc kld_list+=radeonkms</code>
-        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-nvidia.conf</mark> seguindo o exemplo abaixo:</p>
+        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-radeon.conf</mark> seguindo o exemplo abaixo:</p>
         <code>
         <pre>
 Section "Device"
@@ -200,7 +200,7 @@ EndSection</pre>
         <code>pkg install drm-kmod libva-intel-driver mesa-libs mesa-dri</code>
         <p>Para setar o carregamento do driver utilize o comando:</p>
         <code>sysrc kld_list+=i915kms</code>
-        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-nvidia.conf</mark> seguindo o exemplo abaixo:</p>
+        <p>O Driver gráfico pode ser especificado no diretório <mark>/usr/local/etc/X11/xorg.conf.d/</mark>. Você pode criar o arquivo em <mark>/usr/local/etc/X11/xorg.conf.d/20-intel.conf</mark> seguindo o exemplo abaixo:</p>
         <code>
         <pre>
 Section "Device"
