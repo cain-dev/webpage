@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução aos BSD's</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Quer aprender BSD?"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Se você queria começar no mundo dos BSD's mas não sabia por onde essa documentação é pra você!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.freebsd.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+    <h1>Introdução aos BSD's</h1>
+    <h2>Introdução</h2>
+    <p>Antes de mais nada, por favor leia <a class="link" href="../texts/unixlike.html">O que é Unixlike</a> e <a class="link" href="../texts/whatislinux.html">O que é Linux</a>, e nessa ordem, do contrário você VAI ficar perdido!<br>Tá, considerando que você já leu ambas as páginas e sabe o que é Unix, vamos entender de onde vieram os BSD's e qual a relação que ambos tem. Ainda na década de 70, quando ainda estávamos falando de <em>PDP-7</em>, <em>PDP-11</em> e <em>VAX</em>, existia uma versão do Unix voltada para pesquisa e desenvolvimento, em 1974 esse sistema chegou na universidade de Berkeley a pedidos do professor <em>Bob Fabry</em>. Ao final da década de 70 já existia uma distribuição desse sistema com diversas funções extras, e era uma mistura de ambos os códigos.</p>
+    <p>Em 1978, o <em>BSD1</em> era nada mais nada menos do que um <i>add-on</i> do <em>Unix v6</em>, em '79 o <em>BSD2</em> foi lançado com 2 programas que ainda estão por aí: o editor de texto <em>vi</em> (que vocês sabem que eu odeio com paixão, embora ame o vim) e o <em>C Shell</em> e mais ao final de '79 uma versão com o código rescrito para uso de memória virtual (<em>VMUNIX</em>) após a reescrita para o VAX resultou no <em>BSD3</em>. O <em>4.3BSD</em> lançado em junho de '86 era uma tentativa de se desprender da velha arquitetura VAX e migrar para <em>Power6/32</em>, embora não houve muito resultado o esforço nessa migração separou muito bem o código dependente de máquina do código não dependente, que melhoraria de sobremaneira a futura portabilidade do sistema, além disso esse mesmo grupo trabalhou numa pilha de rede e novos algoritmos TCP/IP (<em>tempos de começo da internet</em>).</p>
+    <p>Até aí todas as versões utilizavam código proprietário da AT&T, e estavam sujeitos a licença da empresa, licenças para código fonte eram caríssimas mas havia o interesse de diversas partes nesse código de rede, que foi todo desenvolvido por fora da AT&T e não estaria sujeito a licença, então o Network Release 1 (ou Net1) foi distribuído livremente nos termos da licença BSD em '89. Depois do Net1 esforços surgiram para reimplementar as ferramentas padrão do Unix porém sem utilização do código da AT&T, em 8 meses todas as ferramentas foram substituídas, e só sobrou algum código proprietário no Kernel, esse código foi finalmente removido e com ele o resultado foi o Network Release 2, um sistema operacional (quase) completo que era livremente distribuível (deu pra começar a entender o que eu disse sobre tudo isso ter sido um golpe de sorte na hora certa?).</p>
+    <p>Essa versão (Net2) foi a base de 2 ports para o Intel 80386: O <em>386BSD</em> que era livre e o <em>BSD/386</em> que era proprietário (essa galera realmente não sabe dar nome para as coisas...) futuramente renomeado <em>BSD/OS</em> pela <em>Berkeley Software Design</em> (<em>BSDi</em>), embora o 368BSD teve uma vida bastante curta ele foi a base de código tanto para o <em>NetBSD</em> quanto para o <em>FreeBSD</em>.</p>
+    <img class="responsiva2" src="https://upload.wikimedia.org/wikipedia/commons/7/77/Unix_history-simple.svg" alt="">
+    <h2>O problema que destruiu a decolagem dos BSD's</h2>
+    <p>Este é um assunto que o pessoal dos BSD's não gosta de tocar, mas ele é bastante importante do ponto de vista histórico, estamos falando de uma época que aos poucos computadores pessoais e internet cada vez mais se tornavam realidade, de um lado o pessoal do projeto <em>GNU</em> iniciado em 1983 por um engenheiro do MIT e do outro um sistema funcional, com kernel e tudo feito nos moldes do Unix e lançado de forma livremente distribuível... Como caralhos o GNU/Linux foi se tornar o padrão dos servidores atualmente? O problema meus amigos, não foi de natureza da tecnologia e sim do jurídico! A <em>USL</em> (<em>Unix System Laboratories</em>) subsidiária da AT&T e depois os donos do <em>System V</em> <i>copyright</i> e do Unix <i>trademark</i>, o processo <em>USL vs BSD</em> foi iniciado em 1992 e causou uma parada no desenvolvimento do Net2 até que a validação dos clamores da USL pudesse ser clamado, essa ação basicamente parou o desenvolvimento por quase <strong>2 fucking anos! No auge do sucesso e da busca por sistemas para o novo mundo da internet!</strong> E o que aconteceu nesse tempo? <em>Oras, o Linux aconteceu!</em> Enquanto os BSD's estavam empadatos em ambiguidade legal, os sistemas baseados no Kernel Linux ganharam absoluto suporte.</p>
+    <p>Nem tudo estava perdido, o processo foi finalizado em '94, largamente em favor de Berkeley, dos 18.000 arquivos, 3 foram removidos, 70 foram modificados e USL foi condicionada a não mais processar usuários e distribuidores do 4.4BSD, que era de propriedade da Berkeley. Em '95 o <em>4.4BSD-Lite Release 2</em> foi lançado, o CSRG cessa e com ele o desenvolvimento do BSD pela <em>Berkeley</em>, mas do <em>4.4BSD-Lite</em> surgem direta ou indiretamente como <em>FreeBSD, NetBSD, OpenBSD e DragonFly BSD</em>.</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
