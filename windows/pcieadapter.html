@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows em PCIE/NVME</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - Windows 10"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o Windows 10"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.microsoft.com/favicon.ico?v2">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Bootando o Windows instalado em adaptador PCIE/NVME em UEFI</h1>
+        <h2>Introdução - Entendendo o Problema</h2>
+        <p>O problema, embora obscuro de se achar informações, é bastante simples de se entender e não muito difícil de resolver: O problema do boot falhar ocorre pelo fato das primeiras placas mães UEFI serem incapazes e dar boot por PCIE... É só isso. É sério! E para resolver basta ter qualquer loader capaz de carregar o driver antes e depois <i>bootar</i> a partição... É sério! É só isso.</p>
+        <h2>Solucionando o problema</h2>
+        <h3>Parte 1 - Preparando a pasta de Boot</h3>
+        <p>Abra a página do <a class="link" href="https://github.com/CloverHackyColor/CloverBootloader/releases">CloverBootloader</a>, baixe a versão mais recente do o arquivo <mark>CloverV2-XXXX.zip</mark> e extraia para uma pasta, você vai ver essa estrutura de arquivos:</p>
+        <img class="responsiva" src="../assets/images/windows/pcieadapter/clover.png" alt="">
+        <p>Copie o arquivo do driver que está em:</p>
+        <code>EFI\CLOVER\drivers\off\UEFI\Other\NvmExpressDxe.efi</code>
+        <p>Copie-o para a pasta:</p>
+        <code>EFI\CLOVER\drivers\UEFI</code>
+        <p>Agora renomeie o arquivo:</p>
+        <code>EFI\CLOVER\<em>config-sample.plist</em></code>
+        <p>Para:</p>
+        <code>EFI\CLOVER\<em>config.plist</em></code>
+        <h3>Parte 2 - Colocando o booloader em um lugar visível</h3>
+        <p>Você agora precisa de uma partição <em>ESP</em> visível para a sua placa mãe, pode ser uma já criada num outro disco ou apenas crie uma partição <em>ESP</em> no seu pendrive (se você sabe usar Linux basta usar o <em>gdisk</em>, criar uma partição do tipo <em>ef00</em>, de pelo menos <em>550M</em> e formatar em <em>FAT32</em> ou siga <a class="link" href="../windows/cliformat.html">este tutorial</a> caso você queira fazer através do Windows).</p>
+        <p>Com o pendrive (ou a partição em um disco secundário) preparada basta copiar a pasta <em>EFI</em> para a raiz a partição <em>ESP</em>, se você está usando dualboot com Linux, basta copiar a pasta <em>CLOVER</em> para dentro da partição <em>ESP</em> e referenciá-la com o seu bootloader desejado.</p>
+        <h3>Parte 3 - Selecione o dispositivo</h3>
+        <p>Basta acessar a bios da sua placa mãe e selecionar o pendrive ou a entrada da partição <em>ESP</em>desejada:</p>
+        <img class="responsiva" src="../assets/images/install/bootdevice.jpg"" alt="">
+        <p>Se você fez tudo certo o bootloader vai ser carregado e basta selecionar o Windows:</p>
+        <img class="responsiva" src="../assets/images/windows/pcieadapter/clover2.png" alt="">
+        <h2>EXTRA - Apenas para quem utiliza Dualboot</h2>
+        <h3>Exemplo do arquivo de configuração para o systemd-boot</h3>
+        <code>title Clover<br>efi /EFI/CLOVER/CLOVERX64.efi</code>
+        <h3>Exemplo do arquivo de configuração para o GRUB</h3>
+<pre><code>menuentry 'Clover' $menuentry_id_option 'gnulinux-simple-<em>XXXX-XXXX</em>' {
+    insmod part_gpt
+    insmod fat
+    search --no-floppy --fs-uuid --set=root <em>XXXX-XXXX</em>
+    chainloader /EFI/CLOVER/CLOVERX64.efi
+}</code></pre>
+    <p>Lembre-se de substituir <em>XXXX-XXXX</em> pelo <em>UUID</em> da partição do <em>Clover</em>.</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
