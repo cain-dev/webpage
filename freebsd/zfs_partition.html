@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação manual com ZFS</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação manual do FreeBSD com ZFS"/>
+    <meta property="og:url" content="https://cain-dev.github.io/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar FreeBSD com ZFS manualmente, muito útil para instalar em partições."/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.freebsd.org/favicon.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <h2>Criando a partição no gdisk</h2>
+        <p>O procedimento de criação de partição é o mesmo que você já está acostumado, para criar a nova partição que será usada como volume ZFS utilize o comando:</p>
+        <code>n</code>
+        <p>O sistema irá exibir a seguinte linha para que você escolha o número da partição:</p>
+        <code>partition number: default</code>
+        <p>Apenas tecle <mark>Enter</mark>.</p>
+        <p>Logo em seguida o sistema irá exibir a seguinte linha para que você escolha o ponto de início da partição:</p>
+        <code>first sector: default</code>
+        <p>Apenas tecle <mark>Enter</mark>.</p>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o ponto de término da partição e delimite o seu tamanho, você pode apenas teclar <em>Enter</em> para ocupar todo o resto do armazenamento ou pode delimitar o seu tamanho como no exemplo abaixo:</p>
+        <code>last sector: +<mark>200G</mark></code>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o tipo da partição, para uma raiz de sistema de arquivo ZFS devemos utilizar o código <mark>bf00</mark> (<em>Solaris root</em>) e teclar <mark>Enter</mark> de maneira que o diálogo no terminal fique da seguinte forma:</p>
+        <code>Hex code or GUID (L to show codes, Enter = 8300): bf00</code>
+        <p>Com isso temos uma nova partição que ocupa 200G do disco e do tipo Solaris root.</p>
+        <h4>Gravar as alterações</h4>
+        <p>Para gravar as alterações da tabela de partição e sair do programa utilize o comando abaixo:</p>
+        <code>w</code>
+        <h2>Criando a pool</h2>
+        <p>Antes mais nada é necessário encontrar a partição que você preparou previamente, para isso utilize o comando:</p>
+        <code>gpart show</code>
+        <p>Agora monte <em>tmpfs</em> em <em>/mnt</em>:</p>
+        <code>mount -t tmpfs tmpfs /mnt</code>
+        <p>Por fim crie a pool na partição desejada:</p>
+        <code> zpool create -o altroot=/mnt zroot <mark>storageAP3</mark></code>
+        <h2>Crie a hierarquia de sistema de arquivos no ZFS</h2>
+        <p>Caso você queira habilitar compressão do tipo <em>lz4</em> por padrão na pool (altamente recomendado) você pode utilizar o comando abaixo:</p>
+        <code>zfs set compress=on zroot</code>
+        <p>Crie uma hierarquia de ambiente de inicialização:</p>
+        <code> zfs create -o mountpoint=none zroot/ROOT<br>zfs create -o mountpoint=none zroot/ROOT/default<br>mount -t zfs zroot/ROOT/default /mnt</code>
+        <p>Crie o resto da hierarquia de arquivos:</p>
+        <code>zfs create -o mountpoint=/tmp -o exec=on -o setuid=off zroot/tmp<br>zfs create -o canmount=off -o mountpoint=/usr zroot/usr<br>zfs create zroot/usr/home<br>zfs create -o exec=off -o setuid=off zroot/usr/src<br>zfs create zroot/usr/obj<br>zfs create -o mountpoint=/usr/ports -o setuid=off zroot/usr/ports<br>zfs create -o exec=off -o setuid=off zroot/usr/ports/distfiles<br>zfs create -o exec=off -o setuid=off zroot/usr/ports/packages<br>zfs create -o canmount=off -o mountpoint=/var zroot/var<br>zfs create -o exec=off -o setuid=off zroot/var/audit<br>zfs create -o exec=off -o setuid=off zroot/var/crash<br>zfs create -o exec=off -o setuid=off zroot/var/log<br>zfs create -o atime=on -o exec=off -o setuid=off zroot/var/mail<br>zfs create -o exec=on -o setuid=off zroot/var/tmp</code>
+        <p>Sete os devidos links e permissões:</p>
+        <code>ln -s /usr/home /mnt/home<br>chmod 1777 /mnt/var/tmp<br>chmod 1777 /mnt/tmp</code>
+        <h2>Configure o ambiente de inicialização</h2>
+        <code>zpool set bootfs=zroot/ROOT/default zroot</code>
+        <h2>Finalize a instalação</h2>
+        <p>Saia do modo shell de particionamento para que o bsdinstall continue a instalação:</p>
+        <code>exit</code>
+        <p>Na etapa de pós-instalação, quando perguntado se você gostaria de entrar no sistema instalado, escolha sim e execute os dois comandos a seguir:</p>
+        <code>sysrc zfs_enable="YES"<br>echo 'zfs_load="YES"' >> /boot/loader.conf</code>
+        <p>Se você está lendo isso as chances são de que você já tem uma partição do tipo <em>ESP</em> pronta ou pelo menos sabe como fazê-la, então agora precisamos copiar o arquivo de loader do FreeBSD para a partição <em>ESP</em>. Vamos começar montando a partição <em>ESP</em> com o comando:</p>
+        <code>mount -t msdosfs /dev/<mark>storageAP1</mark> /mnt</code>
+        <p>Crie a pasta do loader do FreeBSD:</p>
+        <code>mkdir /mnt/EFI/FreeBSD</code>
+        <p>Copie o loader para a pasta do FreeBSD:</p>
+        <code>cp /boot/loader.efi /mnt/EFI/FreeBSD/loader.efi</code>
+        <p>Por fim basta desmontar a partição:</p>
+        <code>umount /mnt</code>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
