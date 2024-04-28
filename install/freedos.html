@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do FreeDOS</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Instalação de Sistemas Operacionais - FreeDOS"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda a instalar o FreeDOS... Sim! FreeDOS!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.freedos.org/favicon.png">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Instalação do FreeDOS</h1>
+        <h2>Introdução</h2>
+        <p>Eu tenho um certo amigo, bem tiozão, ele tem uma múmia em casa que ele chama de computador, e queria uma alternativa mais moderna e que ainda tenha suporte para reviver os "velhos tempos" do DOS... E pra isso eu fiz esse tutorial. Óbvio que se você tiver uma múmia de pc, também pode ser útil para você, o FreeDOS é um excelente sistema operacional, EMBORA obviamente NÃO SEJA FEITO para um usuário médio em 2024.</p>
+        <p>Você pode baixar o FreeDOS através <a class="link" href="https://www.freedos.org/download/">desse link</a>, selecione a versão conforme o seu hardware, em resumo:</p>
+        <ul>
+            <li><p><em>FreeDOS for everyone</em> - .ISO padrão de instalação, essencialmente para máquinas modernas e/ou virtuais.</p></li>
+            <li><p><em>For real hardware</em> - .IMG padrão de instalação, essencialmente a mesma coisa da opção acima só que para gravação em pendrive.</p></li>
+            <li><p><em>For older hardware</em> - .ISO padrão de instalação para sistemas sem suporte a LiveCD.</p></li>
+            <li><p><em>For classic hardware</em> - Caso você queira rodar isso na desgraça de um IBM PC usando disquete...</p></li>
+        </ul>
+        <p>Como meu computador é velho mas não é do período paleolítico, vou usar a versão <em>FreeDOS for everyone</em> que se divide em 2 arquivos:</p>
+        <ul>
+            <li><p><em>FD13BOOT.IMG</em> - Imagem de disquete de inicialização da instalação básica do FreeDOS.</p></li>
+            <li><p><em>FD13LIVE.ISO</em> - O instalador LIVE do FreeDOS 1.3. A maioria dos usuários deve usar essa imagem para instalar o FreeDOS.</p></li>
+        </ul>
+        <p>Vou usar a imagem <em>FD13BOOT.IMG</em> pelo <em>Ventoy</em>, caso não saiba como preparar o pendrive veja <a class="link" href="../install/os_install.html">este link</a>. </p>
+        <h2>Instalação</h2>
+        <p>Selecione a opção <em>Install to harddisk</em> para instalar no HD...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos1.png" alt="">
+        <p>Selecione o idioma, no caso vou selecionar inglês na falta de pt-BR...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos2.png" alt="">
+        <p>Selecione <em>YES - Continue with the installation</em> caso tenha feito backup e vá instalar no disco, lembrando que <strong>todo o conteúdo do disco pode ser apagado!</strong></p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos3.png" alt="">
+        <p>Se o drive não está devidamente formatado vai aparecer a opção de formatação, para isso selecione o <em>YES - Partition drive C:</em>...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos4.png" alt="">
+        <p>Espere o fim do procedimento...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos5.png" alt="">
+        <p>Como isso é <em>DOS</em> você precisa reiniciar para prosseguir, selecione <em>YES - Please reboot now</em>.<br>Pra não ter que colocar todas as fotos novamente, após o computador reiniciar siga a instalação até esse ponto novamente...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos6.png" alt="">
+        <p>E dessa vez provavelmente a opção que vai aparecer é esta, para apagar e formatar o disco C:, selecione <em>YES - Please erase and format drive C:</em>...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos7.png" alt="">
+        <p>Espere o fim do procedimento...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos8.png" alt="">
+        <p>Para selecionar o teclado vá na opção <em>More keyboard choices...</em></p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos9.png" alt="">
+        <p>Selecione <em>Brazil extended</em> para <em>ABNT2</em></p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos10.png" alt="">
+        <p><em>YES - Overwrite MBR</em> para gravação do bootcode...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos11.png" alt="">
+        <p>Caso você queira o básico basta selecionar <em>Plain DOS system</em>, mas como eu quero Doom pré-instalado vou de <em>Full installation including applications and games</em>...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos12.png" alt="">
+        <p>Caso esteja de acordo com a instalação selecion <em>Yes - Please install FreeDOS</em>...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos13.png" alt="">
+        <p>E aguarde o fim da instalação...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos14.png" alt="">
+        <img class="responsiva" src="../assets/images/install/freedos/freedos15.png" alt="">
+        <p>Assim que tiver finalizado escolha <em>Yes - Please reboot now</em> para reiniciar.</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos16.png" alt="">
+        <h2>Pós-instalação</h2>
+        <p>A menos que você saiba muito bem o que está fazendo vá de opção <em>2 - Load FreeDOS with JEMMEX (more compatible)</em>...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos17.png" alt="">
+        <p>E pronto! Você está no FreeDOS!</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos18.png" alt="">
+        <p>Caso você seja um usuário de Unixlike você pode usar os comandos de aliases abaixo para facilitar a sua navegação:</p>
+        <code>alias ls=dir<br>alias clear=cls</code>
+        <p>E é claro que se você for em <em>C:\GAMES\BOOM\BOOM.EXE</em> vai ter Doom né?</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos19.png" alt="">
+        <p><strong>ps:</strong> Sim, se você tiver uma <em>.wad</em> original vai rodar sim.</p>
+        <h3>(Open)GEM</h3>
+        <p>Utilizar o DOS não te impede de ter uma interface gráfica completa, na era dos Atari ST existia o maravilhoso <i>GEM Desktop Environment</i>, e graças a <i>Shane Coughlan</i> e a <i>Opendawn</i>, podemos ter uma versão nova disso!<br>No disco bônus do FreeDOS (<em>FDXXBNS.iso</em>).</p>
+        <p>Se você inseriu o disco e ele foi devidamente reconhecido perceba que aparece <em>CD-ROM configured as R: drive</em> na tela.</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos20.png" alt="">
+        <!--
+        <p>Para acessar o conteúdo do disco <em>R:</em> utilize o comando:</p>
+        <code>R:</code>
+        <code>R:\PACKAGES\GUI\OPENGEM.ZIP</code>
+        
+        <p>Antes de mais nada criaremos uma pasta para o OpenGEM com o comando:</p>
+        <code>MKDIR OPENGEM</code>
+        <p>Agora vamos navegar para essa pasta com o comando:</p>
+        <code>CD OPENGEM</code>
+        <p>Considerando que você está em <mark>C:\OPENGEM></mark> e supondo que seu disco seja o dispositivo <mark>R:</mark> copiaremos o <em>OpenGEM</em> para a pasta com o comando:</p>
+        <code>COPY "R:\PACKAGES\GUI\OPENGEM.ZIP" .</code>
+        <p>E depois vamos extraí-lo com o comando:</p>
+        <code>C:\UTIL\P7ZIP\P7ZIP.EXE X "OPENGEM.ZIP"</code>
+        -->
+        <p>Uma vez que a mídia de instalação foi reconhecida você pode adicionar o gerenciador de pacotes com o comando:</p>
+        <code>fdimples</code>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos21.png" alt="">
+        <p>Uma vez no gerenciador de pacotes, basta usar as setas para descer até a categoria <em>Graphical Desktops</em>, ir para o campo direito em <em>OPENGEM</em>, apertar <em>Espaço</em> para marcá-lo para instalação, e depois apertar <em>TAB</em> até selecionar o <em>OK</em> e iniciar a instalação...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos22.png" alt="">
+        <p>O diretório <em>C:\OPENGEM</em> será criado. Navegue até ele com:</p>
+        <code>Caso queira usar a interface basta usar o comando:</code>
+        <code>CD OPENGEM</code>
+        <p>Depois execute a interface com:</p>
+        <code>GEM.BAT</code>
+        <p>Se você fez tudo certo a interface OpenGEM será iniciada...</p>
+        <img class="responsiva" src="../assets/images/install/freedos/freedos23.png" alt="">
+        <h2>Fim!</h2>
+        <p>Agora basta seguir o mesmo procedimento para outras interfaces e aplicativos 😀</p>
+
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
