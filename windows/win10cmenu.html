@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu de contexto Win10</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Voltando para o velho menu de contexto do Windows 10"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Tá passando raiva com a porcaria do menu de contexto do Windows 11? Vamos resolver!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.microsoft.com/favicon.ico?v2">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Revertendo para o antigo menu de contexto no Windows 11</h1>
+        <img class="responsiva" src="../assets/images/windows/win10cmenu/cmenu01.png" alt="">
+        <p>Pra resolver isso é simples:</p>
+        <ol>
+            <li><p>Abra o <em>regedit.exe</em></p></li>
+            <li><p>Crie a seguinte chave:</p><code>[HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]</code></li>
+            <li><p>Reinicie (ou deslogue e logue novamente) ou feche o explorer.exe.</p></li>
+        </ol>
+        <p>No caso as chaves que precisam ser criadas são:</p>
+        <code>{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}</code>
+        <code>InprocServer32</code>
+        <p>A entrada <em>(Padrão)</em> em <em>InprocServer32</em> deve estar vazia!</p>
+        <p>Créditos ao <a class="link" href="https://chef-koch.bearblog.dev">CHEF-KOCH MICROBLOG</a></p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
