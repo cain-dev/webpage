@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previna a ativação do BitLocker</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Previna a ativação do BitLocker"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Não quer perder seus arquivos? Veja como é fácil prevenir!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="https://www.microsoft.com/favicon.ico?v2">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Desativando o BitLocker na Instalação</h1>
+        <ol>
+            <li><p>Abra o <em>regedit.exe</em></p></li>
+            <li><p>Navegue até a chave </p><code>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BitLocker</code></li>
+            <li><p>Selecione Novo > Valor DWORD (32 Bits)</p></li>
+            <li><p>Nomeie a chave como "PreventDeviceEncryption"</p></li>
+            <li><p>Depois clique na chave com o botão direito e selecione "Modificar...", e em "Dados do valor" coloque "1"</p></li>
+        </ol>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
