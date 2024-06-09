@@ -230,6 +230,11 @@
                 <li><p>Para fazer com que uma partição seja inicializável coloque o cursor sobre a partição e depois selecione <em>[ Bootable ]</em>.</p></li>
                 <li><p>Por fim selecione a opção <em>[ Write ]</em> e confirme digitando <em>yes</em> e teclando <em>Enter</em>.</p></li>
             </ul>
+            <!-- Easy Mode CFDISK BIOS BOOT -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+            <h4>Partição <em>BIOS BOOT</em> (opcional mas altamente recomendado)</h4>
+            <p>Em computadores que utilizam BIOS (especialmente os mais antigos), instalar o GRUB pode ser uma dor de cabeça sem uma partição específica para ele. Isso pode ser resolvido facilmente com uma partição do tipo <em>BIOS BOOT</em>.</p>
+            <p>A partição BIOS BOOT deve ser uma partição <mark>primary</mark> de <mark>1 MB</mark> do tipo <mark>00 Empty</mark> <strong>e marcada como</strong> <mark>bootable</mark>.</p>
             <!-- Easy Mode CFDISK swap -->
             <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
             <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
@@ -325,7 +330,7 @@
             <p>É importante ressaltar que pastas de usuário <strong>não são compatíveis entre distribuições distintas</strong> e ainda numa mesma distribuição podem gerar problemas de incompatibilidade ou com configurações de aplicativos, variáveis e afins. Recomendo delimitar o tamanho da partição de sistema apenas e somente se você pretende fazer mudanças na partição de raiz do sistema sem ter que reinstalar o sistema.</p>
             <p>Se você é um usuário iniciante ou não pretende fazer tais mudanças, faça backup dos seus arquivos num outro dispositivo e <strong>e não delimite o tamanho da partição raiz e também não faça uma partição separada para a /home!</strong></p>
             <p><strong>Observação:</strong> Existe muito debate a respeito de qual é o tamanho necessário para uma partição raiz do sistema, obviamente o necessário varia conforme o tipo da instalação e a quantidade de programas a serem instalados. Na maioria das documentações que vi, a recomendação é de no mínimo <em>20G</em> para a grande maioria dos usuários e de <em>40G</em> a <em>60G</em> para casos mais extremos. Lembrando que <strong>se você pretende usar um arquivo swap na partição do sistema você deve contabilizar o espaço necessário para o arquivo de swap aqui também!</strong></p>
-            <p>A partição / deve ser uma partição <mark>primary</mark> do tipo <mark>83 Linux</mark> <strong>e marcada como</strong> <mark>bootable</mark>.</p>         
+            <p>A partição / deve ser uma partição <mark>extended</mark> do tipo <mark>83 Linux</mark>.</p>         
             <!-- Easy Mode CFDISK /home -->
             <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
             <h4>Partição para <em>/home</em> separada (opcional e não recomendado)</h4>
@@ -334,6 +339,32 @@
             <h4>Terminado!</h4>
             <p>Pule para o <em>Passo 5 - Formatar as partições</em></p>
         </details>
+        <!-- Partição BIOS BOOT -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h4>Partição <em>BIOS BOOT</em> (opcional mas altamente recomendado)</h4>
+        <p>Em computadores que utilizam BIOS (especialmente os mais antigos), instalar o GRUB pode ser uma dor de cabeça sem uma partição específica para ele. Isso pode ser resolvido facilmente com uma partição do tipo <em>BIOS BOOT</em>.</p>
+        <p>Para criar a nova partição que será usada pelo GRUB utilize o comando:</p>
+        <code>n</code>
+        <p>O programa vai perguntar que tipo de partição você deseja como no exemplo abaixo:</p>
+        <code>Partition type<br>&nbsp;p&nbsp;primary<br>&nbsp;e&nbsp;extended<br>Select (default p):</code>
+        <p>Tecle <em>p</em> (para <i>primary</i>) e dê enter para a criar uma nova partição primária.</p>
+        <p>O programa vai perguntar o número da partição como no exemplo abaixo:</p>
+        <code>Partition number:</code>
+        <p>Você pode selecionar qual vai ser o número da partição ou apenas teclar <em>Enter</em>.</p>
+        <p>Logo em seguida o sistema irá exibir a seguinte linha para que você escolha o ponto de início da partição:</p>
+        <code>first sector: default</code>
+        <p>Apenas tecle <mark>Enter</mark>.</p>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o ponto de término da partição e delimite o seu tamanho, apenas <em>1MB</em> é o suficiente, para criar uma partição de 1MB o comando seria:</p>
+        <code>last sector: +<mark>1M</mark></code>
+        <p><strong>Observação:</strong> Se essa área já servia alguma outra partição vai aparecer um erro como o exemplo abaixo:</p>
+        <code><strong>Partition #X contains a X signature.</strong><br>Do you want to remove the signature?[Y]es/[N]o:</code>
+        <p>Apenas use o comando <em>Y</em> para confirmar a remoção de assinatura.</p>
+        <p>Agora, precisamos informar o tipo da partição, para mudar o tipo da partição use o comando:</p>
+        <code>t</code>
+        <p>Para ver os códigos disponíveis use o comando:</p>
+        <code>L</code>
+        <p>O código para o tipo vazio é o <em>00</em>, digite 00 e dê enter para mudar o tipo para "Empty"</p>
+        <p>Agora precisamos deixar essa partição <i>bootável</i>, tecle <em>a</em> para deixar essa partição ativada para boot.</p>
         <!-- Partição SWAP em BIOS -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h4>Partição <em>SWAP</em> (opcional mas altamente recomendado)</h4>
@@ -452,7 +483,7 @@
         <code>n</code>
         <p>O programa vai perguntar que tipo de partição você deseja como no exemplo abaixo:</p>
         <code>Partition type<br>&nbsp;p&nbsp;primary<br>&nbsp;e&nbsp;extended<br>Select (default p):</code>
-        <p>Tecle <em>p</em> (para <i>primary</i>) e dê enter para a criar uma nova partição primária.</p>
+        <p>Tecle <em>e</em> (para <i>extended</i>) e dê enter para a criar uma nova partição extendida.</p>
         <p>O programa vai perguntar o número da partição como no exemplo abaixo:</p>
         <code>Partition number:</code>
         <p>Você pode selecionar qual vai ser o número da partição ou apenas teclar <em>Enter</em>.</p>
