@@ -39,7 +39,7 @@
         <details class="spoiler" >
             <summary>Selecionando os mirror's <strong>Não recomendado!</strong> (Clique para ver)</summary>
             <p>Vamos começar do começo... Isso é absurdamente desnecessário, ok? Não faça! Isso está aqui para fins educacionais, já adianto que se você demorar muito para chegar nesse paso o próprio Arch fara uma busca pelos melhores mirrors então de estalo já desative o serviço com:</p>
-            <code>systemctl stop reflector.service</code>
+            <code>systemctl stop reflector</code>
             <p>Existem diversas maneiras de editar o arquivo que lista os servidores <i>mirrors</i> e habilitar apenas os servidores brasileiros para uma melhor conexão para o processo de instalação, mas a que eu recomendo é através dos comandos de substituição do <mark>vim</mark>. Você pode abrir o arquivo de <i>mirrors</i> no <mark>vim</mark> com o seguinte comando:</p>
             <code>vim /etc/pacman.d/mirrorlist</code>
             <p>Com o vim aberto <strong>não aperte nenhuma outra tecla!</strong> (a menos que esteja acostumado a usar o vim), apenas escreva o comando abaixo e depois tecle <em>Enter</em> para comentar e desabilitar todos os servidores de uma vez só:</p>
@@ -898,6 +898,12 @@
         <!-- Passo 7 Instalar sistema -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 7 - Instalar sistema</h2>
+        <p>Uma vez que todos os diretórios foram criados e montados, podemos instalar a base do sistema através do comando <mark>pacstrap</mark>. 
+        <code>pacstrap -K /mnt base <em>linux</em> linux-firmware</code>
+        <p><strong>*</strong> Caso você queira utilizar um kernel <em>LTS</em> você pode substituir o pacote <mark>linux</mark> por <mark>linux-lts</mark>.</p>
+        <!-- Passo 7 Instalar sistema -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
+        <h2>Passo 7 - Instalar sistema</h2>
         <p>Uma vez que todos os diretórios foram criados e montados, podemos instalar o sistema através do comando <mark>pacstrap</mark>. Considerando que a nossa instalação alvo consiste em:</p>
         <ul>
             <li><p>kernel <mark>linux</mark> (padrão)</p></li>
@@ -920,6 +926,7 @@
             <li><p><strong>Se e somente se</strong> você está instalando em modo UEFI e quer um boot menu mais gráfico e customizável ao invés do <mark>systemd-boot</mark> adicione <mark>refind</mark> na lista de pacotes para serem instalados.</p></li>
             <li><p><strong>Se e somente se</strong> você está instalando numa máquina virtual do virtualbox, instale também o pacote <mark>virtualbox-guest-utils</mark> para utilitários do VirtualBox com suporte ao X ou <mark>virtualbox-guest-utils-nox</mark> para utilitários do VirtualBox sem suporte ao X.</p></li>
         </ul>
+        -->
         <!-- Passo 8 Gerar FSTAB -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 8 - Gerar FSTAB</h2>
@@ -932,6 +939,8 @@
         <h2>Passo 9 - "CHROOT" para a instalação</h2>
         <p>Com a tabela pronta e verificada acessaremos a instalação com o comando:</p>
         <code>arch-chroot /mnt</code>
+        <p>Uma vez que fez o chroot para a partição do sistema instalado, é interessante a instalação de um editor de texto para configurar o sistema, você pode usar o que desejar, mas para fins de exemplo vamos instalar o <em>GNU/Nano</em>:</p>
+        <code>pacman -S nano</code>
         <h2>Passo opcional - Criar swapfile </h2>
         <p><strong>Se e somente se</strong> você não tenha feito uma partição dedicada para swap mas ainda deseja utilizar swap através de arquivo swap, você pode gerar o arquivo swap com o comando abaixo (lembre se de mudar o valor de <mark>3</mark>GB para o <em>seu</em> caso conforme a <a class="link" href="#tabela-swap">tabela</a>):</p>
         <code>fallocate -l <mark>3</mark>GB /swapfile</code>
@@ -995,12 +1004,14 @@
         <!-- SUBSTITUÍDO POR DNSMASQ
         <h4>NetworkManager e systemd-resolved</h4>
         <p>Apenas habilite os serviços <mark>NetworkManager</mark> e <mark>systemd-resolved</mark> com o comando:</p>
-        <code>systemctl enable NetworkManager.service systemd-resolved.service</code>
+        <code>systemctl enable NetworkManager systemd-resolved</code>
         -->
         <!-- NetworkManager e dnsmasq -->
         <h4>NetworkManager e dnsmasq (configuração padrão para Desktop)</h4>
-        <p>Para deixar o NetworkManager funcionando basta habilitar o seu serviço com o comando:</p>
-        <code>systemctl enable NetworkManager.service</code>
+        <p>Antes de mais nada precisamos instalar os pacotes do <em>NetworkManager</em> e <em>dnsmasq</em> com o comando:</p>
+        <code>pacman -S networkmanager dnsmasq</code>
+        <p>Para deixar o NetworkManager habilitado basta habilitar o seu serviço com o comando:</p>
+        <code>systemctl enable NetworkManager</code>
         <p>E está tudo certo! Mas eu recomendo fortemente você possibilitar <i>caching</i> e <i>contidional forwarding</i> com o dnsmasq, para isso edite o arquivo <mark>/etc/NetworkManager/conf.d/dns.conf</mark>:</p>
         <code>nano /etc/NetworkManager/conf.d/dns.conf</code>
         <p>E insira as linhas:</p>
@@ -1010,15 +1021,19 @@
         <p>⚠️ Não precise se preocupar em iniciar o serviço pois o <em>NetworkManager</em> iniciará tudo sozinho sem a necessidade de utilização de serviço</p>
         <br>
         <p><em>BÔNUS!</em></p>
-        <p>Se você instalou o pacote <em>iwd</em> e deseja utilizá-lo como <i>backend</i> acesse o arquivo <mark>/etc/NetworkManager/conf.d/wifi_backend.conf</mark>:</p>
+        <p>Se você desejar, pode instalar o pacote <em>iwd</em> e utilizá-lo como <i>backend</i> ao invés do <em>wpa_supplicant</em>, para isso instale o iwd com o comando:</p>
+        <code>pacman -S iwd</code>
+        <p>Depois acesse o arquivo <mark>/etc/NetworkManager/conf.d/wifi_backend.conf</mark>:</p>
         <code>nano /etc/NetworkManager/conf.d/wifi_backend.conf</code>
         <p>E insira as linhas:</p>
         <code>[device]<br>wifi.backend=iwd</code>
-        <p><strong>⚠️ ALERTA!</strong> Não inicie o serviço <em>iwd.service</em> e nem configure o <em>iwd</em> manualmente! O <em>NetworkManager</em> vai iniciá-lo e gerenciá-lo por conta própria.</p>
+        <p><strong>⚠️ ALERTA!</strong> Não inicie o serviço <em>iwd</em> e nem configure o <em>iwd</em> manualmente! O <em>NetworkManager</em> vai iniciá-lo e gerenciá-lo por conta própria.</p>
         <!-- iwd e openresolv -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h4>iwd (configuração mínima para Laptop)</h4>
-        <p>Primeiro crie a pasta para o arquivo de configuração do iwd:</p>
+        <p>Antes de mais nada instale os pacotes <em>iwd</em> e <em>openresolv</em>:</p>
+        <code>pacman -S iwd openresolv</code>
+        <p>Agora crie a pasta para o arquivo de configuração do iwd:</p>
         <code>mkdir /etc/iwd</code>
         <p>Crie o arquivo <em>/etc/iwd/main.conf</em> e edite pelo nano utilizando o comando:</p>
         <code>nano /etc/iwd/main.conf</code>
@@ -1039,8 +1054,7 @@
         <code>nameserver 1.1.1.1<br>nameserver 1.0.0.1</code>
         <p>* Sinta-se a vontade para alterar o endereço de DNS.</p>
         <p>Por fim habilite o serviços <mark>iwd</mark> com o comando:</p>
-        <code>systemctl enable iwd.service</code><p></p>
-        
+        <code>systemctl enable iwd</code><p></p>
         <!-- Configurar o DNS -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         
@@ -1069,6 +1083,8 @@
         <code>useradd -mG wheel seunomedeusuário</code>
         <p>Para configurar a senha da conta desse usuário use o comando abaixo substituindo o <mark>seunomedeusuário</mark> pelo seu nome de usuário:</p>
         <code>passwd seunomedeusuário</code>
+        <p>Instale o sudo com o comando:</p>
+        <code>pacman -S sudo</code>
         <p>Edite o arquivo sudoers com o nano utilizando o comando abaixo:</p>
         <code>sudo env EDITOR=nano visudo</code>
         <p>Habilite a elevação de privilégio para o grupo <mark>wheel</mark> descomentando a linha deletando o <mark>#</mark> antes dele em:</p>
@@ -1076,11 +1092,19 @@
         <!-- Passo 13 Instalação de inicializador -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 13 - Instalação de inicializador</h2>
-        <p>Assim como foi dito na introdução, este guia trata da instalação tanto para BIOS quanto para UEFI, escolha uma das opções abaixo para prosseguir:</p>
+        <p>Assim como foi dito na introdução, este guia trata da instalação tanto para BIOS quanto para UEFI. Embora não é necessário é extremamente recomendado instalar pacotes de update de microcódigo e configurá-los desde o bootloader, então caso esteja numa máquina real selecione uma das opções abaixo:</p>
+        <p> - Para processadores <em>AMD</em> instale o pacote:</p>
+        <code>pacman -S amd-ucode</code>
+        <p><strong>OU</strong></p>
+        <p>- Para processadores <em>Intel</em> instale o pacote:</p>
+        <code>pacman -S intel-ucode</code>
+        <p>E então escolha uma das opções de bootloader abaixo para prosseguir:</p>
         <!-- OPÇÃO A -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Opção A - GRUB2 (BIOS multiboot)</h3>
         <img class="responsiva" src="https://upload.wikimedia.org/wikipedia/commons/1/12/GRUB_screenshot.png" alt="GRUB2 boot menu">
+        <p>Antes de mais nada instale o grub com o comando:</p>
+        <code>pacman -S grub</code>
         <p>O GRUB nessa altura do campeonato se tornou o bootloader "de facto" do Linux, é o mais comum que você vai ver por aí e permite um bom grau de personalização e configuração, a instalação do GRUB é extremamente simples, basta usar o comando <mark>grub-install</mark> e selecionar a unidade (e não a partição!) em que você deseja instalar como no comando abaixo:</p>
         <code>grub-install --target=i386-pc /dev/<mark>storageA</mark></code>
         <p>Uma vez que o GRUB está instalado, use a ferramenta <em>grub-mkconfig</em> para gerar o <em>/boot/grub/grub.cfg</em>:</p>
@@ -1122,6 +1146,8 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Opção C - rEFInd (UEFI multiboot)</h3>
         <img class="responsiva" src="https://repository-images.githubusercontent.com/237197634/93c0c680-46b9-11ea-9eda-b3071a50454b" alt="">
+        <p>Antes de mais nada instale o rEFInd com o comando:</p>
+        <code>pacman -S refind</code>
         <p>Se você já viu imagens de customização de Linux na internet, seja buscando imagens no Google ou talvez no <a class="link" href="https://www.reddit.com/r/unixporn/">r/unixporn</a>, é bem provável que você viu algum tema para menu de boot, e dentre esses o que é provavelmente mais amado pela sua capacidade de customização é o <mark>refind</mark>. A experiência proporcionada por ele é bem próxima do multiboot do OpenCore.  A instalação do refind é absurdamente simples e pode ser feita em um único comando:</p>
         <code>refind-install --usedefault /dev/<mark>storageAP1</mark></code>
         <p>* <strong>considerando que</strong> /dev/<mark>storageAP1</mark> é sua partição <em>ESP</em></p>
@@ -1146,6 +1172,7 @@
         <!-- Passo 14 Finalizando a instalação -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 14 - Finalizando a instalação</h2>
+        <p><strong>Se e somente se</strong> você está instalando numa máquina virtual do virtualbox, instale também o pacote <mark>virtualbox-guest-utils</mark> para utilitários do VirtualBox com suporte ao X ou <mark>virtualbox-guest-utils-nox</mark> para utilitários do VirtualBox sem suporte ao X.</p>
         <p>Com tudo pronto podemos sair do ambiente chroot com o comando:</p>
         <code>exit</code>
         <p><strong>Se e somente se</strong> você ativou a swap desligue-a com o comando:</p>
