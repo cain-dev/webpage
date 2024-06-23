@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos no Linux</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Jogos no Linux"/>
+    <meta property="og:url" content="https://cain-dev.github.io/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+    <h1><i>"Mas Linux roda jogos?"</i></h1>
+    <h2>Introdução</h2>
+    <p>Foi se o tempo em que rodar jogos de PC no Linux era algo raro, hoje em dia não só temos clientes para a maioria das plataformas como até mesmo temos consoles baseados em Linux (como o SteamDeck da Valve). Para a maioria esmagadora dos títulos (certamente os que você mais gosta de longa data) basta utilizar uma camada de compatibilidade com Wine, Proton e DXVK e tá tudo certo.</p>
+    <h2>Entendendo o básico</h2>
+    <h3>Mas o que é Wine?</h3>
+    <p>Wine não é um emulador, mas sim uma camada de compatibilidade que permite que você execute aplicações do Windows no Linux e demais sistemas Unixlike. Você pode verificar o estado da compatibilidade com a sua biblioteca de software através desse link <a class="link" href="https://appdb.winehq.org/">WineHQ</a>.</p>
+    <p>De todas as ferramentas para gerenciar versões e ambientes do Wine eu creio que de longe a mais simples seja o Bottles, você provavelmente vai achar na lojinha da sua distribuição ou pode instalar o flatpak através do comando:</p>
+    <code>flatpak install flathub com.usebottles.bottles</code>
+    <h3>O que é Proton?</h3>
+    <p>Proton é uma camada de compatibilidade desenvolvida pela Valve especifica para jogos do Windows rodarem em sistemas operacionais baseados em Linux. Embora não seja perfeita é muito competente, você pode verificar o estado da compatibilidade com a sua biblioteca de  jogos através desse link <a class="link" href="https://www.protondb.com/">ProtonDB</a>.</p>
+    <h3>DXVK?</h3>
+    <p>É uma ferramenta que interpreta as chamadas de API DirectX e as converte para Vulkan, em alguns casos aumentando de forma notável o desempenho.</p>
+    <h3>Como instalar a Steam?</h3>
+    <p>Pelo fato da Valve ter adotado o Linux, na grande maioria das distribuições você vai encontrar um pacote nativo para a Steam na lojinha de aplicativos da sua distro, caso a sua distribuição não tenha um pacote nativo você pode instalar através do <em>Flatpak</em> com o comando:</p>
+    <code>flatpak install flathub com.valvesoftware.Steam</code>
+    <p>Pronto! Uma vez que a Steam está instalada, basta clicar com o botão direito no jogo que você quer, selecionar <em>Propriedades...</em>, depois <em>Compatibilidade</em> e marcar a caixa <em>Usar ferramenta de compatibilidade</em> e selecionar a versão desejada do Proton.</p>
+    <h3>Quem caralhos é GloriousEggroll? Como instalar Proton-GE na Steam?</h3>
+    <p>GloriousEggroll é o responsável pela distribuição Linux Nobara, uma distro feita para jogos que recebe inúmeras modificações e atualizações especificas para isso. Em diversos casos a sua versão específica do Proton (o ProtonGE) roda melhor que a da própria Steam! Para instalar a sua versão do Proton acesso o Github do GloriousEggroll através desse link <a class="link" href="https://github.com/GloriousEggroll/proton-ge-custom/releases">aqui</a>. Baixe a última versão do Proton-GE (arquivo <em>GE-ProtonX-XX.tar.gz</em>), extraia esse arquivo para pasta e coloque em <mark>/home/SEU_USER/.steam/root/compatibilitytools.d</mark>. Feche e abra novamente a Steam, a versão do ProtonGE vai ser visível no menu de seleção <em>"Ferramenta de compatibilidade"</em>.</p>
+    <h3>E para jogos da Amazon, Epic e GOG?</h3>
+    <p>Para esses casos você pode usar o <em>Heroic Games Launcher</em>, na grande maioria das distribuições você vai encontrar um pacote nativo na lojinha de aplicativos da sua distro, caso a sua distribuição não tenha um pacote nativo você pode instalar através do <em>Flatpak</em> com o comando:</p>
+    <code>flatpak install flathub com.heroicgameslauncher.hgl</code>
+    <h3>Mas o jogo (x que usa anticheat) não funciona!</h3>
+    <p>Bom, hoje em dia o Linux já tem tudo o que é necessário para rodar jogos, sem contar que mesmo para o desenvolvedor de jogos para Windows pode fazer com que seu jogo rode no Linux hoje sem muita dor de cabeça, porém algumas ferramentas de anticheat mais intrusivas simplesmente não dão suporte ao Linux, para verificar suporte o suporte de anticheat para a sua biblioteca você pode acessar <a class="link" href="https://areweanticheatyet.com/">Are we anticheat yet?</a>.</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
