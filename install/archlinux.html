@@ -1263,7 +1263,7 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>KDE</h3>
         <p>Utilize o comando:</p>
-        <code>pacman -S plasma-workspace plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config pipewire-pulse</code>
+        <code>pacman -S plasma-workspace plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin kio-admin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config pipewire-pulse</code>
         <p><strong>Observação!</strong> Inclua esses pacotes caso também deseje essas funções:</p>
         <ul>
             <li><em>kcalc</em> (Se e somente se você utilizará uma calculadora)</li>
@@ -1271,6 +1271,8 @@
         </ul>
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
+        <h4>Corrigindo emojis no KDE (Dolphin, notificações, etc.)</h4>
+        <p>Considerando que você vai instalar as alternativas de fonte abaixo, é provável que o sistema não capte automaticamente as fontes instaladas. Para resolver isso copie os arquivos <a class="link" href="https://github.com/cain-dev/dotfiles/tree/main/fontconfig/conf.d">desse link</a> para <mark>/etc/fonts/conf.d/</mark>.</p>
         <!-- CINNAMON -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Cinnamon</h3>
