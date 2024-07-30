@@ -1249,21 +1249,34 @@
         <h2>Retoques pós-instalação</h2>
         <p>Ok, você instalou o Arch, meus parabéns! Mas tudo que você vai ver ao fim dessa instalação é uma tela de login e nenhuma otimização. Mas tem muito que podemos fazer para deixar o Arch mais convidativo para um usuário final.</p>
         <p>A minha primeira recomendação é que você instale uma das interfaces abaixo.</p>
+        <!-- Instalando backend de som -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h2>Instalando backend de som</h2>
+        <p>Antes de qualquer ambiente gráfico é interessante instalar os pacotes responsáveis pelo som, para isso instale:</p>
+        <code>pipewire pipewire-alsa pipewire-pulse pipewire-jack pipewire-audio<em>*</em></code>
+        <p><em>Observação:</em> Este último se e somente se vai usar dispositivos de som via bluetooth.</p>
         <!-- Instalando ambiente gráfico -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Instalando um ambiente gráfico</h2>
         <!-- GNOME -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Gnome</h3>
-        <p>Utilize o comando:</p>
+        <p>Para ter uma experiência padrão do Gnome, instalando os pacotes base e configurações básicas utilize o comando:</p>
         <code>pacman -S gnome gnome-tweaks</code>
+        <p>OU se quiser uma experiência mais tradicional (barra inferior, menu estilo Iniciar, ícones na área de trabalho e bandeja da aplicativos) instale os pacotes:</p>
+        <code>pacman -S gnome-shell gdm nautilus gnome-control-center gnome-shell-extension-dash-to-panel  gnome-shell-extension-arc-menu gnome-shell-extension-appindicator gnome-shell-extension-desktop-icons-ng</code>
+        <p>Para ter uma lojinha de aplicativos funcional no Arch instale:</p>
+        <code>pacman -S flatpak gnome-software</code>
+        <p><em>Observação:</em> Para gerenciar as demais extensões, recomendo que através da lojinha do Gnome você baixe o flatpak <em>Gerenciador de Extensões</em> desenvolvido por <em>Matthew Jakeman</em>.</p>
         <p>Habilite o serviço do GDM com o comando:</p>
         <code>systemctl enable gdm</code>
+        <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-gnome</code>
         <!-- KDE -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>KDE</h3>
         <p>Utilize o comando:</p>
-        <code>pacman -S plasma-workspace plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin kio-admin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config pipewire-pulse</code>
+        <code>pacman -S plasma-workspace plasma-desktop sddm sddm-kcm plasma-nm plasma-pa konsole dolphin kio-admin ark kdegraphics-thumbnailers ffmpegthumbs powerdevil kdeplasma-addons kde-gtk-config</code>
         <p><strong>Observação!</strong> Inclua esses pacotes caso também deseje essas funções:</p>
         <ul>
             <li><em>kcalc</em> (Se e somente se você utilizará uma calculadora)</li>
@@ -1271,13 +1284,15 @@
         </ul>
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
+        <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-kde</code>
         <h4>Corrigindo emojis no KDE (Dolphin, notificações, etc.)</h4>
         <p>Considerando que você vai instalar as alternativas de fonte abaixo, é provável que o sistema não capte automaticamente as fontes instaladas. Para resolver isso copie os arquivos <a class="link" href="https://github.com/cain-dev/dotfiles/tree/main/fontconfig/conf.d">desse link</a> para <mark>/etc/fonts/conf.d/</mark>.</p>
         <!-- CINNAMON -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Cinnamon</h3>
         <p>Utilize o comando:</p>
-        <code>pacman -S xorg cinnamon cinnamon-translations lightdm lightdm-slick-greeter gnome-terminal nemo nemo-fileroller nemo-preview nemo-python ffmpegthumbnailer pipewire-pulse</code>
+        <code>pacman -S xorg cinnamon cinnamon-translations lightdm lightdm-slick-greeter gnome-terminal nemo nemo-fileroller nemo-preview nemo-python ffmpegthumbnailer</code>
         <p><strong>Observação!</strong> Inclua esses pacotes caso também deseje essas funções:</p>
         <ul>
             <li><em>gnome-calculator</em> (Se e somente se você utilizará uma calculadora)</li>
@@ -1289,10 +1304,8 @@
         <p>Edite o arquivo <mark>/etc/lightdm/lightdm.conf</mark> e configure conforme o exemplo abaixo:</p>
         <code>[Seat:*]<br>...<br>greeter-session=<em>lightdm-slick-greeter</em><br>...</code>
         <p>Por fim edite o arquivo do <em>Slick</em> que está em <mark>/etc/lightdm/slick-greeter.conf</mark>, segundo <a class="link" href="https://github.com/linuxmint/slick-greeter">este link</a>.</p>
-        <p>Ao instalar o Cinnamon ele não gera os diretórios padrão de usuário (Downloads, Músicas, Imagens, etc.), para corrigir isso precisamos instalar o <mark>XDG User Directories</mark> com o comando:</p>
-        <code>sudo pacman -S xdg-user-dirs</code>
-        <p>Para atualizar a lista de diretórios utilize o comando:</p>
-        <code>xdg-user-dirs-update</code>
+        <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-xapp</code>
         <h4>Nemo folder-color-switcher</h4>
         <p>Ao meu ver uma das funções mais úteis do Nemo é a mudança de cor das pastas, é um excelente recurso para organizar os arquivos no computador. Algumas pessoas acreditam que isso é uma função específica do Linux Mint quando na verdade isso é um script do Nemo que pode ser usado em diversas distribuições, inclusive no Arch.</p>
         <p>Caso você queira utilizá-la a primeira coisa que precisará é de um pack de ícones compatível, podemos utilizar o próprio tema <a class="link" href="https://github.com/linuxmint/mint-x-icons">Mint-X</a> ou <a class="link" href="https://github.com/linuxmint/mint-y-icons">Mint-Y</a>, baixe e extraia as pastas dos ícones (Mint-X, Mint-Y, Mint-X-Aqua, Mint-Y-Aqua... etc.) para o diretório <mark>/usr/share/icons</mark>;</p>
@@ -1305,6 +1318,8 @@
         <code>pacman -S lxqt oxygen-icons sddm</code>
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
+        <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-lxqt</code>
         <!-- XFCE -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>XFCE</h3>
@@ -1312,6 +1327,12 @@
         <code>pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings</code>
         <p>Habilite o serviço do LightDM com o comando:</p>
         <code>systemctl enable lightdm</code>
+        <!-- XDG-USER-DIRS -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <p>Ao instalar alguma dessas interfaces, pode ser que ela não gere os diretórios padrão de usuário (Downloads, Músicas, Imagens, etc.), para corrigir isso precisamos instalar o <mark>XDG User Directories</mark> com o comando:</p>
+        <code>sudo pacman -S xdg-user-dirs</code>
+        <p>Para atualizar a lista de diretórios utilize o comando:</p>
+        <code>xdg-user-dirs-update</code>
         <!-- Adicionando fontes para compatibilidade, suporte a línguas estrangeiras e símbolos -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Fontes</h2>
