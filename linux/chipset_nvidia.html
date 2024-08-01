@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth no Arch</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Resolvendo chipset Nvidia no Linux"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Você tem uma placa com a porcaria do chipset Nvidia e está tendo dor de cabeça no Linux? Então este guia é pra você!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <!-- Habilitando Bluetooth -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h1>Resolvendo problemas de Chipset NVIDIA</h1>
+        <p>Se você tem uma placa dessas as chances são que você não tem acesso a rede assim que inicia o sistema (entre outros problemas), para resolver isso basta colocar os argumentos de boot abaixo para a inicialização correta do seu sistema:</p>
+        <code>"...quiet splash <em>forcedeth.msi=0 forcedeth.msix=0</em>"</code>
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
