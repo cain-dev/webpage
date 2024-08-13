@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firewall Block</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Arch com raiz em ZFS"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Precisa bloquear algum programa com o firewall do Windows? Easy!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <!-- Habilitando Bluetooth -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h1>Bloquear um aplicativo pelo firewall</h1>
+        <p>Vamos supor que por algum motivo você não quer que um aplicativo instalado acesse a internet, para resolver isso é bem simples! Abra o Bloco de Notas e cole o conteúdo abaixo:</p>
+<code><pre>
+@ setlocal enableextensions
+@ cd /d "%~dp0"
+            
+for /R %%f in (*.exe) do (
+netsh advfirewall firewall add rule name="Blocked: %%f" dir=out program="%%f" action=block
+netsh advfirewall firewall add rule name="Blocked: %%f" dir=in program="%%f" action=block
+)
+pause
+</pre></code>
+        <p>Salve o arquivo com a extensão <em>.bat</em>, coloque na pasta dos aplicativos que você deseja bloquear e execute como administrador.</p>
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
