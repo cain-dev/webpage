@@ -1289,6 +1289,14 @@
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
         <!--<code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-kde</code>-->   
         <code>pacman -S xdg-desktop-portal xdg-portal-kde</code>
+        
+        <h4>Colocando o cache de efeitos kwin na RAM</h4>
+        <p>Algumas pessoas podem sofrer com um "lag" em transições dos efeitos do KDE dependendo do dispositivo em que o sistema foi instalado, para resolver esse problema basta mover o diretório de cache de efeitos para a memória RAM.<br>Para fazer isso edite o arquivo <em>/etc/fstab</em> e insira a linha abaixo:</p>
+        <code># KDE Cache<br>tmpfs /home/<em>seu_user</em>/.cache/kwin/qmlcache tmpfs defaults 0 0</code>
+        <p>Apague os arquivos de cache utilizando o comando:</p>
+        <code>rm  ~/.cache/kwin/qmlcache/*</code>
+        <p>Recarregue as configurações do SystemD com o comando:</p>
+        <code>systemctl daemon-reload</code>
         <h4>Ícones dos aplicativos do Windows no Dolphin</h4>
         <p>Caso queira visualizar os ícones nos arquivos <em>.exe</em> instale o pacote <em>icoutils</em>.</p>
         <h4>Integração com o Firefox</h4>
