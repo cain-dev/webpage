@@ -1272,6 +1272,8 @@
         <code>systemctl enable gdm</code>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
         <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-gnome</code>
+        <h4>Integração com o Firefox</h4>
+        <p>Para usar o GNOME file picker como gerenciador de arquivos no Firefox, tenha a certeza de instalar o pacotes <em>xdg-desktop-portal-gnome </em> e depois sete <em>widget.use-xdg-desktop-portal.file-picker</em> para <em>1</em> em <em>about:config</em>.</p>
         <!-- KDE -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>KDE</h3>
@@ -1285,7 +1287,12 @@
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
-        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-kde</code>
+        <!--<code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-kde</code>-->   
+        <code>pacman -S xdg-desktop-portal xdg-portal-kde</code>
+        <h4>Integração com o Firefox</h4>
+        <p>Para usar o Dolphin como gerenciador de arquivos no Firefox, tenha a certeza de instalar os pacotes <em>xdg-desktop-portal</em> e <em>xdg-desktop-portal-kde</em> e depois sete <em>widget.use-xdg-desktop-portal.file-picker</em> para <em>1</em> em <em>about:config</em>.</p>
+        <p>Para integração para mídia e barra de tarefas instale o pacote <em>plasma-browser-integration</em> e instale a extensão <a class="link" href="https://addons.mozilla.org/pt-BR/firefox/addon/plasma-integration/">Plasma Integration</a>.</p>
+        <p><em>Dica:</em> Para evitar entradas duplicadas no widget de Media Player ou no ícone da bandeja, defina <em>media.hardwaremediakeys.enabled</em> como <em>false</em>. Isso desativa a entrada de mídia do Firefox e usa apenas a do complemento de integração do Plasma.</p>
         <h4>Corrigindo emojis no KDE (Dolphin, notificações, etc.)</h4>
         <p>Considerando que você vai instalar as alternativas de fonte abaixo, é provável que o sistema não capte automaticamente as fontes instaladas. Para resolver isso copie os arquivos <a class="link" href="https://github.com/cain-dev/dotfiles/tree/main/fontconfig/conf.d">desse link</a> para <mark>/etc/fonts/conf.d/</mark>.</p>
         <!-- CINNAMON -->
