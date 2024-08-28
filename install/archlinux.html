@@ -1572,7 +1572,19 @@ EndSection
         <p>Você já reparou que o MacOS sempre considera a leitura da fonte um pouco mais importante do que a sua fidelidade? Algumas pessoas que utilizam Linux não gostam muito de como fontes menores parecem bastante "embaçadas", mas da pra ter o melhor dos dois mundos habilitando o <em>stem-darkening</em> para fazer com que fontes menores sejam mais legíveis e menos embaçadas, para isso edite o arquivo <mark>/etc/environment</mark> e insira a linha:</p>
         <code>FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"</code>
         <p>Após as alterações reconstrua o cache do fontconfig com o comando:</p>
-        <code>sudo fc-cache -fv</code>    
+        <code>sudo fc-cache -fv</code>
+        <h3>Manutenção de pacotes</h3>
+        <p>Então você deixou o Arch alguns meses sem atualizar e começa a ter erros de integridade e pacote quando tenta? Vamos começar atualizando isoladamente o keyring com o comando:</p>
+        <code>sudo pacman -Sy</code>
+        <code>sudo pacman -S archlinux-keyring</code>
+        <p>Se mesmo assim não resolveu existe a opção <strong>nuclear</strong>:</p>
+        <code>rm -R /etc/pacman.d/gnupg/<br>
+            rm -R /root/.gnupg/<br>
+            gpg --refresh-keys<br>
+            pacman-key --init && pacman-key --populate<br>
+            pacman-key --refresh-keys</code>
+        <p>Depois disso tente atualizar novamente que vai dar certo.</p>
+
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
