@@ -90,7 +90,8 @@ Exec=flatpak run --command=bottles-cli com.usebottles.bottles -b 'ubisoft_connec
     <h3>Mas o jogo (x que usa anticheat) não funciona!</h3>
     <p>Bom, hoje em dia o Linux já tem tudo o que é necessário para rodar jogos, sem contar que mesmo para o desenvolvedor de jogos para Windows pode fazer com que seu jogo rode no Linux hoje sem muita dor de cabeça, porém algumas ferramentas de anticheat mais intrusivas simplesmente não dão suporte ao Linux, para verificar suporte o suporte de anticheat para a sua biblioteca você pode acessar <a class="link" href="https://areweanticheatyet.com/">Are we anticheat yet?</a>.</p>
     <h3>Permissões do Flatpak</h3>
-    <p>O Flakpak é baseado no conceito de <em>sandboxing</em> então nem todo aplicativo pode acessar todo diretório ou todo recurso (como internet, por exemplo), se você quiser uma configuração mais visual você pode instalar o Flatseal com o comando:</p>
+    <p>O Flakpak é baseado no conceito de <em>sandboxing</em> então nem todo aplicativo pode acessar todo diretório ou todo recurso (como internet, por exemplo), se você quiser uma configuração mais visual você pode instalar o Flatseal com o comando abaixo:</p>
+    <p><em>*</em> Lembrando que caso você esteja usando o KDE você pode apenas instalar o pacote <em>flatpak-kcm</em> e ter a mesma funcionalidade, não sendo necessário a instalação do Flatseal.</p>
     <code>flatpak install flathub com.github.tchx84.Flatseal</code>
     <p>Mas se você (assim como eu) quiser fazer manualmente você pode editar diretamente os arquivos de <i>override</i> se tiver o id do aplicativo.  Para listar os aplicativos flatpak instalados execute o comando:</p>
     <code>flatpak list --app</code>
@@ -102,8 +103,6 @@ filesystems=/mnt/HD/games:rw;
     <p>Para verificar os overrides existentes para o usuário basta usar o comando abaixo:</p>
     <code>flatpak override <em>--user</em> --show <em>com.usebottles.bottles</em></code>
     <p><em>*</em> remova o <em>--user</em> caso queira ver os overrides de sistema.</p>
-
-
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
