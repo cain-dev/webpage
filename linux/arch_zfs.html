@@ -34,8 +34,9 @@
         <img style="max-width: 200px; height: auto;" src="../assets/images/saka.png" alt="">
         <p>Por Sakamoto</p>
         <h2>Introdução</h2>
-        <h2>Preparando a ISO</h2>
-        <p>Para não ter todo o trabalho com o YAY e aur, é bom que antes de mais nada você adicione o repositório do <em>archzfs</em> ao final do arquivo <mark>/etc/pacman.conf</mark>:</p>
+        <p>Meu amigo Sakamoto entende bastante de Linux, porém por ser maluco o suficiente para utilizar um AMD FX, com uma placa de vídeo Nvidia série 600, e com uma placa mãe AsRock com chipset Nvidia (e eu nem tô zuando) de tempos em tempos ele VAI <i>borkar</i> o sistema. Então eu dei a ideia: "Japa, que tal começar a utilizar ZFS?" E ele curtiu a ideia mas não existia nenhum tutorial <i>hands-on</i> para a instalação do Arch com raiz em ZFS... Então isso aqui é (mais ou menos) o resultado desses 2 dias de pesquisa... Espero que te sirva!</p>
+        <h2 id="archzfs" >Preparando a ISO</h2>
+        <p>Para não ter todo o trabalho com o YAY e AUR desde a mídia de instalação, é bom que antes de mais nada você adicione o repositório do <em>archzfs</em> ao final do arquivo <mark>/etc/pacman.conf</mark> para facilitar o trabalho:</p>
         <code>[archzfs]<br>
             # Origin Server - Finland<br>
             Server = http://archzfs.com/$repo/$arch<br>
@@ -52,7 +53,7 @@
         </code>
         <p>Após isso, atualize o banco de dados de pacotes com o comando:</p>
         <code>pacman -Sy</code>
-        <p>Que vai retornar essa saída:</p>
+        <p>Que vai retornar essa saída (ou mais ou menos isso):</p>
         <code>
         :: Synchronizing package databases...<br>
         core                         118.7 KiB   742 KiB/s 00:00 [#######################] 100%<br>
@@ -64,19 +65,28 @@
         <code>error: archzfs: signature from "ArchZFS Bot <buildbot@archzfs.com>" is unknown trust<br>error: failed to synchronize all databases (invalid or corrupted database (PGP signature))</code>
         <p>Então assine a chave com o comando:</p>
         <code>pacman-key --lsign-key buildbot@archzfs.com</code>
-        <p>Pra confirmar execute novamente</p>
+        <p>Pra confirmar execute novamente a atualização com:</p>
         <code>pacman -Sy</code>
-        <p>Agora rode o script para possibilitar que a iso utilize ZFS</p>
+        <p>Agora rode o script abaixo para possibilitar que a mídia de instalação utilize as tools do ZFS:</p>
         <code>curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash</code>
-        <p>Este script resolverá todas as dependências com relação a instalação do ZFS <em>para a ISO</em>, se tudo deu certo ele retornará <em>ZFS is ready</em> em verde, para testar </p>
+        <p>Este script resolverá todas as dependências com relação a instalação do ZFS <em>para a ISO</em>, se tudo deu certo ele retornará <em>ZFS is ready</em> em verde, para testar use o comando:</p>
         <code>zpool status</code>
         <p>Que retornará <em>no pools avaiable</em> e:</p>
+        <p><em>*</em> Caso você ainda não tenha volumes de ZFS, caso contrário esses volumes serão mostrados, obviamente.</p>
         <code>modprobe zfs</code>
-        <p>Que não retornará nada caso o módulo tenha sido carregado corretamente</p>
+        <p>Que não retornará nada caso o módulo tenha sido carregado corretamente.</p>
         <h2>Preparando o sistema</h2>
-        <p>O sistema funcionará dentro de 2 pools de dados: Uma para boot e outra para root. Essas pools devem seguir a mesma recomendação da instalação do Arch porém o tipo de partição <em>BF</em>.</p>
+        <p>Pelo fato dessa documentação ser uma documentação complementar a instalação do próprio Arch (que já é bastante extensa e moldável), aqui vamos esclarecer quais <i>flags</i> deverão ser usadas durante o particionamento.</p>
+        <h4>Em BIOS/fdisk:</h4>
+        <p>Para as partições em ZFS utilize o tipo <em>BF</em>.</p>
+        <h4>Em UEFI/gdisk:</h4>
+        <p>Para as partições em ZFS utilize o tipo <em>BF00</em>.</p>
+        <h4>Alerta:</h4>
+        <p>Existem hex codes como por exemplo <em>46 Solaris boot</em>, ou <em>47 Solaris root</em>, por razões de compatibilidade <strong>NÃO RECOMENDO</strong> a utilização desses tipos por serem entendidas como mais específicas para sistemas Solaris.</p>
+        <h2>Arquitetura de partições do sistema</h2>
+        <p>O sistema funcionará dentro de 2 pools de dados: Uma para boot (<em>bpool</em>) e outra para root (<em>rpool</em>). Essas pools devem seguir a mesma recomendação da instalação do Arch porém o tipo de partição <em>BF</em>.</p>
         <h3>bpool</h3>
-        <p>Para criar a piscina de dados para o boot use o comando:</p>
+        <p>Para criar a piscina de dados para a <em>bpool</em> use o comando:</p>
         <code>zpool create \<br>
         -o ashift=12 \<br>
         -o compatibility=grub2 \<br>
@@ -90,9 +100,10 @@
         canmount=off -O \<br>
         mountpoint=/boot -R /mnt bpool \<br>
         /dev/disk/by-id/<em>ID_DO_DISCO</em>-part<em>NR_DA_PARTIÇÃO_BOOT</em></code>
-        <p>Sinta-se a vontade para utilizar <em>-O atime=off</em> ou remover <em>-O compression=lz4</em> caso não queira compressão</p>
+        <p>Sinta-se a vontade para utilizar <em>-O atime=off</em> para remover o <i>access time</i> ou <em>-O compression=lz4</em> caso não queira compressão nessa partição.</p>
         <h3>rpool</h3>
-        <p>Sinta-se a vontade para utilizar <em>-O atime=off</em> ou remover <em>-O compression=lz4</em> caso não queira compressão</p>
+        <p>Para criar a piscina de dados para a <em>rpool</em> use o comando:</p>
+        <p>Mais uma vez: Sinta-se a vontade para utilizar <em>-O atime=off</em> para remover o <i>access time</i> ou <em>-O compression=lz4</em> caso não queira compressão nessa partição.</p>
         <code>zpool create \<br>
         -o ashift=12  \<br>
         -O dnodesize=auto  \<br>
@@ -105,7 +116,7 @@
         -O mountpoint=/ -R /mnt rpool \<br>
         /dev/disk/by-id/<em>ID_DO_DISCO</em>-part<em>NR_DA_PARTIÇÃO_ROOT</em></code>
         <h2>Instalação do sistema</h2>
-        <p><strong>Copiado na cara dura do Debian root on ZFS</strong></p>
+        <p><strong>* Copiado na cara dura do Debian root on ZFS</strong></p>
         <h3>1. Crie conjuntos de dados do sistema de arquivos para atuar como contêineres:</h3>
         <code>zfs create -o canmount=off -o mountpoint=none rpool/ROOT<br>zfs create -o canmount=off -o mountpoint=none bpool/BOOT</code>
         <h3>2. Crie conjuntos de dados de sistema de arquivos para os sistemas de arquivos raiz e de inicialização:</h3>
@@ -129,9 +140,9 @@
         <code>zfs create                                 rpool/srv</code>
         <p>Se você usar <em>/usr/local</em> neste sistema:</p>
         <code>zfs create -o canmount=off                 rpool/usr<br>zfs create                                 rpool/usr/local</code>
-        <p>Se este sistema tiver jogos instalados:</p>
+        <p>Se este sistema vai ter jogos instalados (raramente usado, e não, os seus jogos da Steam não vão estar aqui...):</p>
         <code>zfs create                                 rpool/var/games</code>
-        <p>Se este sistema armazenar email local em <em>/var/mail</em>:</p>
+        <p>Se este sistema armazenar email local em <em>/var/mail</em> (raramente usado a menos que em serviços como <em>sendmail</em>, e não, os emails do Thunderbird não vão estar aqui...):</p>
         <code>zfs create                                 rpool/var/mail</code>
         <p>Se este sistema usar pacotes Snap:</p>
         <code>zfs create                                 rpool/var/snap</code>
@@ -158,20 +169,24 @@
         <p>Nesse caso a segunda linha deve ser comentada, em resumo, tudo que começar com <em>bpool</em> ou <em>rpool</em>.</p>
         <p>Prossiga normalmente com a instalação e configuração do seu sistema.</p>
         <h3>Instalando o kernel Linux e preparando o ZFS no sistema de saída</h3>
-        <p>Neste momento, basta que você instale um kernel compatível com alguma versão do ZFS (seja kernel lts com zfs-linux-lts ou qualquer outro kernel com dkms), considerando o pior caso, vamos supor que precisemos escolher uma versão específica de kernel para possibilitar a compatibilidade com o ZFS, neste caso vamos utilizar o <em>Arch Archive</em> para baixar um pacote de kernel e instalá-lo com o pacman. Para os fins dessa documentação vamos utilizar o kernel <em>6.6.36-1</em>, utilizando o comando abaixo:</p>
+        <p>Neste momento, basta que você instale um kernel compatível com alguma versão do ZFS (seja kernel lts com <em>zfs-linux-lts</em> ou qualquer outro kernel com dkms), considerando o pior caso, vamos supor que precisemos escolher uma versão específica de kernel para possibilitar a compatibilidade com o ZFS, neste caso vamos utilizar o <em>Arch Archive</em> para baixar um pacote de kernel e instalá-lo com o pacman. Para os fins dessa documentação vamos utilizar o kernel <em>6.6.36-1</em>, utilizando o comando abaixo:</p>
         <code>pacman -U https://archive.archlinux.org/packages/l/linux-lts-headers/linux-lts-headers-6.6.36-1-x86_64.pkg.tar.zst<br>
         pacman -U https://archive.archlinux.org/packages/l/linux-lts/linux-lts-6.6.36-1-x86_64.pkg.tar.zst</code>
+        <p><mark>Dica:</mark> Você pode facilitar bastante a sua vida clicando na opção <em>View PKGBUILD</em> na página do script de instalação do ZFS no AUR e verificando a linha <em>_kernelver="6.6.36-1"</em> para saber exatamente qual Kernel você não vai ter dor de cabeça ao utilizar.</p>
         <p>Uma vez que o kernel está instalado no sistema alvo, edite o arquivo <em>/etc/mkinitcpio.conf</em> e na opção <em>MODULES</em> adicione <em>ZFS</em> como no exemplo abaixo:</p>
         <code>MODULES=(ZFS)</code>
         <p>Então, em <em>HOOKS</em>, adicione <em>zfs</em> antes de <em>filesystems</em>. Além disso, mova o hook <em>keyboard</em> antes de <em>zfs</em> para poder digitar no console se algo der errado. Você também pode remover o <em>fsck</em> (se não estiver usando Ext3 ou Ext4). Sua linha HOOKS deve ser semelhante a esta:
         <code>HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block zfs filesystems)</code>
-        <p>Repita o procedimento acima de adicionar o diretório <em>archzfs</em> para possibilitar a instalação do módulo de ZFS no sistema alvo. Por fim instalaremos o módulo com o comando:</p>
+        <p>Repita o procedimento acima de <a class="link" href="#archzfs">adicionar o diretório <em>archzfs</em></a> para possibilitar a instalação do módulo de ZFS no sistema alvo. Por fim instalaremos o módulo com o comando:</p>
         <code>pacman -S zfs-linux-lts</code>
+        <p><strong>*OU </strong> com o <em>zfs-dkms</em>, como preferir.</em></p>
         <p>Por desencargo de consciência vamos gerar mais uma vez o ramdisk com o comando:</p>
-        <p>mkinitcpio -p linux-lts</p>
-        <p>Essa instalação foi feita visando a utilização integrada com o GRUB, então vamos começar instalando o grub.</p>
+        <code>mkinitcpio -p linux-lts</code>
+        <p><strong>*OU </strong> com o <em>mkinitcpio -p linux</em>, como preferir.</em></p>
+        <p>Essa instalação foi feita visando a utilização integrada com o GRUB, então instale o GRUB e vamos preparar o sistema para ele como no exemplo abaixo:</p>
         <h3>Habilitar importação da bpool pelo GRUB</h3>
-        <p>Isso garante que a <em>bpool</em> seja sempre importada, independentemente de <em>/etc/zfs/zpool.cache</em> existir, estar no arquivo de cache ou não, ou se <em>zfs-import-scan.service</em> estiver habilitado. Edite o arquivo <em>/etc/systemd/system/zfs-import-bpool.service</em> e insira:</p>
+        <p>Isso garante que a <em>bpool</em> seja sempre importada, independentemente de <em>/etc/zfs/zpool.cache</em> existir, estar no arquivo de cache ou não, ou se <em>zfs-import-scan.service</em> estiver habilitado.</p>
+        <p>Edite o arquivo <em>/etc/systemd/system/zfs-import-bpool.service</em> e insira:</p>
 <code><pre>
 [Unit]
 DefaultDependencies=no
@@ -191,16 +206,16 @@ WantedBy=zfs-import.target</pre></code>
         <p>Por fim habilite o serviço com o comando:</p>
         <code>systemctl enable zfs-import-bpool.service</code>
         <!--TMPFS???-->
-        <p>Prossiga instalando o grub normalmente, e após isso edite o arquivo do grub <em>/etc/default/grub</em>, e edite a linha <em>GRUB_CMDLINE_LINUX</em> conforme o exemplo abaixo:</p>
+        <p>Prossiga instalando o GRUB normalmente, e após isso edite o arquivo do grub <em>/etc/default/grub</em>, e edite a linha <em>GRUB_CMDLINE_LINUX</em> conforme o exemplo abaixo:</p>
         <code>GRUB_CMDLINE_LINUX="root=ZFS=rpool/ROOT/arch"</code>
         <p>Devido a um bug conhecido, o <em>grub-mkconfig</em> não conseguirá detectar o pool raiz e será omitido em <em>/boot/grub/grub.cfg</em>. Para resolver esse problema edite <em>/etc/grub.d/10_linux</em> e na linha:</p>
         <code>linux   ${rel_dirname}/${basename} root=${linux_root_device_thisversion} rw ${args}</code>
         <p>Comente a linha acima e abaixo adicione:</p>
         <code>linux   ${rel_dirname}/${basename} root=ZFS=rpool/ROOT/arch rw ${args}</code>
-        <p>Por fim gere o arquivo de configuração com:</p>
+        <p>Por fim gere o arquivo de configuração do GRUB com o comando:</p>
         <code>grub-mkconfig -o /boot/grub/grub.cfg</code>
         <h3>Corrija a ordem de montagem do sistema de arquivos</h3>
-        <p>Precisamos ativar o zfs-mount-generator. Isso torna o systemd ciente dos pontos de montagem separados, o que é importante para coisas como <em>/var/log</em> e <em>/var/tmp</em>. Por sua vez, <em>rsyslog.service</em> depende de <em>var-log.mount</em> por meio de <em>local-fs.target</em> e os serviços que usam o recurso <em>PrivateTmp</em> do <em>systemd</em> usam automaticamente <em>After=var-tmp.mount</em>.</p>
+        <p>Precisamos ativar o <em>zfs-mount-generator</em>. Isso torna o systemd ciente dos pontos de montagem separados, o que é importante para coisas como <em>/var/log</em> e <em>/var/tmp</em>. Por sua vez, <em>rsyslog.service</em> depende de <em>var-log.mount</em> por meio de <em>local-fs.target</em> e os serviços que usam o recurso <em>PrivateTmp</em> do <em>systemd</em> usam automaticamente <em>After=var-tmp.mount</em>.</p>
         <code>mkdir /etc/zfs/zfs-list.cache<br>
         touch /etc/zfs/zfs-list.cache/bpool<br>
         touch /etc/zfs/zfs-list.cache/rpool<br>
@@ -214,31 +229,48 @@ WantedBy=zfs-import.target</pre></code>
         <code>fg<br>Pressione Ctrl-C.</code>
         <p>Corrija os caminhos para eliminar /mnt:</p>
         <code>sed -Ei "s|/mnt/?|/|" /etc/zfs/zfs-list.cache/*</code>
+        <h3>Snapshot inicial</h3>
+        <p>Uma vez que o sistema está pronto, podemos criar uma <i>snapshot</i> inicial com o nome <em>install</em> para possibilitar o retorno aos arquivo a configuração inicial do sistema na <em>bpool</em> e <em>rpool</em>:</p>
         <code>
-        zfs snapshot bpool/BOOT/arch@install
-        zfs snapshot rpool/ROOT/arch@install
+        zfs snapshot bpool/BOOT/arch@<em>install</em> <br>
+        zfs snapshot rpool/ROOT/arch@<em>install</em>
         </code>
-        <p>No futuro, você provavelmente desejará tirar snapshots antes de cada atualização e remover snapshots antigos (incluindo este) em algum momento para economizar espaço.</p>
-        <p>Saia do ambiente chroot de volta para o ambiente LiveCD:</p>
+        <p>No futuro, você provavelmente desejará criar snapshots antes de cada atualização e destruir snapshots antigos (incluindo este, <strong>embora eu não recomendo de forma alguma remover essa snapshot específica!</strong>) em algum momento para economizar espaço. Para isso basta usar o exemplo abaixo:</p>
+        <code>sudo zfs destroy bpool/BOOT/debian@<em>nome_da_snapshot</em><br>
+        sudo zfs destroy rpool/ROOT/debian@<em>nome_da_snapshot</em></code>
+        <p>Uma vez que tudo está pronto, saia do ambiente chroot de volta para o ambiente LiveCD:</p>
         <code>exit</code>
         <p>Execute estes comandos no ambiente LiveCD para desmontar todos os sistemas de arquivos:</p>
         <code>mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | \<br>
-            xargs -i{} umount -lf {}<br>
-        zpool export -a</code>
+            xargs -i{} umount -lf {}<br></code>
+        <code>zpool export -a</code>
         <p>Por fim reinicie o sistema:</p>
         <code>reboot</code>
         <h3>Deu ruim? Calma que (provavelmente) da pra resolver</h3>
+        <p>Importe as pools com os comandos abaixo:</p>
         <code>zpool import -N -R /mnt rpool<br>
         zpool import -N -R /mnt bpool<br>
         zfs mount -a</code>
-        <p>Faça o que for necessário para consertar seu sistema. Quando terminar, limpe com:</p>
+        <!--
+        <p>Se necessário, você pode fazer chroot no ambiente instalado:</p>
+        <code>mount --rbind /dev  /mnt/dev<br>
+            mount --rbind /proc /mnt/proc<br>
+            mount --rbind /sys  /mnt/sys<br>
+            mount -t tmpfs tmpfs /mnt/run<br>
+            mkdir /mnt/run/lock<br>
+            chroot /mnt /bin/bash --login<br>
+            mount /boot/efi<br>
+            mount -a</code>
+        -->
+        <p>Faça o arch-chroot normalmente, mude o que for necessário para consertar seu sistema. Quando terminar, limpe com:</p>
         <code>exit<br>
             mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | \<br>
                 xargs -i{} umount -lf {}<br>
             zpool export -a<br>
             reboot
         </code>
-
+        <h3>Prevenindo conflitos de pacotes</h3>
+        <p>Considerando que os pacotes do zfs atualizam numa frequencia mais baixa e precisam de um kernel específico, você pode ignorar a atualização de determinados pacotes (como por exemplo o kernel), para isso edite o <em>/etc/pacman.conf</em> e na linha <em>IgnorePkg = </em> você pode adicionar <em>linux-lts</em> ou <em>zfs-linux-lts</em>.</p>
         </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
