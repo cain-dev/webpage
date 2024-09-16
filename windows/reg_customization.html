@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizando sem ativação</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Customizando sem ativação"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Tem um computador de laboratório com Windows que não está ativado mas quer customizar a barra de tarefas? Veja isso!"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Customização via regedit</h1>
+        <h2>Introdução</h2>
+        <p>Se você usa uma versão ainda não ativada do Windows mas precisa utilizar a área de trabalho de uma certa forma, basta editar as chaves no caminho:</p>
+        <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced</code>
+        <h3>Ícones pequenos</h3>
+        <p>Para deixar os ícones pequenos na barra de tarefas, crie ou modifique o valor da chave <em>TaskbarSmallIcons</em> (chave do tipo <em>DWORD (32-bit))</em>. Use <em>1</em> para ícones pequenos ou <em>0</em> para ícones grandes.</p>
+        <h3>Não combinar rótulos</h3>
+        <p>Para não combinar os rótulos na barra de tarefas crie ou modifique o valor da chave <em>TaskbarGlomLevel</em> (chave do tipo <em>DWORD (32-bit))</em>. Use <em>2</em> para nunca combinar, ou <em>1</em> para combinar quando a barra estiver cheia ou <em>0</em> para sempre combinar.</p>
+        <h3>Tema escuro</h3>
+        <p>Para deixar o tema escuro, edite as chaves em:</p>
+        <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize</code>
+        <p>Crie ou modifique o valor da chave <em>AppsUseLightTheme</em> (chave do tipo <em>DWORD (32-bit))</em>. Use o valor <em>0</em> para tema escuro ou <em>1</em> para tema claro.</p>
+        <h3>Mudando accent color</h3>
+        <p>Crie ou modifique o valor da chave <em>AppsUseLightTheme</em> (chave do tipo <em>DWORD (32-bit))</em>. Use o valor hexadecimal da cor que você deseja usar. Por exemplo, <em>FF0000</em> para vermelho.
+        <h3>Ajustar Menu de Contexto (não recomendado)</h3>
+        <p>Se quiser mudar as opções do menu de contexto basta editar as chaves em:</p>
+        <code>HKEY_CLASSES_ROOT\Directory\Background\shell</code>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
