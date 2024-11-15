@@ -107,6 +107,40 @@ filesystems=/mnt/HD/games:rw;
     <p>Para verificar os overrides existentes para o usuário basta usar o comando abaixo:</p>
     <code>flatpak override <em>--user</em> --show <em>com.usebottles.bottles</em></code>
     <p><em>*</em> remova o <em>--user</em> caso queira ver os overrides de sistema.</p>
+    <h2>E para gravar as as gameplays?</h2>
+    <p>Obviamente vai ser com o <em>OBS Studio</em>, mas se você tentou gravar direto ao menos uma vez deve ter quebrado a cara com a performance e qualidade do vídeo, que por padrão são péssimas no Linux! Mas a verdade é que ter uma gravação de baixa latência e qualidade de ponta é bem mais fácil do que parece.</p>
+    <p>Bom, a primeira coisa que precisamos é o <em>OBS</em>, que pode ser facilmente instalado via flatpak com o comando:</p>
+    <code>flatpak install flathub com.obsproject.Studio</code>
+    <p>Ok, uma vez que temos o <em>OBS</em> precisamos do <em>OBS VAAPI</em>, que vai criar a interface de captura, você pode instalar ele através do pacote:</p>
+    <code>flatpak install com.obsproject.Studio.Plugin.GstreamerVaapi</code>
+    <p>Se tiver usando Arch Linux com yay você pode usar o comando:</p>
+    <code>yay -S obs-vaapi</code>
+    <p>OU usar um pacote pré-compilado ou mesmo compilar na sua máquina visitando o <a class="link" href="https://github.com/fzwoch/obs-vaapi">OBS VAAPI no Github</a>.</p>
+    <p>Por fim podemos instalar o <em>OBS-VKCAPTURE</em>, que pode ser facilmente instalado via flatpak com o comando:</p>
+    <code>flatpak install com.obsproject.Studio.Plugin.OBSVkCapture</code>
+    <p>Se tiver usando Arch Linux com yay você pode usar o comando:</p>
+    <code>yay -S obs-vkcapture-git lib32-obs-vkcapture-git</code>
+    <p>OU usar um pacote pré-compilado ou mesmo compilar na sua máquina visitando o <a class="link" href="https://github.com/nowrep/obs-vkcapture">OBS-VKCAPTURE no Github</a>.</p>
+    <h3>Configurando o OBS</h3>
+    <p>Para utilizar a interface OBS-VKCAPTURE nova abra o OBS e adicione a fonte <em>Captura de Jogo</em>, você não precisa selecionar nenhuma janela específica, basta deixar marcado <em>Capturar qualquer janela</em>, você pode desmarcar a gravação do cursor se assim desejar.</p>
+    <img class="responsiva" src="../assets/images/linux/linuxgaming/obs1.png" alt="">
+    <p>Para utilizar a interface OBS-VAAPI nova abra o OBS, vá em <em>Configurações > Saída > Modo de saída: Avançado > Gravação</em> e em <em>Encoder de vídeo:</em> selecione uma das opções <em>VAAPI AV1, VAAPI H.264, VAAPI H.265</em> conforme a compatibilidade da sua placa.</p>
+    <img class="responsiva" src="../assets/images/linux/linuxgaming/obs2.png" alt="">
+    <p>Para apresentar o jogo como "capturável" para o OBS pasta adicionar o argumento abaixo nas opções de lançamento:</p>
+    <code>obs-gamecapture %command%</code>
+    <img class="responsiva" src="../assets/images/linux/linuxgaming/obs3.png" alt="">
+    <p><strong>*</strong> <i>Sim, a adição desse argumento também funciona no Heroic Game Launcher...</i> </p>
+    <p>Você pode iniciar o jogo utilizando apenas a captura via Vulkan habilitada com o argumento:</p>
+    <code>env OBS_VKCAPTURE=1 %command%</code>
+    <p>Se você fez tudo certinho as chances são que você vai ter uma excelente qualidade de imagem com baixo uso de recursos e latência.</p>
+    <h2>Mas eu quero ver meus FPS!</h2>
+    <img class="responsiva" src="https://lh4.googleusercontent.com/rQvu-YpmOGOS92DAOgeXNQwWVh_2vGXv4wWrlvf5nUTUKTpWrgBtliAI-Bw8Jxf1RtP3gB1cEzM_HYuho_lC8B6Mj62OUWqxrJmpZE166sLGVXmXlTm8Vuygu4e326JCv0PsVvoA" alt="">
+    <p>A ferramenta padrão para isso no Linux é o MangoHud, você pode instalar usando o comando:</p>
+    <code>flatpak install org.freedesktop.Platform.VulkanLayer.MangoHud</code>
+    <p>Caso queira habilitá-lo para todos os jogos da Steam você pode usar o comando:</p>
+    <code>flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam</code>
+    <p>Caso queira iniciar o MangoHud na execução do jogo basta adicionar <em>MANGOHUD=1 %command%</em> na linha de argumentos do jogos.</p>
+    <p>Para ver as opções de configuração da sua HUD você pode ver as variáveis através <a class="link" href="https://github.com/flightlessmango/MangoHud?tab=readme-ov-file#environment-variables">deste link</a>.</p>
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
