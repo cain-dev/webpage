@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAT32 e EXFAT</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Formatando FAT32 e EXFAT no Linux"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Preparando um Pendrive OU HDD universal no Linux"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <h1>Pendrive Universal</h1>
+        <h2>Introdução</h2>
+        <p>Então você tem um pendrive e precisa atualizar a BIOS do seu computador com ele? Ou talvez preparar um pendrive para ouvir músicas no carro? Ou talvez vá usar esse pendrive para armazenar jogos para seu PS2? Qualquer uma dessas situações vai exigir um perfil muito específico de formatação de pendrive, este tutorial é para ensinar como fazer isso.</p>
+        <h2>EXFAT ou FAT32?</h2>
+        <p>O formato padrão e universal continua sendo o <em>FAT32</em>, se você quiser um pendrive que funcione em qualquer porcaria este é o formato de arquivo que você deve escolher, entretanto é um formato muito limitado e a maioria dos dispositivos hoje em dia suporta <em>EXFAT</em>. Então, se você está na dúvida vá de FAT32 mas verifique se o uso (por exemplo no caso do OpenPS2Loader) não é possível em EXFAT para fugir do limite de 4GB do FAT32.</p>
+        <h2>Criando a tabela de partição</h2>
+        <p>Antes de começar qualquer alteração é importante ter certeza de qual unidade vamos alterar, para listar as unidades de armazenamento utilize o comando:</p>
+        <code>fdisk -l</code>
+        <p>Para particionar o disco utilizaremos a ferramenta <em>fdisk</em> na unidade desejada, para isso utilize o comando:</p>
+        <code>fdisk /dev/sd<mark>X</mark></code>
+        <p><strong>Atenção:</strong> Supondo que o dispositivo é o <em>/dev/sdX</em>, caso o seu seja /dev/sda ou /dev/sdc mude conforme o seu caso!</p>
+        <p>Com o <mark>fdisk</mark> aberto na unidade desejada criaremos uma nova tabela de partição em <mark>MBR</mark> com o comando:</p>
+        <code>o</code>
+        <p>Para criar a nova partição que será usada utilize o comando:</p>
+        <code>n</code>
+        <p>O programa vai perguntar que tipo de partição você deseja como no exemplo abaixo:</p>
+        <code>Partition type<br>&nbsp;p&nbsp;primary<br>&nbsp;e&nbsp;extended<br>Select (default p):</code>
+        <p>Tecle <em>p</em> (para <i>primary</i>) e dê enter para a criar uma nova partição primária.</p>
+        <p>O programa vai perguntar o número da partição como no exemplo abaixo:</p>
+        <code>Partition number:</code>
+        <p>Você pode selecionar qual vai ser o número da partição ou apenas teclar <em>Enter</em>.</p>
+        <p>Logo em seguida o sistema irá exibir a seguinte linha para que você escolha o ponto de início da partição:</p>
+        <code>first sector: default</code>
+        <p>Apenas tecle <mark>Enter</mark>.</p>
+        <p>Logo em seguida o sistema irá exibir a linha abaixo para que você escolha o ponto de término da partição e delimite o seu tamanho, o tamanho máximo para <em>FAT32</em> é de <em>32GB</em>, você pode escrever essa partição até o fim do pendrive caso ele seja menor que <em>32GB</em> ou caso planeje utilizar <em>EXFAT</em>, mas para criar uma partição de 32GB o comando seria:</p>
+        <code>last sector: +<mark>32GB</mark></code>
+        <p><strong>Observação:</strong> Se essa área já servia alguma outra partição vai aparecer um erro como o exemplo abaixo:</p>
+        <code><strong>Partition #X contains a X signature.</strong><br>Do you want to remove the signature?[Y]es/[N]o:</code>
+        <p>Apenas use o comando <em>Y</em> para confirmar a remoção de assinatura.</p>
+        <p>Agora, precisamos informar o tipo da partição, para mudar o tipo da partição use o comando:</p>
+        <code>t</code>
+        <p>Para ver os códigos disponíveis use o comando:</p>
+        <code>L</code>
+        <p>O código para o tipo FAT32 é o <em>0B</em>, digite 0B e dê enter para mudar o tipo para <em>FAT32 W95</em></p>
+        <p>O código para o tipo EXFAT é o <em>07</em>, digite 07 e dê enter para mudar o tipo para <em>HPFS/NTFS/exFAT</em></p>
+        <p>Se precisar deixar essa partição <i>bootável</i>, tecle <em>a</em> para deixar essa partição ativada para boot.</p>
+        <p>Para gravar as alterações da tabela de partição e sair do programa utilize o comando abaixo:</p>
+        <code>w</code>
+        <h2>Formatando as partições</h2>
+        <p>Para formatar a partição em <em>FAT32</em> use o comando:</p>
+        <code>mkfs.fat -F 32 -n 'PENDRIVE' -v /dev/sdX</code>
+        <p>Lembre-se de substituir o valor 'PENDRIVE' pelo rótulo desejado da partição, deve ser no máximo 11 caracteres em maiúsculo.</p>
+        <p>Para formatar a partição em <em>EXFAT</em> use o comando:</p>
+        <code>mkfs.exfat  -L 'PENDRIVE' -v /dev/sdX</code>
+        <p>Lembre-se de substituir o valor 'PENDRIVE' pelo rótulo desejado da partição, deve ser no máximo 11 caracteres em maiúsculo.</p>
+        <h3>block size, sector size, cluster size e full format</h3>
+        <p>Se você quiser uma formatação completa do dispositivo, ou seja, preenchendo os espaços vazios com 0, pode acrescentar a flag <em>-f</em>;</p>
+        <p>Se você quiser determinar o sector size do dispositivo, pode acrescentar a flag <em>-s</em> e depois acrescentar o tamanho do setor (como por exemplo -s 512);</p>
+        <p>Se você quiser determinar o boundary align do dispositivo, pode acrescentar a flag <em>-b</em> e depois acrescentar o valor de alinhamento (como por exemplo -b 32M);</p>
+        <p>Se você quiser determinar o cluster size do dispositivo, pode acrescentar a flag <em>-c</em> e depois acrescentar o valor de alinhamento (como por exemplo -c 256K);</p>
+        <h2>Tabela de referência da SD Card Association</h2>
+        <h3>Boundary-align</h3>
+        <table>
+            <tbody>
+            <tr>
+            <td>&nbsp;<strong>Card Capacity</strong></td>
+            <td>&nbsp;<strong>Range</strong></td>
+            <td>&nbsp;<strong>Cluster Size</strong></td>
+            <td>&nbsp;<strong>Boundary Unit</strong></td>
+            </tr>
+            <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;&le;8 MiB</td>
+            <td>&nbsp;8 KiB</td>
+            <td>&nbsp;8 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;8 MiB</td>
+            <td>&nbsp;&le;64 MiB</td>
+            <td>&nbsp;16 KiB</td>
+            <td>&nbsp;16 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;64 MiB</td>
+            <td>&nbsp;&le;256 MiB</td>
+            <td>&nbsp;16 KiB</td>
+            <td>&nbsp;32 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;256 MiB</td>
+            <td>&nbsp;&le;1 GiB</td>
+            <td>&nbsp;16 KiB</td>
+            <td>&nbsp;64 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;1 GiB</td>
+            <td>&nbsp;&le;2 GiB</td>
+            <td>&nbsp;32 KiB</td>
+            <td>&nbsp;64 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;2 GiB</td>
+            <td>&nbsp;&le;32 GiB</td>
+            <td>&nbsp;32 KiB</td>
+            <td>&nbsp;4 MiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;32 GiB</td>
+            <td>&nbsp;&le;128 GiB</td>
+            <td>&nbsp;128 KiB</td>
+            <td>&nbsp;16 MiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;128 GiB</td>
+            <td>&nbsp;&le;512 GiB</td>
+            <td>&nbsp;256 KiB</td>
+            <td>&nbsp;32 MiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;512 GiB</td>
+            <td>&nbsp;&le;2 TiB</td>
+            <td>&nbsp;512 KiB</td>
+            <td>&nbsp;64 MiB</td>
+            </tr>
+            </tbody>
+            </table>
+            <p>&nbsp;</p>        
+        <h3>Cluster-size</h3>
+        <table>
+            <tbody>
+            <tr>
+            <td>&nbsp;<strong>Card Capacity</strong></td>
+            <td>&nbsp;<strong>Range</strong></td>
+            <td>&nbsp;<strong>Cluster Size</strong></td>
+            </tr>
+            <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;&le;256 MiB</td>
+            <td>&nbsp;4 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;256 MiB</td>
+            <td>&nbsp;&le;32 GiB</td>
+            <td>&nbsp;32 KiB</td>
+            </tr>
+            <tr>
+            <td>&nbsp;&gt;32 GiB</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;128 KiB</td>
+            </tr>
+            </tbody>
+            </table>
+            <p>&nbsp;</p>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
