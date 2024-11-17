@@ -139,7 +139,7 @@ filesystems=/mnt/HD/games:rw;
     <code>flatpak install org.freedesktop.Platform.VulkanLayer.MangoHud</code>
     <p>Caso queira habilitá-lo usando uma variável de ambiente para todos os jogos da Steam (porém somente em Vulkan) você pode usar o comando:</p>
     <code>flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam</code>
-    <p>Caso queira iniciar o MangoHud na execução do jogo basta adicionar <em>mangohud %command%</em> na linha de argumentos do jogos.</p>
+    <p>Caso queira iniciar o MangoHud na execução do jogo basta adicionar <em>mangohud %command%</em> na linha de argumentos do jogos. Os jogos OpenGL também podem precisar de conexão <em>dlsym</em>. Adicione <em>--dlsym</em> ao seu comando como <em>mangohud --dlsym %command%</em> para Steam.</p>
     <p>Para ver as opções de configuração da sua HUD você pode ver as variáveis através <a class="link" href="https://github.com/flightlessmango/MangoHud?tab=readme-ov-file#environment-variables">deste link</a>.</p>
     </main>
     <footer id="main-footer">
