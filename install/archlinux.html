@@ -1576,6 +1576,35 @@ EndSection
         <code>FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"</code>
         <p>Após as alterações reconstrua o cache do fontconfig com o comando:</p>
         <code>sudo fc-cache -fv</code>
+        <!-- Controle de energia -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
+        <h3>Otimização de energia</h3>
+        <h4>ACPID</h4>
+        <p>O <em>acpid</em> (<i>Advanced Configuration and Power Interface daemon</i>) no Linux é um daemon que gerencia eventos relacionados à energia e configuração do sistema. Ele permite que o sistema operacional controle a quantidade de energia fornecida a cada dispositivo ou periférico conectado ao sistema. Para instalar o daemon acpid use o comando:</p>
+        <code>pacman -S acpid</code>
+        <p>Para habilitar e iniciar o acpid use o comando:</p>
+        <code>systemctl enable --now acpid</code>
+        <h4>auto-cpufreq</h4>
+        <p>Se você pulou diretamente do Windows pro Arch diretamente deve ter percebido que o seu desempenho de bateria abaixou drásticamente, e isso se deve ao fato de você não ter gerência de clock como acontece no Windows, existem diversas maneiras de resolver esse problema, mas a mais simples e direta é através do auto-cpufreq que modula a frequência da CPU conforme o uso. Para instalar comece clonando o repositório com o comando:</p>
+        <code>git clone https://github.com/AdnanHodzic/auto-cpufreq.git</code>
+        <p>Agora inicie o script com o comando:</p>
+        <code>cd auto-cpufreq && sudo ./auto-cpufreq-installer</code>
+        <p>Uma vez que o aplicativo está instalado é interessante habilitar o daemon permanentemente com o comando:</p>
+        <code>auto-cpufreq --install</code>
+        <p>Por padrão o daemon já vai fazer o controle usando o perfil balanceado, caso você queira um controle mais agressivo para economia de energia pode mudar o perfil para <em>powersave</em> como no comando abaixo:</p>
+        <code>auto-cpufreq --profile powersave</code>
+        <h4>thermald</h4>
+        <p>O Linux Thermal Daemon (thermald) monitora e controla a temperatura em laptops e tablets com CPU's Intel Sandy Bridge ou mais novas. Você pode instalá-lo e iniciá-lo com os comandos abaixo:</p>
+        <code>pacman -S thermald</code>
+        <code>systemctl enable --now thermald</code>
+        <h4>Nvidia Optimus</h4>
+        <p>Se você teve a infelicidade de comprar um notebook com a arquitetura Nvidia Optimus (que Deus cuide de sua alma), você pode fazer uso de algumas ferramentas para diminuir um pouco do seu sofrimento, a começar pela mais interessante: O <a class="link" href="https://github.com/Askannz/optimus-manager">Optimus Manager</a>, é um programa para gerenciar a troca de GPU Nvidia Optimus no Linux. Eu recomendo a compilação manual, mas você pode instalá-lo através do yay com o comando:</p>
+        <code>yay -S optimus-manager-git</code>
+        <p>Você pode utilizar o <a class="link" href="https://github.com/Shatur/optimus-manager-qt">Optimus Manager QT</a> para interface de configuração, que eu também recomendo a compilação e instalação manual mas você pode utilizar o yay para instalar com o comando:</p>
+        <code>yay -S optimus-manager-qt</code>
+        <p>Se você estiver usando o Gnome pode usar a extensão <a class="link" href="https://extensions.gnome.org/extension/2908/optimus-manager-indicator/">Optimus Manager Indicator</a>.</p>
+        <!-- Manutenção de pacotes -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Manutenção de pacotes</h3>
         <p>Então você deixou o Arch alguns meses sem atualizar e começa a ter erros de integridade e pacote quando tenta? Vamos começar atualizando isoladamente o keyring com o comando:</p>
         <code>sudo pacman -Sy</code>
@@ -1587,7 +1616,6 @@ EndSection
             pacman-key --init && pacman-key --populate<br>
             pacman-key --refresh-keys</code>
         <p>Depois disso tente atualizar novamente que vai dar certo.</p>
-
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
