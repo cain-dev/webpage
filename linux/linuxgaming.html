@@ -141,6 +141,35 @@ filesystems=/mnt/HD/games:rw;
     <code>flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam</code>
     <p>Caso queira iniciar o MangoHud na execução do jogo basta adicionar <em>mangohud %command%</em> na linha de argumentos do jogos. Os jogos OpenGL também podem precisar de conexão <em>dlsym</em>. Adicione <em>--dlsym</em> ao seu comando como <em>mangohud --dlsym %command%</em> para Steam.</p>
     <p>Para ver as opções de configuração da sua HUD você pode ver as variáveis através <a class="link" href="https://github.com/flightlessmango/MangoHud?tab=readme-ov-file#environment-variables">deste link</a>.</p>
+    <h2>Gamescope</h2>
+    <p>Se tem uma ferramenta que pode te livrar de muita dor de cabeça ao lidar com jogos no Linux (especialmente te livrar de problemas crônicos que você seria obrigado a sofrer no Windows) é o Gamescope, segundo a página do Gamescope na Arch Wiki:" <i>Gamescope é um microcompositor da Valve usado no Steam Deck. Seu objetivo é fornecer um compositor isolado adaptado para jogos e que ofereça suporte a muitos recursos centrados em jogos, como: Falsear resoluções; Upscaling usando Super Resolução AMD FidelityFX™ ou NVIDIA Image Scaling; Limitar taxas de quadros."</i>.</p>
+    <p>Para iniciar a janela do gamescope basta adicionar os argumentos como no exemplo abaixo:</p>
+    <ul>
+        <li><em>gamescope -- %command%</em>: Inicia o jogo dentro do Gamescope</li>
+        <li><em>-W</em>, <em>-H</em>: Define a resolução usada pelo gamescope (saída).</li>
+        <li><em>-w</em>, <em>-h</em>: Define a resolução usada pelo jogo (interna).</li>
+        <li><em>-r</em>: define um limite de FPS para o jogo. Especificado em quadros por segundo. O padrão é ilimitado.</li>
+        <li><em>-o</em>: define um limite de FPS para o jogo quando não está em foco. Especificado em quadros por segundo. O padrão é ilimitado.</li>
+        <li><em>-F fsr</em>: use AMD FidelityFX™ Super Resolução 1.0 para upscaling</li>
+        <li><em>-F nis</em>: use NVIDIA Image Scaling v1.0.3 para upscaling</li>
+        <li><em>-S integer</em>: use escalonamento por números inteiros.</li>
+        <li><em>-S stretch</em>: use escalonamento por esticar. o jogo preencherá a janela. (por exemplo, 4:3 para 16:9)</li>
+        <li><em>-b</em>: cria uma janela sem bordas.</li>
+        <li><em>-f</em>: cria uma janela em tela inteira.</li>
+        <li><em>--backend</em>: seleciona o backend de renderização, entre as opções estão:</li>
+        <ul>
+            <li><em>auto</em> => autodetectar (padrão);</li>
+            <li><em>drm</em> => usar DRM backend (sessão de exibição independente);</li>
+            <li><em>sdl</em> => usar backend SDL;</li>
+            <li><em>openvr</em> => usar backend OpenVR (saídas para uma sobreposição VR);</li>
+            <li><em>headless</em> => usar backend headless (sem janela, sem saída DRM);</li>
+            <li><em>wayland</em> => usar backend Wayland.</li>
+        </ul>
+        <li><em>-e, --steam</em>: habilita integração com Steam</li>
+        <li><em>--mangoapp</em>: Inicia com a sobreposição de desempenho mangoapp (mangohud) habilitada. Você deve usar isso em vez de usar mangohud no jogo ou gamescope.</li>
+    </ul>
+    <p>Vams supor que eu queira jogar Need for Speed Rivals, que sabidamente tem problemas com mudança de resolução interna, e eu queira deixar a resolução interna do jogo em 4K, a resolução da janela em 1080p e que tenha saída numa janela de tela cheia, o comando seria mais ou menos assim:</p>
+    <code>gamescope -W 1920 -H 1080 -w 3840 -h 2160 -f -- %command%</code>
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
