@@ -170,6 +170,25 @@ filesystems=/mnt/HD/games:rw;
     </ul>
     <p>Vams supor que eu queira jogar Need for Speed Rivals, que sabidamente tem problemas com mudança de resolução interna, e eu queira deixar a resolução interna do jogo em 4K, a resolução da janela em 1080p e que tenha saída numa janela de tela cheia, o comando seria mais ou menos assim:</p>
     <code>gamescope -W 1920 -H 1080 -w 3840 -h 2160 -f -- %command%</code>
+    <h3>Consolização</h3>
+    <p>Eu já vi uma pá de gente reclamar de que "é muito complexo jogar no pc", "a experiência do console é mais simples", "eu prefiro jogar com um controle na mão sentado no sofá olhando pra tv", ok, da pra resolver isso muito fácil, crie o arquivo de dessão <em>/usr/share/wayland-sessions/steam-big-picture.desktop</em> com o conteúdo:</p>
+<code><pre>
+[Desktop Entry]
+Name=Steam Big Picture Mode
+Comment=Start Steam in Big Picture Mode
+Exec=/usr/bin/gamescope -e -- /usr/bin/steam -tenfoot
+Type=Application
+</pre></code>
+Supondo que você tem pelo menos o <em>lightdm</em> e o <em>lightdm-gtk-greeter</em> instalados (mas serve para qualquer outro greeter), edite o arquivo de dessão <em>/etc/lightdm/lightdm.conf</em> com o conteúdo:
+<code><pre>
+[SeatDefaults]
+autologin-user=<em>seu_usuário</em>
+autologin-user-timeout=0
+user-session=steam-big-picture
+</pre></code>
+<p>Obs: E sim isso serve para qualquer arquivo de sessão em <em>/usr/share/wayland-sessions</em> ou <em>/usr/share/xsessions</em>.</p>
+<p>Agora você só precisa colocar o seu usuário no grupo <em>autologin</em> </p>
+<code>groupadd -r autologin<br>gpasswd -a username autologin</code> e assim que o computador iniciar você vai direto para a sessão do Steam Big Picture.
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
