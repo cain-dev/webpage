@@ -848,12 +848,21 @@
             <summary>Formatação avançada (Clique para ver)</summary>
             <p>Diferentes sistemas de arquivo (e até mesmo ferramentas) podem ter por padrão o uso de tamanhos distintos de setor. Caso você queira especificar o tamanho do setor utilize o argumento <em>-S</em> como no exemplo abaixo:</p>
             <code>mkfs.fat -F 32 <em>-S 4096</em> /dev/<mark>storageAP1</mark></code>
+            <p>Embora não seja estritamente necessário, é recomendado o uso de rótulos para identificar as partições para o caso de você não ter em mente nenhum outro identificador. Caso você queira especificar o rótulo da partição adicione o argumento <em>-n</em> seguido do "<em>ROTULO</em>" como no exemplo abaixo:</p>
+            <code>mkfs.fat -F 32 <em>-n "ESP"</em> /dev/<mark>storageAP1</mark></code>
+            <p>Ou</p>
+            <code>mkfs.fat -F 32 <em>-n "XBOOTLDR"</em> /dev/<mark>storageAP1</mark></code>
         </details>
         <!-- Passo 5 - Formatar SWAP -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Formatando a partição SWAP</h3>
         <p>A segunda partição para ser formatada será a partição <mark>swap</mark> <strong>caso você a tenha feito</strong>, ela deve ser formatada em formato <mark>swap</mark>. Considerando que a sua partição <mark>swap</mark> é a <mark>/dev/storageAP2</mark> utilize o comando abaixo para formatar a partição:</p>
         <code>mkswap /dev/<mark>storageAP2</mark></code>
+        <details class="spoiler" >
+            <summary>Formatação avançada (Clique para ver)</summary>
+            <p>Embora não seja estritamente necessário, é recomendado o uso de rótulos para identificar as partições para o caso de você não ter em mente nenhum outro identificador. Caso você queira especificar o rótulo da partição adicione o argumento <em>-L</em> seguido do "<em>ROTULO</em>" como no exemplo abaixo:</p>
+            <code>mkswap <em>-L "SWAP"</em> /dev/<mark>storageAP2</mark></code>
+        </details>
         <!-- Passo 5 - Formatar as partições / e /home -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Formatando a partição / e /home</h3>
@@ -863,6 +872,10 @@
             <summary>Formatação avançada (Clique para ver)</summary>
             <p>Diferentes sistemas de arquivo (e até mesmo ferramentas) podem ter por padrão o uso de tamanhos distintos de setor. Caso você queira especificar o tamanho do setor utilize o argumento <em>-b</em> como no exemplo abaixo:</p>
             <code>mkfs.ext4  <em>-b 4096</em> /dev/<mark>storageAP3</mark></code>
+            <p>Embora não seja estritamente necessário, é recomendado o uso de rótulos para identificar as partições para o caso de você não ter em mente nenhum outro identificador. Caso você queira especificar o rótulo da partição adicione o argumento <em>-L</em> seguido do "<em>ROTULO</em>" como no exemplo abaixo:</p>
+            <code>mkfs.ext4 <em>-L "HOME"</em> /dev/<mark>storageAP3</mark></code>
+            <p>Ou</p>
+            <code>mkfs.ext4 <em>-L "ROOT"</em> /dev/<mark>storageAP3</mark></code>
         </details>
         <!-- Passo 6 - Montar as partições -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
@@ -1169,44 +1182,90 @@
         <!-- OPÇÃO E -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Opção E - Limine (BIOS/UEFI Multiboot)</h3>
-        <p>Seja para multiplas entradas de boot para testes e sem muita dor de cabeça ou para utilizar <em>PXE</em>, seja para um boot rápido com fácil manutenção ou para belos temas o Limine é um excelente opção de bootloader, é bem simples de implementar e sem muita chance de erro.</p>
+        <p>Seja para multiplas entradas de boot para testes sem muita dor de cabeça com <i>chain load</i> ou para utilizar <em>PXE</em>, seja para um boot rápido com fácil manutenção ou para belos temas simples o Limine é um excelente opção de bootloader, é bem simples de implementar e sem muita chance de erro.</p>
         <h4>Instalando o Limine</h4>
         <p>O Limine suporta tanto <em>BIOS</em> quanto <em>UEFI</em>, antes de mais nada é necesário baixar o pacote do Limine.</p>
         <code>pacman -S limine</code>
         <h4>Instalando para <em>BIOS</em></h4>
         <p>A instalação do bootloader em si para bios pode ser feita com 2 comandos, primeiramente mova o arquivo de configuração para o diretório <em>/boot</em>:</p>
         <code>cp /usr/share/limine/limine-bios.sys /boot/</code>
-        <p>Depois indique o dispositivo para instalação, /dev/<mark>storageAP1</mark> (considerando que <mark>storageAP1</mark> é o seu disco principal):</p>
-        <code>limine bios-install /dev/<mark>storageAP1</mark></code>
+        <p>Depois indique o dispositivo para instalação, /dev/<mark>storageA</mark> (considerando que <mark>storageA</mark> é o seu disco principal):</p>
+        <code>limine bios-install /dev/<mark>storageA</mark></code>
+        <details class="spoiler" >
+            <summary>Criando um script no pacman para atualizar o limine junto com o sistema</summary>
+            <p>Crie um arquivo em <em>/etc/pacman.d/hooks/liminedeploy.hook</em> que contenha:</p>
+<code><pre>
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = limine              
+    
+[Action]
+Description = Deploying Limine after upgrade...
+When = PostTransaction
+Exec = /bin/sh -c "/usr/bin/limine bios-install /dev/sdX && /usr/bin/cp /usr/share/limine/limine-bios.sys /boot/"</pre></code>
+        </details>
         <h4>Instalando para <em>UEFI</em></h4>
         <p>A instalação para UEFI é ainda mais simples, pois basta copiar o loader do Limine para o diretório padrão da partição <em>ESP</em>:</p>
         <code>cp /usr/share/limine/BOOTX64.EFI /efi/EFI/BOOT/BOOTX64.EFI</code>
+        <details class="spoiler" >
+            <summary>Criando um script no pacman para atualizar o limine junto com o sistema</summary>
+            <p>Crie um arquivo em <em>/etc/pacman.d/hooks/liminedeploy.hook</em> que contenha:</p>
+<code><pre>
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = limine              
+    
+[Action]
+Description = Deploying Limine after upgrade...
+When = PostTransaction
+Exec = /usr/bin/cp /usr/share/limine/BOOTX64.EFI /boot/EFI/BOOT/</pre></code>
+        </details>
         <h4>Criando o arquivo de configuração</h4>
-        <p>Independente se você fez a instalação para <em>BIOS</em> ou <em>UEFI</em>, você deve indicar o <em>UUID</em> do disco em que está a raiz do sistema (<em>/</em>) no arquivo de configuração, para isso utilize o comando abaixo:</p>
-        <code>blkid -s UUID -o value /dev/<mark>storageAP3</mark> >> /boot/limine/limine.cfg</code>
-        <p>Você pode configurar o arquivo de diversas formas, seja indicando a partição através do disco de boot, seja <em>label</em>, seja por <em>tftp</em>, aqui vou indicar 2 exemplos.</p>
-        <h4>Fazendo o arquivo baseado na posição do disco e partição <em>hdd://</em></h4>
-<pre><code>:Arch Linux
-    PROTOCOL=linux
-    KERNEL_PATH=hdd://1:2/vmlinuz-linux
-    CMDLINE=root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
-    MODULE_PATH=hdd://1:2/initramfs-linux.img</code></pre>
-    <p>* onde <em>hdd://</em> se refere a utilizar a posição do disco como referência para a partição <em>/boot</em>, e <em>1:2</em> indica o disco <em>1</em> (<em>storageA</em>) partição <em>2</em> (<em>P2</em>).</p>
-    <h4>BOOT baseado na posição do disco e partição <em>boot://</em></h4>
-<pre><code>
-:Arch Linux
-    PROTOCOL=linux
-    KERNEL_PATH=boot://2/vmlinuz-linux
-    CMDLINE=root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
-    MODULE_PATH=boot://2/initramfs-linux.img</code></pre>
-        <p>* onde <em>boot://</em> se refere ao disco de boot, e <em>2</em> indica a partição 2 (<em>P2</em>) desse mesmo disco.</p>
-        <p>⚠️ Observação: Também é possível informar a raiz através do endereço da partição como no exemplo abaixo:</p>
-        <code>CMDLINE=root=/dev/<mark>storageAP3</mark> rw</code>
-        <!--
-        <code>UUID=$(blkid -s UUID -o value <mark>/dev/storageAP2</mark>)</code>
-        <code>root=$UUID</code>
-        <code>root=<mark>$(blkid -s UUID -o value /dev/storageAP2)</mark></code>
-        -->
+        <p>Para que o limine funcione basta existir ao menos uma entrada de boot do seu sistema em um arquivo com o nome de <em>limine.conf</em> em um dos seguintes diretórios do disco de boot: <em>/limine.conf</em>, <em>/limine/limine.conf</em>, <em>/boot/limine.conf</em>, <em>/boot/limine/limine.conf</em>, ou <em>/EFI/BOOT/limine.conf</em>, nessa mesma ordem.</p>
+        <p>Você pode configurar a entrada de boot nesse arquivo de diversas formas, seja indicando a partição do Linux (<em>vmlinuz-linux</em>), módulos (como a initram <em>initramfs-linux.img</em> e microcódigo como <em>amd-ucode.img</em> ou <em>intel-ucode.img</em>) e raiz (<em>/</em>) através da coordenada no disco de boot, através <em>labels</em>, seja por <em>tftp</em>, enfim... Para facilitar aqui vou indicar os exemplos mais comuns.</p>
+        <h4>Fazendo o arquivo baseado nos rótulos das partições (<em>fslabel</em>)...</h4> 
+<pre><code>/Arch Linux
+    protocol: linux
+    kernel_path: <em>fslabel(BOOT):/</em>vmlinuz-linux
+    cmdline: root=/dev/<mark>storageAP3</mark> rw
+    module_path: <em>fslabel(BOOT):/</em><em>amd</em>-ucode.img
+    module_path: <em>fslabel(BOOT):/</em>initramfs-linux.img</code></pre>
+        <p>* onde <em>fslabel():/</em> se refere ao rótulo (label) da partição.</p>
+        <h4>Fazendo o arquivo baseado na posição da partição no disco de boot - <em>boot():/</em>...</h4>
+<pre><code>/Arch Linux
+    protocol: linux
+    kernel_path: <em>boot(2):/</em>vmlinuz-linux
+    cmdline: root=/dev/<mark>storageAP3</mark> rw
+    module_path: <em>boot(2):/</em><em>amd</em>-ucode.img
+    module_path: <em>boot(2):/</em>initramfs-linux.img</code></pre>
+        <p>* onde <em>boot():/</em> se refere ao disco de boot, e <em>2</em> indica a partição 2 (<em>P2</em>) desse mesmo disco.</p>
+        <h4>Fazendo o arquivo baseado na posição do disco e partição -  <em>hdd(X:Y):/</em>...</h4> 
+<pre><code>/Arch Linux
+    protocol: linux
+    kernel_path: <em>hdd(1:2):/</em>vmlinuz-linux
+    cmdline: root=/dev/<mark>storageAP3</mark> rw
+    module_path: <em>hdd(1:2):/</em><em>amd</em>-ucode.img
+    module_path: <em>hdd(1:2):/</em>initramfs-linux.img</code></pre>
+        <p>* onde <em>hdd():/</em> se refere a utilizar a posição do disco como referência para a partição <em>/boot</em>, e <em>1:2</em> indica o disco <em>1</em> (<em>storageA</em>) partição <em>2</em> (<em>P2</em>).</p>
+        <h4>Fazendo o arquivo baseado em UUID/PARTUUID -  <em>uuid():/</em>...</h4>
+        <p>O mais complicado, porém de longe o mais preciso e que vai dar menos dor de cabeça com o passar do tempo é a utilização de identificadores únicos, a menos que você saiba muito bem o que está fazendo eu não recomendo você começar por aqui (especialmente se é o primeiro boot do sistema recém instalado). Mas se mesmo assim você deseja utilizar UUID/PARTUUID vamos lá:</p>
+        <p>Para mandar o <em>UUID</em> da partição em que está a raiz do sistema (<em>/</em>) para o arquivo de configuração utilize o comando abaixo:</p>
+        <code>blkid -s UUID -o value /dev/<mark>storageAP3</mark> >> /boot/limine/limine.conf</code>
+        <p>Para mandar o <em>PARTUUID</em> da partição em que está o Linux (<em>vmlinuz-linux</em>), módulos (como a initram <em>initramfs-linux.img</em> e microcódigo como <em>amd-ucode.img</em> ou <em>intel-ucode.img</em>) para o arquivo de configuração utilize o comando abaixo:</p>
+        <code>blkid -s PARTUUID -o value /dev/<mark>storageAP1</mark> >> /boot/limine/limine.conf</code>
+        <p>Note que é possível informar o identificador da raiz através do UUID da partição como no exemplo abaixo:</p>
+        <code>cmdline: root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw</code>
+        <p>E então basta configurar o arquivo como no exemplo abaixo:</p>
+<pre><code>/Arch Linux
+    protocol: linux
+    kernel_path: <em>uuid(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):/</em>vmlinuz-linux
+    cmdline: root=UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx rw
+    module_path: <em>uuid(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):/</em><em>amd</em>-ucode.img
+    module_path: <em>uuid(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx):/</em>initramfs-linux.img</code></pre>
         <!-- Passo 14 Finalizando a instalação -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h2>Passo 14 - Finalizando a instalação</h2>
@@ -1271,7 +1330,7 @@
         <p>Habilite o serviço do GDM com o comando:</p>
         <code>systemctl enable gdm</code>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
-        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-gnome</code>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-gnome</code>
         <h4>Integração com o Firefox</h4>
         <p>Para usar o GNOME file picker como gerenciador de arquivos no Firefox, tenha a certeza de instalar o pacotes <em>xdg-desktop-portal-gnome </em> e depois sete <em>widget.use-xdg-desktop-portal.file-picker</em> para <em>1</em> em <em>about:config</em>.</p>
         <!-- KDE -->
@@ -1287,8 +1346,8 @@
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
-        <!--<code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-kde</code>-->   
-        <code>pacman -S xdg-desktop-portal xdg-portal-kde</code>
+        <!--<code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-kde</code>-->   
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-kde</code>
         <p>Para ter uma lojinha de aplicativos funcional no Arch instale:</p>
         <code>pacman -S flatpak flatpak-kcm discover</code>
         <h4>Colocando o cache de efeitos kwin na RAM</h4>
@@ -1323,7 +1382,7 @@
         <code>[Seat:*]<br>...<br>greeter-session=<em>lightdm-slick-greeter</em><br>...</code>
         <p>Por fim edite o arquivo do <em>Slick</em> que está em <mark>/etc/lightdm/slick-greeter.conf</mark>, segundo <a class="link" href="https://github.com/linuxmint/slick-greeter">este link</a>.</p>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
-        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-xapp</code>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-xapp</code>
         <h4>Nemo folder-color-switcher</h4>
         <p>Ao meu ver uma das funções mais úteis do Nemo é a mudança de cor das pastas, é um excelente recurso para organizar os arquivos no computador. Algumas pessoas acreditam que isso é uma função específica do Linux Mint quando na verdade isso é um script do Nemo que pode ser usado em diversas distribuições, inclusive no Arch.</p>
         <p>Caso você queira utilizá-la a primeira coisa que precisará é de um pack de ícones compatível, podemos utilizar o próprio tema <a class="link" href="https://github.com/linuxmint/mint-x-icons">Mint-X</a> ou <a class="link" href="https://github.com/linuxmint/mint-y-icons">Mint-Y</a>, baixe e extraia as pastas dos ícones (Mint-X, Mint-Y, Mint-X-Aqua, Mint-Y-Aqua... etc.) para o diretório <mark>/usr/share/icons</mark>;</p>
@@ -1340,7 +1399,7 @@
         <p>Habilite o serviço do SDDM com o comando:</p>
         <code>systemctl enable sddm</code>
         <p>Para habilitar o compatilhamento de tela instale os pacotes:</p>
-        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-portal-lxqt</code>
+        <code>pacman -S xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-lxqt</code>
         <!-- XFCE -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>XFCE</h3>
@@ -1386,10 +1445,12 @@
             <li><p>Instale o pacote <mark>xf86-video-amdgpu</mark> para aceleração 2D no Xorg.</p></li>
             <li><p>Instale o pacote <mark>vulkan-radeon</mark> para suporte a Vulkan.<br>(A menos que você tenha um motivo muito específico para usar o pacore <mark>amdvlk</mark>.</p></li>
             <li><p>Instale o pacote <mark>lib32-vulkan-radeon</mark> para suporte a Vulkan em aplicações 32-bit.<br>(A menos que você tenha um motivo muito específico para usar o pacote <mark>lib32-amdvlk</mark>).</p></li>
+            <!-- agora todos estão no nos pacotes mesa e lib32-mesa
             <li><p>Instale o pacote <mark>libva-mesa-driver</mark> para video decoding por VA-API.</p></li>
             <li><p>Instale o pacote <mark>lib32-libva-mesa-driver</mark> para video decoding por VA-API em aplicações 32-bit.</p></li>
             <li><p>Instale o pacote <mark>mesa-vdpau</mark> para video decoding por VDPAU.</p></li>
             <li><p>Instale o pacote <mark>lib32-mesa-vdpau</mark> para video decoding por VDPAU em aplicações 32-bit.</p></li>
+            -->
         </ul>
         <h4>Carregando o driver amdgpu</h4>
         <p>Considerando que você está utilizando o script <mark>mkinitcpio</mark> (já que ele é uma dependência comum dos pacotes de kernel) edite o arquivo <mark>/etc/mkinitcpio.conf</mark> e na linha...</p>
