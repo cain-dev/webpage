@@ -52,16 +52,50 @@
         <p>Se você fez tudo certo o bootloader vai ser carregado e basta selecionar o Windows:</p>
         <img class="responsiva" src="../assets/images/windows/pcieadapter/clover2.png" alt="">
         <h2>EXTRA - Apenas para quem utiliza Dualboot</h2>
-        <h3>Exemplo do arquivo de configuração para o systemd-boot</h3>
-        <code>title Clover<br>efi /EFI/CLOVER/CLOVERX64.efi</code>
-        <h3>Exemplo do arquivo de configuração para o GRUB</h3>
+        <p>Você tem 2 escolhas caso utilize dualboot:</p>
+        <ol>
+            <li><p>Iniciar o Clover para que ele inicie o Windows;</p></li>
+            <li><p>Iniciar diretamente o Windows usando apenas o driver do Clover;</p></li>
+        </ol>
+        <p>Escolha uma das opções abaixo para prosseguir.</p>
+        <h3>Opção 1 - Redirecionar para o Clover</h3>
+        <p>Eu particularmente prefiro a segunda opção por ser mais enxuta, mas supondo que você queira a um exemplos do arquivos de configuração siga os exemplo abaixo:</p>
+        <h4>systemd-boot</h4>
+        <code>title "Clover Bootloader"<br>efi /EFI/CLOVER/CLOVERX64.efi</code>
+        <h4>GRUB</h4>
+        <!--
 <pre><code>menuentry 'Clover' $menuentry_id_option 'gnulinux-simple-<em>XXXX-XXXX</em>' {
     insmod part_gpt
     insmod fat
     search --no-floppy --fs-uuid --set=root <em>XXXX-XXXX</em>
     chainloader /EFI/CLOVER/CLOVERX64.efi
 }</code></pre>
-    <p>Lembre-se de substituir <em>XXXX-XXXX</em> pelo <em>UUID</em> da partição do <em>Clover</em>.</p>
+-->     
+<pre><code>menuentry "Clover Bootloader" {
+    insmod part_gpt
+    insmod fat
+    set root='hd<em>X</em>,gpt<em>Y</em>'
+    chainloader /EFI/CLOVER/CLOVERX64.efi
+}
+</code></pre>
+        <p>Lembre-se de substituir <em>XXXX-XXXX</em> pelo <em>UUID</em> da partição do <em>Clover</em>.</p>
+        <h4>Limine</h4>
+<pre><code>/Clover Bootloader
+    protocol: efi_chainload
+    path: hdd(<em>X</em>:<em>Y</em>):/vmlinuz-linux
+</code></pre>        
+        <h3>Opção 2 - Iniciando o Windows diretamente</h3>
+        <p>Esta é a minha opção preferida, considerando que muitos bootloaders em UEFI podem iniciar drivers basta listar o driver <em>NvmExpressDxe.efi</em> do Clover para o bootloader em questão.</p>
+        <h4>rEFInd</h4>
+        <p>Basta adicionar o arquivo <em>NvmExpressDxe.efi</em> do Clover na pasta <em>EFI/refind/drivers_x64</em> da partição <em>ESP</em>.</p>
+        <!--
+        <h4>Limine</h4>
+<pre><code>/Windows (NVME)
+    protocol: limine
+    path: hdd(<em>X</em>:<em>Y</em>):/EFI/Microsoft/Boot/bootmgfw.efi
+    module_path: hdd(<em>X</em>:<em>Y</em>):/NvmExpressDxe.efi
+</code></pre>
+        -->
     </main>
     <footer id="main-footer">
         <p>Está página ainda está em construção 🚧</p>
