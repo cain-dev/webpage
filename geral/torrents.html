@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melhorando o qBittorrent</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Que tal uma busca integrada de torrents?"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Aprenda como melhorar a sua experiência com o qBittorrent."/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+    <main id="main-area">
+        <h1>Usando seu qBittorrent da maneira certa</h1>
+        <h2>Introdução</h2>
+        <p>Antes de mais nada, vou deixar isso bem claro: <strong>NÓS NÃO SOMOS APOLOGISTAS DE PIRATARIA POR AQUI!</strong> O conhecimento aqui fornecido pode ser usado tanto de maneira legítima quanto ilegítima, cabe a VOCÊ se responsabilizar pelo que faz! Estamos entendidos? Ok, vamos prosseguir.</p>
+        <p>Antes de mais nada abra o qBittorrent e habilite o motor de busca:</p>
+        <img class="responsiva" src="../assets/images/geral/torrents/torrents01.jpg" alt="">
+        <p>Você provavelmente não tem nenhum plugin, para começar adicionando plugins você pode seguir o exemplo abaixo, clicando em "Plugins de busca" e depois em "Procurar atualizações" ou "Instalar um novo plugin", você pode utilizar a lista de <a class="link" href="https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins">Plug-ins de pesquisa não oficiais</a>.</p>
+        <img class="responsiva" src="../assets/images/geral/torrents/torrents02.jpg" alt="">
+        <p>E aí fique a vontade para habilitar ou desabilitar qualquer plugin que você deseja.</p>
+        <img class="responsiva" src="../assets/images/geral/torrents/torrents03.jpg" alt="">
+        <h2>Jackett</h2>
+        <h3>O que é o Jackett?</h3>
+        <p>Segundo o próprio time:</p>
+        <p><i>"Jackett funciona como um servidor proxy: ele traduz consultas de aplicativos (Sonarr, Radarr, SickRage, CouchPotato, Mylar3, Lidarr, DuckieTV, qBittorrent, Nefarious, NZBHydra2 etc.) em consultas http específicas do site do rastreador, analisa a resposta HTML ou JSON e, em seguida, envia os resultados de volta ao software solicitante. Isso permite obter uploads recentes (como RSS) e realizar pesquisas. Jackett é um repositório único de lógica de tradução e raspagem de indexador mantida - removendo a carga de outros aplicativos."</i></p>
+        <p>Supondo que você esteja no Linux é possível instalar o Jackett com um único comando que baixa, extrai, instala e configura o serviço Jackett em /opt, ajusta permissões, verifica o status do serviço e informa onde acessar a interface web:</p>
+        <code>cd /opt && f=Jackett.Binaries.LinuxAMDx64.tar.gz && sudo wget -Nc https://github.com/Jackett/Jackett/releases/latest/download/"$f" && sudo tar -xzf "$f" && sudo rm -f "$f" && cd Jackett* && sudo chown $(whoami):$(id -g) -R "/opt/Jackett" && sudo ./install_service_systemd.sh && systemctl status jackett.service && cd - && echo -e "\nVisit http://127.0.0.1:9117"</code>
+        <p>Caso queira desinstalar o plugin (não sei por qual razão você faria isso) pode usar o comando abaixo:</p>
+        <code>wget https://raw.githubusercontent.com/Jackett/Jackett/master/uninstall_service_systemd.sh --quiet -O -|sudo bash</code>
+    </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
