@@ -43,6 +43,13 @@
         <p><i>"Jackett funciona como um servidor proxy: ele traduz consultas de aplicativos (Sonarr, Radarr, SickRage, CouchPotato, Mylar3, Lidarr, DuckieTV, qBittorrent, Nefarious, NZBHydra2 etc.) em consultas http específicas do site do rastreador, analisa a resposta HTML ou JSON e, em seguida, envia os resultados de volta ao software solicitante. Isso permite obter uploads recentes (como RSS) e realizar pesquisas. Jackett é um repositório único de lógica de tradução e raspagem de indexador mantida - removendo a carga de outros aplicativos."</i></p>
         <p>Supondo que você esteja no Linux é possível instalar o Jackett com um único comando que baixa, extrai, instala e configura o serviço Jackett em /opt, ajusta permissões, verifica o status do serviço e informa onde acessar a interface web:</p>
         <code>cd /opt && f=Jackett.Binaries.LinuxAMDx64.tar.gz && sudo wget -Nc https://github.com/Jackett/Jackett/releases/latest/download/"$f" && sudo tar -xzf "$f" && sudo rm -f "$f" && cd Jackett* && sudo chown $(whoami):$(id -g) -R "/opt/Jackett" && sudo ./install_service_systemd.sh && systemctl status jackett.service && cd - && echo -e "\nVisit http://127.0.0.1:9117"</code>
+        <p>Uma vez que você acessou a interface web em <em>http://127.0.0.1:9117</em>, copie a chave de API para o arquivo <em>jackett.json</em> que está em <code>"${XDG_DATA_HOME:-$HOME/.local/share}/qBittorrent/nova3/engines"</code> se o qBittorrent foi instalado nativamente ou <code>${HOME}/.var/app/org.qbittorrent.qBittorrent/data/qBittorrent/nova3/engines"</code> se o qBittorrent foi instalado por Flatpak. Basta editar a chave de API como no exemplo abaixo:/p>
+<pre><code>{
+    "api_key": "<em>YOUR_API_KEY_HERE</em>",
+    "url": "http://127.0.0.1:9117",
+    "tracker_first": false,
+    "thread_count": 20
+}</code></pre>
         <p>Caso queira desinstalar o plugin (não sei por qual razão você faria isso) pode usar o comando abaixo:</p>
         <code>wget https://raw.githubusercontent.com/Jackett/Jackett/master/uninstall_service_systemd.sh --quiet -O -|sudo bash</code>
     </main>
