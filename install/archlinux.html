@@ -1664,6 +1664,11 @@ EndSection
         <p>Você pode utilizar o <a class="link" href="https://github.com/Shatur/optimus-manager-qt">Optimus Manager QT</a> para interface de configuração, que eu também recomendo a compilação e instalação manual mas você pode utilizar o yay para instalar com o comando:</p>
         <code>yay -S optimus-manager-qt</code>
         <p>Se você estiver usando o Gnome pode usar a extensão <a class="link" href="https://extensions.gnome.org/extension/2908/optimus-manager-indicator/">Optimus Manager Indicator</a>.</p>
+        <h4>Audio popping</h4>
+        <p>Se você está tendo problemas com <i>pop-ins</i> no áudio, pode verificar se a economia de energia está ativa com o comando:</p>
+        <code>cat /sys/module/snd_hda_intel/parameters/power_save</code>
+        <p>Se o valor for qualquer coisa além de 0, você pode desabilitar com o comando:</p>
+        <code>sudo tee /etc/modprobe.d/snd-hda-intel.conf <<< "options snd_hda_intel power_save=0"</code>
         <!-- Manutenção de pacotes -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Manutenção de pacotes</h3>
