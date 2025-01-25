@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="formatação, windows, linux, freebsd, bios, uefi, instalação, balena, etcher, ventoy, os">
+    <meta name="author" content="Cain">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminocentric</title>
+    <!--Social Media Open Graph-->
+    <meta property="og:title" content="Terminocêntrismo"/>
+    <meta property="og:url" content="https://cain-dev.github.io/default/"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="Toda a facilidade de usar o computador que só um terminal pode oferecer"/>
+    <meta property="og:image" content="https://raw.githubusercontent.com/cain-dev/default/main/assets/images/ogimage.jpg"/>
+    <!--/Social Media Open Graph-->
+    <!--Links-->
+    <link rel="shortcut icon" href="../assets/images/cainlogo.ico">
+    <link rel="stylesheet" type="text/css"href="../os_style.css">   
+    <!--/Links-->
+</head>
+<body>
+    <header id="main-header">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><p>@cain-dev</p></li>
+            <li><a href="../extra/contact.html">Contato</a></li>
+        </ul>
+    </header>
+	<main id="main-area">
+        <h1>Ambiente Terminocêntrico</h1>
+        <h2>Introdução</h2>
+        <p>Seja pelo fato de ter uma máquina antiga e de baixo poder de processamento (meu caso, lol), seja pela busca de entender o Linux ou simplesmente pela vontade de ser um usuário "I use Arch btw", se você instalou um Arch com Sway e invejou os <i>rices</i> do r/unixporn é bem provavel que você notou o fascínio da comunidade por aplicativos de terminal, que além de serem muito mais rápidos também <i>podem</i> ser muito agradáveis estéticamente...</p>
+		<p>Mas você não está satisfeito em apenas ter uma interface funcionando e usar os mesmos aplicativos de sempre, você quer um setup terminocêntrico! Mas... Não sabe como conseguir ferramentas que substituam perfeitamente o caso de uso atual? Então esse tutorial é pra você!</p>
+        <h2>Preparação - A escolha da(s) fonte(s)</h2>
+        <p>Para usar diversas estilizações no seu terminal é necessário uma fonte com caracteres especiais, você pode manualmente inserir um patch de caracteres especiais na sua fonte favorita... Ou pode apenas baixar alguma do <i>Nerd Fonts</i>.</p>
+        <h3>Instalação de NerdFonts</h3>
+		<p>Escolha e baixe alguma das fontes desse link <a class="link" href="https://www.nerdfonts.com/font-downloads">aqui</a>, mova as fontes do tipo <em>.otf</em> para <mark>/usr/local/share/fonts/otf</mark> e as <em>.ttf</em> para <mark>/usr/local/share/fonts/ttf</mark>. Os arquivos de fonte precisam ter permissões de leitura suficientes para todos os usuários, ou seja, pelo menos <mark>chmod 444</mark> para arquivos e <mark>555</mark> para diretórios. E antes que pergunte, sim, você também pode só colocar elas apenas em <mark>~/.local/share/fonts/</mark> se precisar usar apenas para seu usuário.</p>
+		<!--
+        <p>Por último você pode executar o comando abaixo para atualizar o cache do fontconfig:</p>
+		<code>fc-cache</code>
+        -->
+        <h2>Passo 1 - A escolha (de um outro) Terminal (opcional)</h2>
+        <p>A menos que você queira usar todo o seu sistema através do <i>framebuffer</i> (se este é o teu caso, que Deus te abençoe muito) você vai precisar de algum aplicativo gŕafico de emulador de terminal, toda interface já vem com algum destes, o Gnome vem com o Gnome Terminal, o KDE com o Konsole e assim por diante, você <strong>Não precisa mudar o seu terminal para seguir com o tutorial!</strong> Mas esteje ciente de que o terminal padrão da interface visa mais a coerência visual e a estabilidade do que a velocidade ou recursos modernos, você pode otimizar o terminal que já faz parte do seu ambiente gráfico sem problema algum, o meu objetivo aqui é apenas mostrar quais outras opções podem ser interessantes de se ter no seu leque de ferramentas.</p>
+        <p>Eu verdadeiramente recomendo que você dê uma olhada na <a class="link" href="https://wiki.archlinux.org/title/List_of_applications/Utilities">Lista de Aplicações</a> do Arch, teste alguns outros terminais, mas para fins de exemplo aqui lidarei com os 2 abaixo: Kitty e Foot. </p>
+        <h3>Extensivo e moderno - Ghostty</h3>
+        <p>O Ghostty é fantástico, muitas opções para personalizar e estender as suas capacidades, se você tem uma máquina moderna com aceleração eu recomendo que você o teste.</p>
+        <code>pacman -S ghostty</code>
+        <h3>Simples e eficiente - Foot</h3>
+        <p>Caso tenha uma máquina mais modesta e precise de algo mais simples eu recomendo fortemente o foot.</p>
+        <code>pacman -S foot</code>
+        <h2>Passo 2 - A escolha (de um outro) Shell (opcional, mas altamente recomendado)</h2>
+        <p>A verdade é que existem diversas escolhas para shell mas poucas delas são viáveis, o bash e dash <i>podem</i> ser bons o suficiente embora não os considero desejáveis de forma alguma. A maioria das opções não são <i>POSIX compliant</i>, que eu acho inaceitável para um shell em qualquer sistema Unix, e entre os que são o que escolher? Algo escrito em C99 ou Python? No fim do dia eu só vejo uma escolha viável que é o <em>zsh</em>.</p>
+        <p>O zsh está disponível na esmagadora maioria das distribuições, considerando que você esteja no Arch você pode instalá-lo com o comando abaixo:</p>
+        <code>pacman -S zsh</code>
+        <p>O zsh é bastante customizável, você pode facilitar (e muito) a sua usabilidade com a adição de alguns plugins, existem diversas maneiras de gerenciar plugins no zsh mas eu recomendarei 2: Uma delas sendo a mais completa (oh my zsh) e uma delas sendo extremamente rápida e portável (zinit).</p>
+        <h3>Opção A - Oh my zsh</h3>
+        <p>Para instalar o framework do Oh-My-Zsh, abra seu terminal e use o comando abaixo:</p>
+        <code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code>
+        <p>Existem 2 plugins que eu considero indispensáveis para a utilização de um terminal atualmente, o <em>autosuggestions</em> e o <em>syntax-highlighting</em>, instale eles com os comandos abaixo:</p>
+        <code>git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions</code>
+        <code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting</code>
+        <p>Acesse o arquivo <em>~/.zshrc</em>, e na linha <em>plugins=(git)</em> adicione os plugins  <em>zsh-syntax-highlighting</em> e <em>zsh-autocomplete</em> para ficar como no exemplo abaixo:</p>
+        <code>plugins=(git zsh-syntax-highlighting zsh-autosuggestions)</code>
+        <p>Recomendo também que configure as opções de locale internas do framework, encontre a linha <em>export LANG=en_US.UTF-8</em> e substitua por:</p>
+        <code>export LANG=pt_BR.UTF-8</code>
+        <h3>Opção B - Zinit</h3>
+        <p>Este é de longe o mais rápido e obviamente é o meu preferido, caso você queira instalar manualmente o <em>zinit</em> edite o seu <em>~/.zshrc</em> e insira o seguinte <i>snippet</i>:</p>
+<code><pre>ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"</pre></code>
+        <p>Para habilitar os plugins <em>autosuggestions</em> e o <em>syntax-highlighting</em> adicione as linhas abaixo no seu <em>~/.zshrc</em>:</p>
+        <code>zinit light zsh-users/zsh-autosuggestions<br>zinit light zdharma-continuum/fast-syntax-highlighting</code>
+        <h2>Editor de texto - Neovim com lazy.nvim</h2>
+        <p>Existem diversos editores de texto para terminal, mas dentre todos eles o que de longe é mais customizável e adotado pela comunidade é o <i>neovim</i>, e pra ele existem diversos gerenciadores de plugins, mas entre todos os <i>setups</i> certamente o mais tranquilo de lidar é o neovim + lazy.nvim (não confunda com o IDE Lazyvim!). Você certamente tem o neovim nos pacotes da sua distribuição, considerando que você esteja utilizando o Arch pode usar o comando:</p>
+        <code>pacman -S neovim</code>
+        <h3>Instalando lazy.nvim</h3>
+        <p>Você pode carregar o lazy.nvim criando os seguintes arquivos com o conteúdo:</p>
+<code><pre><em>~/.config/nvim/init.lua</em><br>require("config.lazy")</pre></code>
+<code><pre><em>~/.config/nvim/lua/config/lazy.lua</em>
+    -- Bootstrap lazy.nvim
+    local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+    if not (vim.uv or vim.loop).fs_stat(lazypath) then
+      local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+      local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+      if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+          { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+          { out, "WarningMsg" },
+          { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+      end
+    end
+    vim.opt.rtp:prepend(lazypath)
+    
+    -- Make sure to setup `mapleader` and `maplocalleader` before
+    -- loading lazy.nvim so that mappings are correct.
+    -- This is also a good place to setup other settings (vim.opt)
+    vim.g.mapleader = " "
+    vim.g.maplocalleader = "\\"
+    
+    -- Setup lazy.nvim
+    require("lazy").setup({
+      spec = {
+        -- import your plugins
+        { import = "plugins" },
+      },
+      -- Configure any other settings here. See the documentation for more details.
+      -- colorscheme that will be used when installing plugins.
+      install = { colorscheme = { "habamax" } },
+      -- automatically check for plugin updates
+      checker = { enabled = true },
+    })</pre></code>
+        <h3>Instalando plugins</h3>
+        <p>Para adicionar um plugin ao neovim de forma estruturada, basta criar um arquivo no diretório de plugins com a configuração daquele plugin, vamos supor que desejamos instalar o plugin <em>Smear cursor for Neovim</em>, basta que no diretório <em>~/.config/nvim/lua/plugins/</em> você crie o arquivo <em>smear_cursor.lua</em> com o conteúdo:</p>
+<code><pre>return {
+    "sphamba/smear-cursor.nvim",
+    opts = {},
+    }</pre></code>
+        <h3>Desabilitando notificações</h3>
+        <p>Você deve ter percebido que ao iniciar o neovim agora tem uma notificação chata dos updates, para sumir com essa notificação vá no arquivo <mark>~/.config/nvim/lua/config/lazy.lua</mark> e na opção <mark>checker = { enabled = true }</mark> altere para <mark>checker = { enabled = true, notify = false }</mark>.</p>
+        <h2>Gerenciador de arquivos</h2>
+        <p>Gerenciadores de arquivos por terminal são excelentes escolhas para configurações e acesso rápido, sem contar que a integração que o terminal proporciona a capacidade de gerência que interfaces gráficas simplesmente não podem permitir.</p>
+        <h3>Yazi</h3>
+        <p>Dentre todas as opções de gerenciador de arquivos por terminal eu creio que a mais <i>fire and forget</i> seja o Yazi, ele é rápido o suficiente e extensível o suficiente. Tão rápido quanto outros baseados em bash? Não! Tão extensível quanto o ranger? Também não! Mas ele também não é tão limitado quanto os baseados em bash e não é tão lento quanto os escritos em Python. Creio que seja o meio termo perfeito para usabilidade e funciona com visualização de imagens nativa seja no foot ou seja no ghostty. Considerando que você esteja no Arch você pode instalá-lo com o comando:</p>
+        <code>pacman -S yazi</code>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--
+        <h3>lf</h3>
+        <h3>Ranger</h3>
+        -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- RETIRE /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+		<h2>Instalação do Terminal, Kitty</h2>
+		<code>sudo pacman -S kitty</code>
+		<p>Diretório de configuração: <mark>~/.config/kitty/kitty.conf</mark></p>
+		<p>Você pode ver a documentação de configuração do Kitty <a class="link" href="https://sw.kovidgoyal.net/kitty/overview/#configuring-kitty">aqui</a></p>
+		<p>Você pode ver a minha configuração do Kitty <a class="link" href="https://github.com/cain-dev/dotfiles/blob/main/kitty/kitty.conf">aqui</a></p>
+		<p>Caso você queira instalar um tema recomendo esse repositório <a class="link" href="https://github.com/dexpota/kitty-themes">aqui</a></p>
+        
+        <h2>Instalação e configuração do Shell, Zsh com Oh-My-Zsh</h2>
+        <p>Eu já migrei de shell para shell e recentemente tenho usado o <em>Zsh</em>, eu creio que ele é o que existe de ideal entre customização e facilidade de uso vs compatibilidade, instale com o comando e siga a configuração básica:</p>
+        <code>pacman -S zsh</code>
+        
+
+
+        <p><strong>Lembre-se:</strong> Acesse o arquivo de configuração do <em>kitty</em> em <mark>~/.config/kitty/kitty.conf</mark> e sete <em>shell</em> para <em>zsh</em> como no exemplo abaixo:</p>
+        <code>shell zsh</code>
+        <h2>Instalação do Gerenciador de arquivos, Ranger</h2>
+		<code>sudo pacman -S ranger atool unzip unrar python-pillow poppler ffmpegthumbnailer</code>
+		<p>Você pode ver a documentação de guia de usuário do Ranger <a class="link" href="https://github.com/ranger/ranger/wiki/Official-user-guide">aqui</a></p>
+		<p>Você pode ver a documentação de Wiki do Ranger <a class="link" href="https://github.com/ranger/ranger/wiki">aqui</a></p>
+		<p>Você pode ver a minha configuração do Ranger <a class="link" href="https://github.com/cain-dev/dotfiles/tree/main/ranger">aqui</a></p>
+		<p><mark>rc.conf</mark> é usado para definir várias opções e vincular teclas a funções.<br>
+		<mark>rifle.conf</mark> decide qual programa usar para abrir um arquivo.<br>
+		<mark>scope.sh</mark> é um script de shell usado para gerar visualizações para vários tipos de arquivo.<br>
+		<mark>commands.py</mark> contém a implementação de várias funções, escritas em Python, usadas para modificar o comportamento do ranger e implementar seus próprios comandos personalizados.</p>
+		<p>Use <code>ranger --copy-config=rc</code> ou substitua <mark>rc</mark> por <mark>commands</mark>, <mark>rifle</mark>, ou <mark>scope</mark>, para copiar os arquivos de configuração padrão para o diretório <mark>~/.config/ranger</mark> e modificá-los lá, apenas copie os arquivos que você deseja editar.</p>
+		<h3>Habilitar Ícones no Ranger</h3>
+		<p>Para possibilitar a visualização de ícones no ranger você pode utilizar o plugin <mark>ranger_devicons</mark>, basta copiar o arquivo <mark>devicons.py</mark> para a pasta de plugins do ranger e adicionar a linha <mark>default_linemode devicons</mark> no <mark>rc.conf</mark> ou utilizar os códigos abaixo:</p>
+		<code>git clone https://github.com/cdump/ranger-devicons2 ~/.config/ranger/plugins/devicons2</code>
+		<code>echo "default_linemode devicons2" >> $HOME/.config/ranger/rc.conf</code>
+		<h3>Habilitar Lixeira e Esvaziamento de Lixeira</h3>
+		<p>Primeiramente crie o diretório da lixeira <mark>~/.local/share/Trash/files/</mark> e mapeie o comando abaixo no <mark>rc.conf</mark></p>
+		<code>map DD shell mv %s /home/${USER}/.local/share/Trash/files/</code>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+class empty(Command):
+	""":empty
+
+	Empties the trash directory ~/.Trash
+	"""
+
+	def execute(self):
+		self.fm.run("rm -rf /home/${USER}/.local/share/Trash/files/*")
+		</code></pre>
+		<p>Para limpar a lixeira digite use o comando <code>:empty</code> e tecle <mark>Enter</mark></p>
+		<h3>Habilitar Extração de Arquivos</h3>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+import os
+from ranger.core.loader import CommandLoader
+
+class extract_here(Command):
+    def execute(self):
+        """ extract selected files to current directory."""
+        cwd = self.fm.thisdir
+        marked_files = tuple(cwd.get_selection())
+
+        def refresh(_):
+            cwd = self.fm.get_directory(original_path)
+            cwd.load_content()
+
+        one_file = marked_files[0]
+        cwd = self.fm.thisdir
+        original_path = cwd.path
+        au_flags = ['-x', cwd.path]
+        au_flags += self.line.split()[1:]
+        au_flags += ['-e']
+
+        self.fm.copy_buffer.clear()
+        self.fm.cut_buffer = False
+        if len(marked_files) == 1:
+            descr = "extracting: " + os.path.basename(one_file.path)
+        else:
+            descr = "extracting files from: " + os.path.basename(
+                one_file.dirname)
+        obj = CommandLoader(args=['aunpack'] + au_flags
+                            + [f.path for f in marked_files], descr=descr,
+                            read=True)
+
+        obj.signal_bind('after', refresh)
+        self.fm.loader.add(obj)
+		</code></pre>
+		<h3>Habilitar Compressão de Arquivos</h3>
+		<p>Em <mark>commands.py</mark> adicione as seguintes lihas:</p>
+		<pre><code>
+import os
+from ranger.core.loader import CommandLoader
+
+class compress(Command):
+    def execute(self):
+        """ Compress marked files to current directory """
+        cwd = self.fm.thisdir
+        marked_files = cwd.get_selection()
+
+        if not marked_files:
+            return
+
+        def refresh(_):
+            cwd = self.fm.get_directory(original_path)
+            cwd.load_content()
+
+        original_path = cwd.path
+        parts = self.line.split()
+        au_flags = parts[1:]
+
+        descr = "compressing files in: " + os.path.basename(parts[1])
+        obj = CommandLoader(args=['apack'] + au_flags + \
+                [os.path.relpath(f.path, cwd.path) for f in marked_files], descr=descr, read=True)
+
+        obj.signal_bind('after', refresh)
+        self.fm.loader.add(obj)
+
+    def tab(self, tabnum):
+        """ Complete with current folder name """
+
+        extension = ['.zip', '.tar.gz', '.rar', '.7z']
+        return ['compress ' + os.path.basename(self.fm.thisdir.path) + ext for ext in extension]
+
+		</code></pre>
+		<h3>Habilitar Visualização de Imagens e PDF</h3>
+		<p>Para habilitar a visualização de imagens no Ranger através do Kitty adicione essas linhas no <mark>rc.conf</mark></p>
+		<code>set preview_images true<br>set preview_images_method kitty</code>
+		<p>Para habilitar a visualização de demais arquivos adicione essas linhas no <mark>rc.conf</mark></p>
+		<code>set use_preview_script true</code>
+		<p>Para habilitar exibição de thumbnail de vídeos habilite as seguintes linhas no <mark>scope.sh</mark>:</p>
+		<pre><code>
+## Video
+video/*)
+	# Thumbnail
+	ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
+	exit 1;;
+		</code></pre>
+		<p>Por padrão o ranger permite a visualização de PDF como documento de texto, caso você queira a visualização de PDF de maneira gráfica descomente e habilite as seguintes linhas no <mark>scope.sh</mark>:</p>
+		<pre><code>
+## PDF
+         application/pdf)
+             pdftoppm -f 1 -l 1 \
+                      -scale-to-x "${DEFAULT_SIZE%x*}" \
+                      -scale-to-y -1 \
+                      -singlefile \
+                      -jpeg -tiffcompression jpeg \
+                      -- "${FILE_PATH}" "${IMAGE_CACHE_PATH%.*}" \
+                 && exit 6 || exit 1;;
+		</code></pre>
+		<h2>Instalação do Editor de Código, Neovim</h2>
+		<p>Antes de mais nada instalaremos o Neovim com</p>
+		<code>sudo pacman -S neovim</code>
+		<p>Para acesso rápido no gerenciador de arquivos é interessante definir o Neovim como editor padrão nas variáveis de ambiente, para isso declare a seguinte variável</mark></p>
+		<code>EDITOR=nvim</code>
+		<p>Com isso basta mapear um atalho para edição de arquivo (no meu caso eu uso a tecla e: <mark>map e edit</mark>)</p>
+		<h3>Habilitar plugins com o vim-plug</h3>
+		<p>O Neovim (ou o Vim original ou mesmo alguma outra versão) é quase que uma religião, é uma ferramenta poderosíssima e absurdamente extensível e leve, existem diversas maneiras de incrementar o Neovim mas uma das (se não a) mais populares é através do gerenciador de plugins <mark>vim-plug</mark>. Para instalar o vim-plug baixe o arquivo desse endereço <a class="link" href="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim">aqui</a>, basta salva-lo como o arquivo <mark>plug.vim</mark> na pasta <mark>~/.config/nvim/autoload</mark>.</p>
+		<p>Agora é interessante preparar o arquivo de configuração do Neovim que fica em <mark>~/.config/nvim/init.vim</mark>. Para instalar plugins basta adicionar o link do plugin nesse arquivo como no exemplo abaixo e usar o comando <mark>:PlugInstall</mark> no Neovim.</p>
+		<pre><code>
+" início da função 
+call plug#begin()
+" adicione aqui os links dos plugins que você deseja
+Plug 'https://github.com/vim-airline/vim-airline'
+Plug 'https://github.com/ryanoasis/vim-devicons'
+Plug 'https://github.com/sainnhe/sonokai'
+Plug 'https://github.com/preservim/nerdtree'
+call plug#end()
+		</code></pre>
+		<p>Inclusive esses são os plugins que eu recomendo, caso você queira ver o meu arquivo de configuração basta acessar esse link <a class="link" href="https://github.com/cain-dev/dotfiles/blob/main/nvim/init.vim">aqui</a><p>
+		<h3>Habilitar clipboard no Neovim</h3>
+		<p>Uma função indispensável para a edição de arquivos é acesso ao clipboard do sistema, para isso é importante que você tenha alguma ferramenta para tal, se você estiver usando o <mark>X11</mark> você deve instalar o <mark>xclip</mark> se você estiver usando <mark>Wayland</mark> você deve instalar o <mark>wl-clipboard</mark>, e por fim você deve adicionar a linha abaixo no arquivo de configuração do Neovim</p>
+		<code>set clipboard=unnamedplus</code>
+
+        	<!--
+			<a class="link" href="https://"></a>
+		-->
+        </main>
+    <footer id="main-footer">
+        <p>Está página ainda está em construção 🚧</p>
+        <a class="footerlink" href="#main-header">↑ Retornar ao topo ↑</a>
+    </footer>
+</body>
+</html>
