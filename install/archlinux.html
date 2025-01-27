@@ -1170,11 +1170,12 @@
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>Opção D (minha preferida) - EFISTUB (UEFI singleboot)</h3>
         <p>Se o seu computador suporta UEFI e você utiliza apenas um sistema, você pode deixar todo o trabalho de carregar o Linux para sua placa-mãe, esta é a opção que eu mais gosto de utilizar pois deixa o boot muito rápido e com bem menos chance de dar problemas, já que os argumentos de boot tendem a nunca mudar. Basta usar o <em>EFIBOOTMGR</em> como no exemplo abaixo para criar a entrada de boot na sua placa mãe:</p>
-        <code>efibootmgr --create --disk /dev/<mark>storageA</mark> --part <mark>P1</mark> --label "Arch Linux" --loader /<mark>vmlinuz-linux</mark>  --unicode 'root=UUID=<mark>UUID</mark> rw initrd=\<mark>amd-ucode.img</mark> initrd=\<mark>initramfs-linux.img</mark> <mark>quiet</mark> <mark>nowatchdog</mark>' --verbose</code>
+        <code>efibootmgr --create --disk /dev/<mark>storageA</mark> --part <mark>P1</mark> --label "Arch Linux" --loader /<mark>vmlinuz-linux</mark> --unicode 'root=UUID=<mark>UUID</mark> resume=UUID=<mark>UUID</mark> rw initrd=\<mark>amd-ucode.img</mark> initrd=\<mark>initramfs-linux.img</mark> <mark>quiet</mark> <mark>nowatchdog</mark>' --verbose</code>
         <ul>
             <li><p>O dispositivo <em>StorageA</em> é o dispositivo onde está instalado a partição <em>ESP</em>.</p></li>
             <li><p>A partição <em>P1</em> é aquela onde está instalado a partição <em>ESP</em>.</p></li>
-            <li><p><em>UUID</em> é onde deve ser inserido o número de UUID da partição <em>raiz</em> (<mark>/</mark>) do sistema.</p></li>
+            <li><p><em>root=UUID</em> é onde deve ser inserido o número de UUID da partição <em>raiz</em> (<mark>/</mark>) do sistema.</p></li>
+            <li><p><em>resume=UUID</em> é onde deve ser inserido o número de UUID da partição <em>swap</em> (<mark>/</mark>) do sistema (se houver).</p></li>
             <li><p><strong>Cuidado!</strong> Se você utiliza microcode Intel lembre-se de substituir <mark>amd-ucode.img</mark> por <mark>intel-ucode.img</mark></p></li>
             <li><p><strong>Cuidado!</strong> Se você utiliza kernel LTS lembre-se de substituir os argumentos acima para <em>vmlinuz-linux-lts</em> e <em>initramfs-linux-lts.img</em>.</p></li>
             <li><p><strong>Cuidado!</strong> Os argumentos <em>quiet</em> e <em>nowatchdog</em> são parâmetros de kernel, é bem raro mas pode haver sistemas que não suportem parâmetros por EFISTUB.</p></li>
