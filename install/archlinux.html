@@ -1641,15 +1641,52 @@ EndSection
         <!-- ZRAM e ZSWAP -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////-->
         <h3>ZRAM e ZSWAP</h3>
-        <!--
         <p>Segundo a ArchWiki:<br><i>"zram, anteriormente chamado de compcache, é um módulo do kernel Linux para criar um dispositivo de bloco compactado na RAM, ou seja, um disco RAM com compactação de disco <i>on-the-fly</i>. O dispositivo de bloco criado com zram pode então ser usado para troca ou como um disco RAM de uso geral."</i></p>
         <p><i>"zswap é um recurso do kernel que fornece um cache RAM compactado para páginas de troca. As páginas que de outra forma seriam trocadas para o disco são compactadas e armazenadas em um conjunto de memória na RAM. Quando o pool estiver cheio ou a RAM esgotada, a página menos usada recentemente (LRU) é descompactada e gravada no disco, como se não tivesse sido interceptada. Depois que a página for descompactada no cache de troca, a versão compactada no pool poderá ser liberada."</i></p>
         <p><i>"A diferença em comparação com o zram é que o zswap funciona em conjunto com um dispositivo de troca, enquanto o zram com troca criada em cima dele é um dispositivo de troca na RAM que não requer um dispositivo de troca de backup."</i></p>
         <p>segundo o usuário Artoriuz no reddit:<br><i>"Zswap é um pool de memória dinâmica usado para compactar páginas swap. Ele intercepta as páginas antes que elas realmente atinjam sua partição/arquivo de troca normal e despeja páginas antigas com base em LRU. O ponto principal aqui é que o zswap não substitui o swap clássico, ele foi projetado para funcionar junto com ele como uma etapa intermediária.<br>O Zram, por outro lado, é um disco RAM compactado e alocado dinamicamente que pode ser usado para armazenar qualquer coisa, embora o caso de uso mais comum seja usá-lo como sua partição swap. Ao contrário do zswap, o zram não requer a presença de uma partição/arquivo swap normal em seu disco, pois atuará como a partição swap real. No entanto, desde o Linux 4.14, o zram agora também pode ser configurado com um dispositivo de "writeback" (CONFIG_ZRAM_WRITEBACK), que permite mover páginas inativas/incompressíveis para uma partição swap diferente (geralmente no disco), que é exatamente o que o zswap faz."</i></p>
         <h4>Resumindo...</h4>
-        <p>O que a zram faz é basicamente aumentar o volume da sua RAM em troca de um pouco da performance do processador, e o que a zswap faz é otimizar a transferência necessária para a partição swap em troca de um pouco da performance do seu processador.</p>
-        -->
-        <h4>Habilitando zswap</h4>
+        <p>O que a zram faz é basicamente aumentar o volume da sua RAM em troca de um pouco da performance do processador, e o que a zswap faz é otimizar a transferência necessária para a partição swap em troca de um pouco da performance do seu processador. Na esmagadora maioria dos casos o ideal é que você tenha uma partição swap otimizada com zswap, zram é recomendada se e somente se o seu sistema usa muito menos ram do que tem disponível, que a memória contenha dados que não são acessados frequentemente (dados frios) e que o sistema não dependa muito da memória em cache (pagecache) para desempenho.</p>
+        <h3>Habilitando zram - por regra udev</h3>
+        <p>Para carregar o módulo zram no boot gere o seguinte arquivo:</p>
+<code><pre>
+<em>/etc/modules-load.d/zram.conf</em>
+            
+zram</pre></code>
+        <p>Crie a regra udev ajustando <em>disksize</em> conforme o necessário:</p>
+<code><pre>
+<em>/etc/udev/rules.d/99-zram.rules</em>
+                
+ACTION=="add", KERNEL=="zram0", ATTR{initstate}=="0", ATTR{comp_algorithm}="zstd", ATTR{disksize}="4G", RUN="/usr/bin/mkswap -U clear %N", TAG+="systemd"</pre></code>
+</code></pre>
+        <p>Adicione <em>/dev/zram</em> para sua fstab com uma prioridade acima do padrão: </p>
+<code><pre>
+<em>/etc/fstab</em>
+
+/dev/zram0 none swap defaults,discard,pri=100 0 0
+</pre></code>
+        <p><strong>OU:</strong></p>
+        <h3>Habilitando zram - por zram generator</h3>
+        <p>Antes de mais nada instale o pacote zram-generator:</p>
+        <code>pacman -S zram-generator</code>
+        <p>Agora crie o arquivo de configuração como no exemplo abaixo:</p>
+<code><pre>
+<em>/etc/systemd/zram-generator.conf</em>
+
+[zram0]
+zram-size = min(ram / 2, 4096)
+compression-algorithm = zstd</pre></code>
+        <h4>Otimizando swap na zram</h4>
+        <p>O zram se comporta de maneira diferente então devemos configurar a zram para aproveitar todo o potencial das vantagens do zram:</p>
+<code><pre>
+<em>/etc/sysctl.d/99-vm-zram-parameters.conf</em>
+    
+vm.swappiness = 180
+vm.watermark_boost_factor = 0
+vm.watermark_scale_factor = 125
+vm.page-cluster = 0</pre></code>
+        <p>Em seguida, inicie sua instância configurada systemd-zram-setup@zramN.service (N correspondente ao ID numérico da instância, seguindo o exemplo acima seria o comando <em>systemd-zram-setup@zram0.service</em>).</p>
+        <h3>Habilitando zswap</h3>
         <p>Para habilitar zswap é muito simples, basta adicionar as configurações do zswap nos seus parâmetros de boot como no exemplo abaixo:</p>
         <code>zswap.enabled=1 zswap.max_pool_percent=20 zswap.zpool=zsmalloc</code>
         <p>Assim iremos habilitar, usando compressão zstd, com o máximo de 20% de uso da ram, com o alocador zsmalloc.</p>
