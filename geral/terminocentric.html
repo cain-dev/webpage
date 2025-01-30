@@ -122,9 +122,14 @@ source "${ZINIT_HOME}/zinit.zsh"</pre></code>
     }</pre></code>
         <h3>Desabilitando notificações</h3>
         <p>Você deve ter percebido que ao iniciar o neovim agora tem uma notificação chata dos updates, para sumir com essa notificação vá no arquivo <mark>~/.config/nvim/lua/config/lazy.lua</mark> e na opção <mark>checker = { enabled = true }</mark> altere para <mark>checker = { enabled = true, notify = false }</mark>.</p>
-        <h2>Gerenciador de arquivos</h2>
-        <p>Gerenciadores de arquivos por terminal são excelentes escolhas para configurações e acesso rápido, sem contar que a integração que o terminal proporciona a capacidade de gerência que interfaces gráficas simplesmente não podem permitir.</p>
-        <h3>Yazi</h3>
+        <h2>Gerenciamento de arquivos</h2>
+        <p>Gerenciar arquivos por terminal é uma excelente escolha para configurações e acesso rápido, sem contar que a integração que o terminal proporciona a capacidade de gerência que interfaces gráficas simplesmente não podem permitir.</p>
+        <h3>Tradicional + Moderno</h3>
+        <p>Caso queira navegar como sempre porém de uma forma mais intuitiva você pode usar o eza, instale com:</p>
+        <code>pacman -S eza</code>
+        <p>Para substituir o ls com exatamente a mesma função porém com ícones você pode adicionar a linha abaixo no seu .zshrc:</p>
+        <code>ls="eza --icons"</code>
+        <h3>Com Yazi</h3>
         <p>Dentre todas as opções de gerenciador de arquivos por terminal eu creio que a mais <i>fire and forget</i> seja o Yazi, ele é rápido o suficiente e extensível o suficiente. Tão rápido quanto outros baseados em bash? Não! Tão extensível quanto o ranger? Também não! Mas ele também não é tão limitado quanto os baseados em bash e não é tão lento quanto os escritos em Python. Creio que seja o meio termo perfeito para usabilidade e funciona com visualização de imagens nativa seja no foot ou seja no ghostty. Considerando que você esteja no Arch você pode instalá-lo com o comando:</p>
         <code>pacman -S yazi</code>
 
