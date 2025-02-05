@@ -88,6 +88,8 @@ Exec=flatpak run --command=bottles-cli com.usebottles.bottles -b 'ubisoft_connec
     <p>Bom, se você tiver o pacote <em>wine</em> instalado, você pode usar a ferramenta <em>winecfg</em>. Basta declarar a pasta do prefixo Wine como no exemplo abaixo:</p>
     <code>WINEPREFIX=".../steamapps/compatdata/<em>ID_DO_JOGO</em>/pfx" winecfg</code>
     <p>No caso dos jogos da Steam o diretório geralmente é <em>$HOME/.steam/steam/steamapps/compatdata/<em>ID_DO_JOGO</em>/pfx</em> caso os jogos sejam instalados no disco principal ou <em>.../SteamLibrary/steamapps/compatdata/<em>ID_DO_JOGO</em>/pfx</em> caso sejam instalados em um outro disco.</p>
+    <h3>Mas eu ainda preciso editar no diretório do jogo...</h3>
+    <p>Também é tranquilo, você pode acessar a pasta diretamente através do endereço <em>/pasta da biblioteca Steam/steamapps/compatdata/<em>ID_DO_JOGO</em>/pfx/dosdevices/c:/users/steamuser</em>, daí você pode acessar pastas como <em>Saved games</em> ou <em>My Documents/NOME_DO_JOGO</em>.</p>
     <h3>E para jogos da Amazon, Epic e GOG?</h3>
     <p>Para esses casos você pode usar o <em>Heroic Games Launcher</em>, na grande maioria das distribuições você vai encontrar um pacote nativo na lojinha de aplicativos da sua distro, caso a sua distribuição não tenha um pacote nativo você pode instalar através do <em>Flatpak</em> com o comando:</p>
     <code>flatpak install flathub com.heroicgameslauncher.hgl</code>
